@@ -151,7 +151,8 @@ nav a[href="#inventory"]::before {
     background-position: center;
 }
 
-nav a[href="#requests"]::before {
+nav a[href="#requests"]::before,
+nav a[href="requests.html"]::before {
     content: "";
     display: inline-block;
     width: 18px;
