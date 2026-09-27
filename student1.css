@@ -563,7 +563,7 @@ h3:nth-of-type(11) {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 12px;
-    padding: 18px 120px 40px 24px;
+    padding: 18px 240px 40px 24px;
     margin: 0 0 10px 0;
     font-size: 15px;
     font-weight: 600;
@@ -611,7 +611,7 @@ a[href="#dht11"] {
     grid-column: 1 / -1;
     justify-self: end;
     align-self: center;
-    margin-right: 24px;
+    margin-right: 148px;
     padding: 6px 16px;
     background-color: #eff6ff;
     color: var(--active-pill);
@@ -636,6 +636,47 @@ a[href="#raspberry"] { grid-row: 11; }
 a[href="#esp32"] { grid-row: 12; }
 a[href="#sensor"] { grid-row: 13; }
 a[href="#dht11"] { grid-row: 14; }
+
+/* Quick Browse "Add to Cart" Action Buttons */
+.btn-add-cart {
+    grid-column: 1 / -1;
+    justify-self: end;
+    align-self: center;
+    margin-right: 24px;
+    padding: 6px 14px;
+    background-color: var(--active-pill);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(37, 99, 235, 0.25);
+    transition: all 0.2s ease;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-add-cart:hover {
+    background-color: var(--primary-blue);
+    box-shadow: 0 3px 8px rgba(37, 99, 235, 0.35);
+    transform: translateY(-1px);
+}
+
+.btn-add-cart:active {
+    transform: translateY(0);
+}
+
+/* Row assignments for Add to Cart buttons */
+button.btn-add-cart[data-item="arduino"]   { grid-row: 10; }
+button.btn-add-cart[data-item="raspberry"] { grid-row: 11; }
+button.btn-add-cart[data-item="esp32"]     { grid-row: 12; }
+button.btn-add-cart[data-item="sensor"]    { grid-row: 13; }
+button.btn-add-cart[data-item="dht11"]     { grid-row: 14; }
+
 
 /* ==========================================================================
    RESPONSIVE DESIGN
@@ -669,5 +710,29 @@ a[href="#dht11"] { grid-row: 14; }
         position: static;
         margin-bottom: 20px;
         display: inline-flex;
+    }
+}
+
+@media (max-width: 600px) {
+    h3:nth-of-type(7),
+    h3:nth-of-type(8),
+    h3:nth-of-type(9),
+    h3:nth-of-type(10),
+    h3:nth-of-type(11) {
+        padding-right: 20px;
+        padding-bottom: 60px;
+    }
+    a[href="#arduino"],
+    a[href="#raspberry"],
+    a[href="#esp32"],
+    a[href="#sensor"],
+    a[href="#dht11"] {
+        margin-right: 135px;
+        align-self: end;
+        margin-bottom: 12px;
+    }
+    .btn-add-cart {
+        align-self: end;
+        margin-bottom: 12px;
     }
 }
