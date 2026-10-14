@@ -667,3 +667,31 @@ body {
         padding: 12px 14px;
     }
 }
+
+/* Floating Help Button */
+.help-floating-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: #1e293b;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: var(--font-main);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+    z-index: 1000;
+    transition: transform 0.18s ease, background-color 0.18s ease;
+}
+
+.help-floating-btn:hover {
+    background-color: #0f172a;
+    transform: scale(1.06);
+}

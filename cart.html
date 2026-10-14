@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Cart - TinkerLab Inventory System</title>
+    <link rel="stylesheet" href="cart-profile.css">
+</head>
+<body>
+
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+        <!-- Logo & Header -->
+        <div class="brand">
+            <div class="brand-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"></path>
+                    <line x1="8.5" y1="2" x2="15.5" y2="2"></line>
+                    <path d="M7 16h10"></path>
+                </svg>
+            </div>
+            <div class="brand-text">
+                <h2>TinkerLab</h2>
+                <p>Inventory System</p>
+            </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="nav-menu">
+            <a href="student.html" class="nav-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                    <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                    <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                    <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                </svg>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="student.html#inventory" class="nav-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+                <span>Inventory</span>
+            </a>
+
+            <a href="requests.html" class="nav-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <line x1="10" y1="9" x2="8" y2="9"></line>
+                </svg>
+                <span>My Requests</span>
+            </a>
+
+            <a href="cart.html" class="nav-item active">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+                <span>Cart</span>
+            </a>
+
+            <a href="profile.html" class="nav-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span>Profile</span>
+            </a>
+        </nav>
+
+        <!-- User Information Badge at bottom -->
+        <div class="user-profile-badge">
+            <span class="user-role-label">Logged in as</span>
+            <strong class="user-name">Arjun Sharma</strong>
+            <span class="user-id">CS21B001 &bull; Student</span>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-wrapper">
+        <!-- Top Navigation Bar -->
+        <header class="top-header">
+            <div class="header-left">
+                <span class="header-breadcrumb">Request Cart</span>
+            </div>
+            <div class="header-right">
+                <a href="admin.html" class="switch-view-btn">
+                    <span>Switch to:</span> <strong class="teacher-highlight">Teacher View</strong>
+                </a>
+                <button class="notification-bell-btn" title="Notifications" aria-label="Notifications">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                    <span class="bell-badge-dot"></span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Page Main -->
+        <main class="content-container">
+            <div class="page-title-row">
+                <h1 class="page-title">Request Cart</h1>
+            </div>
+
+            <!-- Cart Card Container -->
+            <div class="cart-card">
+                <!-- 1. Empty Cart State (matches Screenshot 1) -->
+                <div class="cart-empty-state" id="cartEmptyState">
+                    <div class="cart-icon-wrapper">
+                        <!-- Shopping Cart SVG with subtle wheels -->
+                        <svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="9" cy="20" r="1.5"></circle>
+                            <circle cx="18" cy="20" r="1.5"></circle>
+                            <path d="M1 2h3.5l2.4 12.2a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6L22.5 6H5.2"></path>
+                            <line x1="6" y1="10" x2="21.5" y2="10"></line>
+                            <line x1="7" y1="14" x2="20" y2="14"></line>
+                        </svg>
+                    </div>
+                    <h2 class="cart-empty-title">Your cart is empty</h2>
+                    <p class="cart-empty-desc">Browse the inventory and add components to request them.</p>
+                    <a href="student.html#inventory" class="btn-browse-inventory">Browse Inventory</a>
+                </div>
+
+                <!-- 2. Active Cart State (when items are added) -->
+                <div class="cart-active-state" id="cartActiveState" style="display: none;">
+                    <div class="cart-header-row">
+                        <span class="cart-items-count" id="cartItemsCountText">Selected Items (0)</span>
+                        <button class="btn-clear-cart" onclick="clearCart()">Clear Cart</button>
+                    </div>
+
+                    <div class="cart-items-list" id="cartItemsList">
+                        <!-- Items dynamically injected here -->
+                    </div>
+
+                    <div class="cart-actions-footer">
+                        <div class="cart-total-label">
+                            Total requested components: <strong id="cartTotalQty">0</strong>
+                        </div>
+                        <button class="btn-submit-request" onclick="submitCartRequest()">Submit Request</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Floating Help Button -->
+    <button class="help-floating-btn" title="Help & Support" onclick="showHelpToast()">?</button>
+
+    <!-- Toast Notification -->
+    <div class="toast-notice" id="toastNotice">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span id="toastMessage">Request submitted successfully!</span>
+    </div>
+
+    <script>
+        // Item catalog details mapping item IDs to display metadata
+        const CATALOG = {
+            'arduino': { name: 'Arduino Uno R3', category: 'Microcontrollers', stock: 18 },
+            'raspberry': { name: 'Raspberry Pi 4 Model B', category: 'Microcontrollers', stock: 6 },
+            'esp32': { name: 'ESP32 Dev Board', category: 'Microcontrollers', stock: 24 },
+            'sensor': { name: 'HC-SR04 Ultrasonic Sensor', category: 'Sensors', stock: 35 },
+            'dht11': { name: 'DHT11 Temp & Humidity', category: 'Sensors', stock: 3 }
+        };
+
+        function getCart() {
+            try {
+                return JSON.parse(localStorage.getItem('tinkerlab_cart')) || {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveCart(cart) {
+            localStorage.setItem('tinkerlab_cart', JSON.stringify(cart));
+            renderCart();
+        }
+
+        function renderCart() {
+            const cart = getCart();
+            const itemKeys = Object.keys(cart).filter(key => cart[key] > 0);
+            const emptyState = document.getElementById('cartEmptyState');
+            const activeState = document.getElementById('cartActiveState');
+            const itemsList = document.getElementById('cartItemsList');
+            const itemsCountText = document.getElementById('cartItemsCountText');
+            const totalQtyText = document.getElementById('cartTotalQty');
+
+            if (itemKeys.length === 0) {
+                emptyState.style.display = 'flex';
+                activeState.style.display = 'none';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            activeState.style.display = 'block';
+
+            let totalQty = 0;
+            itemsList.innerHTML = '';
+
+            itemKeys.forEach(id => {
+                const qty = cart[id];
+                totalQty += qty;
+                const meta = CATALOG[id] || { name: id, category: 'Components', stock: 10 };
+
+                const itemRow = document.createElement('div');
+                itemRow.className = 'cart-item-row';
+                itemRow.innerHTML = `
+                    <div class="cart-item-info">
+                        <span class="cart-item-name">${meta.name}</span>
+                        <span class="cart-item-meta">${meta.category} &bull; ${meta.stock} in stock</span>
+                    </div>
+                    <div class="cart-item-controls">
+                        <div class="qty-control">
+                            <button class="qty-btn" onclick="updateQty('${id}', -1)" title="Decrease quantity">&minus;</button>
+                            <span class="qty-val">${qty}</span>
+                            <button class="qty-btn" onclick="updateQty('${id}', 1)" title="Increase quantity">&plus;</button>
+                        </div>
+                        <button class="btn-remove-item" onclick="removeItem('${id}')" title="Remove item">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                `;
+                itemsList.appendChild(itemRow);
+            });
+
+            itemsCountText.textContent = `Selected Items (${itemKeys.length})`;
+            totalQtyText.textContent = totalQty;
+        }
+
+        function updateQty(id, delta) {
+            const cart = getCart();
+            const current = cart[id] || 0;
+            const updated = current + delta;
+            if (updated <= 0) {
+                delete cart[id];
+            } else {
+                cart[id] = updated;
+            }
+            saveCart(cart);
+        }
+
+        function removeItem(id) {
+            const cart = getCart();
+            delete cart[id];
+            saveCart(cart);
+        }
+
+        function clearCart() {
+            localStorage.removeItem('tinkerlab_cart');
+            renderCart();
+            showToast('Cart cleared');
+        }
+
+        function submitCartRequest() {
+            const cart = getCart();
+            const itemKeys = Object.keys(cart).filter(key => cart[key] > 0);
+            if (itemKeys.length === 0) return;
+
+            // Clear cart and show notification
+            localStorage.removeItem('tinkerlab_cart');
+            renderCart();
+            showToast('Request submitted successfully! View in My Requests.');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toastNotice');
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        function showHelpToast() {
+            showToast('Need help? Contact the lab administrator at lab@nitk.edu.in');
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', renderCart);
+    </script>
+</body>
+</html>

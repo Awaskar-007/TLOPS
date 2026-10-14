@@ -73,7 +73,7 @@ nav {
 nav h2 {
     font-size: 18px;
     font-weight: 700;
-    color: #ffffff;
+    color: #ffffff !important;
     margin: 0;
     display: flex;
     align-items: center;
@@ -162,7 +162,8 @@ nav a[href="requests.html"]::before {
     background-position: center;
 }
 
-nav a[href="#cart"]::before {
+nav a[href="#cart"]::before,
+nav a[href="cart.html"]::before {
     content: "";
     display: inline-block;
     width: 18px;
@@ -172,7 +173,8 @@ nav a[href="#cart"]::before {
     background-position: center;
 }
 
-nav a[href="#profile"]::before {
+nav a[href="#profile"]::before,
+nav a[href="profile.html"]::before {
     content: "";
     display: inline-block;
     width: 18px;
@@ -188,7 +190,7 @@ nav a:hover::before {
 
 /* User Card at bottom of Sidebar */
 nav::after {
-    content: "Logged in as\A AARUSH SHRIVASTAVA\A CS21B001 \2022  Student";
+    content: "Logged in as\A Arjun Sharma\A CS21B001 \2022  Student";
     white-space: pre-line;
     display: block;
     margin-top: auto;
@@ -268,12 +270,20 @@ h2:nth-of-type(1) {
 }
 
 h2:nth-of-type(1)::after {
-    content: "Good morning, Aarush ";
+    content: "Good morning, Arjun ";
     font-size: 28px;
     font-weight: 700;
-    color: #fffff;
+    color: var(--text-dark);
     letter-spacing: -0.4px;
     display: block;
+}
+
+/* Ensure top left corner in sidebar is white and clearly readable */
+nav h2,
+nav h2::after {
+    color: #ffffff !important;
+    font-size: 18px !important;
+    line-height: 1.2 !important;
 }
 
 p:nth-of-type(1) {
@@ -735,4 +745,65 @@ button.btn-add-cart[data-item="dht11"]     { grid-row: 14; }
         align-self: end;
         margin-bottom: 12px;
     }
+}
+
+/* Floating Help Button */
+.help-floating-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: #1e293b;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: inherit;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+    z-index: 1000;
+    transition: transform 0.18s ease, background-color 0.18s ease;
+}
+
+.help-floating-btn:hover {
+    background-color: #0f172a;
+    transform: scale(1.06);
+}
+
+/* Toast Notice */
+.toast-notice {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background-color: #0f172a;
+    color: #ffffff;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    z-index: 10000;
+    opacity: 0;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.toast-notice.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+.toast-notice a {
+    color: #60a5fa;
+    text-decoration: underline;
+    font-weight: 600;
+    margin-left: 4px;
 }
