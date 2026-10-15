@@ -1,6 +1,3 @@
 # TLOPS
-hello this is tlops and i am devasis awaskar
-we need to simplify some features so that we can understand it 
-
-
+we are the founders of TLOPS and we are developing a tinkering lab online booking system 
 
