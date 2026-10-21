@@ -264,13 +264,39 @@
             </div>
         </main>
     </div>
+    <script>
+        // -- Filter Pills ----------------------------------------------
+        const pills = document.querySelectorAll('.filter-pill');
+        const rows  = document.querySelectorAll('.history-table tbody tr');
 
-    
-    <!-- Floating Help Button -->
-    <button class="help-floating-btn" title="Help & Support" aria-label="Help">?</button>
+        pills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                pills.forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                const filter = pill.textContent.trim();
+                rows.forEach(row => {
+                    const badge = row.querySelector('.badge');
+                    const match = filter === 'All' || (badge && badge.textContent.trim() === filter);
+                    row.style.display = match ? '' : 'none';
+                });
+            });
+        });
+
+        // -- Search Input ----------------------------------------------
+        const searchInput = document.querySelector('.search-input');
+        if (searchInput) {
+            searchInput.addEventListener('input', () => {
+                const query = searchInput.value.toLowerCase();
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(query) ? '' : 'none';
+                });
+                if (query.length > 0) {
+                    pills.forEach(p => p.classList.remove('active'));
+                    document.querySelector('.filter-pill').classList.add('active');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
-
-
-
-
