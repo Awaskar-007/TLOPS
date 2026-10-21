@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management - TinkerLab Teacher View</title>
+    <link rel="stylesheet" href="teacher_inventory.css">
+</head>
+<body>
+
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+        <!-- Logo & Header -->
+        <div class="brand">
+            <div class="brand-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"></path>
+                    <line x1="8.5" y1="2" x2="15.5" y2="2"></line>
+                    <path d="M7 16h10"></path>
+                </svg>
+            </div>
+            <div class="brand-text">
+                <h2>TinkerLab</h2>
+                <p>Inventory System</p>
+            </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="nav-menu">
+            <a href="teacher_requests.html" class="nav-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                    <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                    <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                    <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                </svg>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="teacher_requests.html" class="nav-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <line x1="10" y1="9" x2="8" y2="9"></line>
+                </svg>
+                <span>Requests</span>
+            </a>
+
+            <a href="teacher_inventory.html" class="nav-item active">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+                <span>Inventory</span>
+            </a>
+
+            <a href="teacher_history.html" class="nav-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>History</span>
+            </a>
+
+            <a href="#profile" class="nav-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span>Profile</span>
+            </a>
+        </nav>
+
+        <!-- Logged In User Card -->
+        <div class="user-profile-badge">
+            <span class="user-role-label">Logged in as</span>
+            <span class="user-name">Dr. Meera Krishnan</span>
+            <span class="user-id">Lab Administrator</span>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-wrapper">
+        <!-- Top Header Bar -->
+        <header class="top-header">
+            <div class="header-left">
+                <span class="header-breadcrumb">Inventory Management</span>
+            </div>
+            <div class="header-right">
+                <a href="student.html" class="switch-view-btn">
+                    <span>Switch to:</span>
+                    <span class="student-highlight">Student View</span>
+                </a>
+                <button class="notification-bell-btn" title="Notifications">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                    <span class="notification-dot"></span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Body Content -->
+        <main class="content-container">
+            <!-- Title & Add Button -->
+            <div class="title-actions-row">
+                <div>
+                    <h1 class="page-title">Inventory Management</h1>
+                    <p class="page-subtitle">20 components tracked</p>
+                </div>
+                <button class="btn-add-comp">+ Add Component</button>
+            </div>
+
+            <!-- Search & Filter Row -->
+            <div class="filter-row">
+                <div class="search-container">
+                    <div class="search-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </div>
+                    <input type="text" class="search-input" placeholder="Search inventory...">
+                </div>
+
+                <div class="category-select-wrapper">
+                    <select class="category-select">
+                        <option value="all">All</option>
+                        <option value="microcontrollers">Microcontrollers</option>
+                        <option value="sensors">Sensors</option>
+                        <option value="actuators">Actuators</option>
+                    </select>
+                    <div class="select-arrow">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inventory Table -->
+            <div class="table-card">
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>COMPONENT</th>
+                            <th>CATEGORY</th>
+                            <th>QTY</th>
+                            <th>STATUS</th>
+                            <th>LOCATION</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Row 1: Arduino Uno R3 -->
+                        <tr>
+                            <td>
+                                <div class="component-cell">
+                                    <div class="comp-icon icon-blue-diamond">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                            <rect x="4" y="4" width="16" height="16" rx="3" transform="rotate(45 12 12)"/>
+                                        </svg>
+                                    </div>
+                                    <div class="comp-text">
+                                        <span class="comp-name">Arduino Uno R3</span>
+                                        <span class="comp-desc">ATmega328P based dev board,...</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="category-name">Microcontrollers</span></td>
+                            <td><span class="qty-value"><strong>18</strong> <span class="min-qty">/ min 5</span></span></td>
+                            <td><span class="badge badge-available">Available</span></td>
+                            <td><span class="location-name">Rack A-1</span></td>
+                            <td>
+                                <div class="action-links">
+                                    <a href="#" class="action-edit">Edit</a>
+                                    <span class="action-sep">·</span>
+                                    <a href="#" class="action-delete">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 2: Raspberry Pi 4 Model B -->
+                        <tr>
+                            <td>
+                                <div class="component-cell">
+                                    <div class="comp-icon icon-red-square">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <rect x="3" y="3" width="18" height="18" rx="4"/>
+                                        </svg>
+                                    </div>
+                                    <div class="comp-text">
+                                        <span class="comp-name">Raspberry Pi 4 Model B</span>
+                                        <span class="comp-desc">4 GB RAM SBC with quad-core...</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="category-name">Microcontrollers</span></td>
+                            <td><span class="qty-value"><strong>6</strong> <span class="min-qty">/ min 3</span></span></td>
+                            <td><span class="badge badge-available">Available</span></td>
+                            <td><span class="location-name">Rack A-2</span></td>
+                            <td>
+                                <div class="action-links">
+                                    <a href="#" class="action-edit">Edit</a>
+                                    <span class="action-sep">·</span>
+                                    <a href="#" class="action-delete">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 3: ESP32 Dev Board -->
+                        <tr>
+                            <td>
+                                <div class="component-cell">
+                                    <div class="comp-icon icon-orange-diamond">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                            <polygon points="12,2 22,12 12,22 2,12"/>
+                                        </svg>
+                                    </div>
+                                    <div class="comp-text">
+                                        <span class="comp-name">ESP32 Dev Board</span>
+                                        <span class="comp-desc">Dual-core 240 MHz with Wi-Fi ...</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="category-name">Microcontrollers</span></td>
+                            <td><span class="qty-value"><strong>24</strong> <span class="min-qty">/ min 8</span></span></td>
+                            <td><span class="badge badge-available">Available</span></td>
+                            <td><span class="location-name">Rack A-3</span></td>
+                            <td>
+                                <div class="action-links">
+                                    <a href="#" class="action-edit">Edit</a>
+                                    <span class="action-sep">·</span>
+                                    <a href="#" class="action-delete">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 4: HC-SR04 Ultrasonic Sensor -->
+                        <tr>
+                            <td>
+                                <div class="component-cell">
+                                    <div class="comp-icon icon-gray-sensor">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="7" cy="12" r="4"/>
+                                            <circle cx="17" cy="12" r="4"/>
+                                            <line x1="11" y1="12" x2="13" y2="12"/>
+                                        </svg>
+                                    </div>
+                                    <div class="comp-text">
+                                        <span class="comp-name">HC-SR04 Ultrasonic Sensor</span>
+                                        <span class="comp-desc">Ultrasonic distance sensor, 2-...</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="category-name">Sensors</span></td>
+                            <td><span class="qty-value"><strong>35</strong> <span class="min-qty">/ min 10</span></span></td>
+                            <td><span class="badge badge-available">Available</span></td>
+                            <td><span class="location-name">Rack B-1</span></td>
+                            <td>
+                                <div class="action-links">
+                                    <a href="#" class="action-edit">Edit</a>
+                                    <span class="action-sep">·</span>
+                                    <a href="#" class="action-delete">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 5: DHT11 Temp & Humidity -->
+                        <tr>
+                            <td>
+                                <div class="component-cell">
+                                    <div class="comp-icon icon-amber-thermometer">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="comp-text">
+                                        <span class="comp-name">DHT11 Temp &amp; Humidity</span>
+                                        <span class="comp-desc">Digital temperature (0–50 &deg;C)...</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="category-name">Sensors</span></td>
+                            <td><span class="qty-value"><strong class="qty-low">3</strong> <span class="min-qty">/ min 5</span></span></td>
+                            <td><span class="badge badge-low">Low Stock</span></td>
+                            <td><span class="location-name">Rack B-2</span></td>
+                            <td>
+                                <div class="action-links">
+                                    <a href="#" class="action-edit">Edit</a>
+                                    <span class="action-sep">·</span>
+                                    <a href="#" class="action-delete">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 6: MPU-6050 IMU -->
+                        <tr>
+                            <td>
+                                <div class="component-cell">
+                                    <div class="comp-icon icon-purple-gyro">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="3"/>
+                                            <path d="M12 2v4m0 12v4M2 12h4m12 0h4"/>
+                                        </svg>
+                                    </div>
+                                    <div class="comp-text">
+                                        <span class="comp-name">MPU-6050 IMU</span>
+                                        <span class="comp-desc">6-axis gyroscope + accelerom...</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="category-name">Sensors</span></td>
+                            <td><span class="qty-value"><strong>14</strong> <span class="min-qty">/ min 5</span></span></td>
+                            <td><span class="badge badge-available">Available</span></td>
+                            <td><span class="location-name">Rack B-3</span></td>
+                            <td>
+                                <div class="action-links">
+                                    <a href="#" class="action-edit">Edit</a>
+                                    <span class="action-sep">·</span>
+                                    <a href="#" class="action-delete">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 7: SG90 Servo Motor -->
+                        <tr>
+                            <td>
+                                <div class="component-cell">
+                                    <div class="comp-icon icon-slate-gear">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="3"/>
+                                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="comp-text">
+                                        <span class="comp-name">SG90 Servo Motor</span>
+                                        <span class="comp-desc">Mini servo, 180&deg; rotation, 1.2 kg-...</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="category-name">Actuators</span></td>
+                            <td><span class="qty-value"><strong class="qty-out">0</strong> <span class="min-qty">/ min 8</span></span></td>
+                            <td><span class="badge badge-out">Out of Stock</span></td>
+                            <td><span class="location-name">Rack C-1</span></td>
+                            <td>
+                                <div class="action-links">
+                                    <a href="#" class="action-edit">Edit</a>
+                                    <span class="action-sep">·</span>
+                                    <a href="#" class="action-delete">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Floating Help Button -->
+    <button class="floating-help-btn" title="Help &amp; Support">?</button>
+
+</body>
+</html>
