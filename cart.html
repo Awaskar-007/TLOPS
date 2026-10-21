@@ -144,9 +144,6 @@
         </main>
     </div>
 
-    <!-- Floating Help Button -->
-    <button class="help-floating-btn" title="Help & Support" onclick="showHelpToast()">?</button>
-
     <!-- Toast Notification -->
     <div class="toast-notice" id="toastNotice">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -274,10 +271,6 @@
             setTimeout(() => {
                 toast.classList.remove('show');
             }, 3000);
-        }
-
-        function showHelpToast() {
-            showToast('Need help? Contact the lab administrator at lab@nitk.edu.in');
         }
 
         // Initialize on page load

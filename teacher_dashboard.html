@@ -374,25 +374,5 @@
         </main>
     </div>
 
-    <!-- Floating Help Button -->
-    <button class="help-floating-btn" title="Help & Support" aria-label="Help" onclick="showHelpToast()">?</button>
-
-    <!-- Toast Notification for Help -->
-    <div class="toast-notice" id="toastNotice">
-        <span id="toastMessage">Need assistance? Lab administrator support is active.</span>
-    </div>
-
-    <script>
-        let toastTimer = null;
-        function showHelpToast() {
-            const toast = document.getElementById('toastNotice');
-            toast.classList.add('show');
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-    </script>
-
 </body>
 </html>

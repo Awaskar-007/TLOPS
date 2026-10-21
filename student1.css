@@ -553,7 +553,7 @@ h3:nth-of-type(11) {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 12px;
-    padding: 18px 240px 40px 24px;
+    padding: 18px 100px 40px 24px;
     margin: 0 0 10px 0;
     font-size: 15px;
     font-weight: 600;
@@ -592,40 +592,6 @@ p:nth-of-type(14) {
     color: #d97706; /* Low Stock Alert */
 }
 
-/* Quick Browse "View" Action Buttons */
-a[href="#arduino"],
-a[href="#raspberry"],
-a[href="#esp32"],
-a[href="#sensor"],
-a[href="#dht11"] {
-    grid-column: 1 / -1;
-    justify-self: end;
-    align-self: center;
-    margin-right: 148px;
-    padding: 6px 16px;
-    background-color: #eff6ff;
-    color: var(--active-pill);
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.2s ease;
-    z-index: 10;
-}
-
-a[href="#arduino"]:hover,
-a[href="#raspberry"]:hover,
-a[href="#esp32"]:hover,
-a[href="#sensor"]:hover,
-a[href="#dht11"]:hover {
-    background-color: #dbeafe;
-}
-
-a[href="#arduino"] { grid-row: 10; }
-a[href="#raspberry"] { grid-row: 11; }
-a[href="#esp32"] { grid-row: 12; }
-a[href="#sensor"] { grid-row: 13; }
-a[href="#dht11"] { grid-row: 14; }
 
 /* Quick Browse "Add to Cart" Action Buttons */
 .btn-add-cart {
@@ -711,15 +677,6 @@ button.btn-add-cart[data-item="dht11"]     { grid-row: 14; }
     h3:nth-of-type(11) {
         padding-right: 20px;
         padding-bottom: 60px;
-    }
-    a[href="#arduino"],
-    a[href="#raspberry"],
-    a[href="#esp32"],
-    a[href="#sensor"],
-    a[href="#dht11"] {
-        margin-right: 135px;
-        align-self: end;
-        margin-bottom: 12px;
     }
     .btn-add-cart {
         align-self: end;
