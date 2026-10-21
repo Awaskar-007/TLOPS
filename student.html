@@ -7,18 +7,40 @@
 <body>
 
 <nav>
-    <h2> TinkerLab</h2>
-    <p>Inventory System</p>
-    <a href="student.html">Dashboard</a> |
-    <a href="#inventory">Inventory</a> |
+    <!-- Logo & Header -->
+    <div class="brand">
+        <div class="brand-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"></path>
+                <line x1="8.5" y1="2" x2="15.5" y2="2"></line>
+                <path d="M7 16h10"></path>
+            </svg>
+        </div>
+        <div class="brand-text">
+            <h2>TinkerLab</h2>
+            <p>Inventory System</p>
+        </div>
+    </div>
+    <a href="student.html" class="active" id="nav-dashboard">Dashboard</a> |
+    <a href="#inventory" id="nav-inventory">Inventory</a> |
     <a href="requests.html">My Requests</a> |
     <a href="cart.html">Cart</a> |
     <a href="profile.html">Profile</a>
 </nav>
 
-<hr>
+<!-- Top Header Bar -->
+<header class="top-header">
+    <div class="header-left">
+        <span class="header-breadcrumb">Dashboard</span>
+    </div>
+    <div class="header-right">
+        <a href="admin.html" class="switch-view-btn">
+            <span>Switch to:</span> <strong class="teacher-highlight">Teacher View</strong>
+        </a>
+    </div>
+</header>
 
-<h1>Dashboard</h1>
+<hr>
 
 <h2>Good morning, student</h2>
 <p>Here's what's happening with your lab requests today.</p>
@@ -75,8 +97,6 @@
 
 <hr>
 
-<a href="admin.html">Switch to Teacher/Admin View</a>
-
 <!-- Toast Notification -->
 <div class="toast-notice" id="toastNotice">
     <span id="toastMessage">Added to cart! <a href="cart.html">View Cart</a></span>
@@ -117,6 +137,75 @@
             const name = ITEM_NAMES[itemId] || 'Component';
             showToast(`${name} added! <a href="cart.html">View Cart &rarr;</a>`);
         });
+    });
+
+    // Navigation active highlighting logic for Dashboard vs Inventory
+    const navDashboard = document.getElementById('nav-dashboard');
+    const navInventory = document.getElementById('nav-inventory');
+    const inventorySection = document.getElementById('inventory');
+    let isManualClick = false;
+
+    function setActiveNav(item) {
+        if (item === 'inventory') {
+            navInventory.classList.add('active');
+            navDashboard.classList.remove('active');
+        } else {
+            navDashboard.classList.add('active');
+            navInventory.classList.remove('active');
+        }
+    }
+
+    if (navInventory) {
+        navInventory.addEventListener('click', (e) => {
+            e.preventDefault();
+            isManualClick = true;
+            setActiveNav('inventory');
+            history.pushState(null, null, '#inventory');
+            if (inventorySection) {
+                inventorySection.scrollIntoView({ behavior: 'smooth' });
+            }
+            setTimeout(() => { isManualClick = false; }, 800);
+        });
+    }
+
+    if (navDashboard) {
+        navDashboard.addEventListener('click', (e) => {
+            e.preventDefault();
+            isManualClick = true;
+            setActiveNav('dashboard');
+            history.pushState(null, null, window.location.pathname);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(() => { isManualClick = false; }, 800);
+        });
+    }
+
+    // Scroll spy: auto-update highlight as user scrolls
+    window.addEventListener('scroll', () => {
+        if (isManualClick || !inventorySection) return;
+        const rect = inventorySection.getBoundingClientRect();
+        if (rect.top <= 200) {
+            setActiveNav('inventory');
+        } else {
+            setActiveNav('dashboard');
+        }
+    }, { passive: true });
+
+    // Handle hash on initial page load
+    if (window.location.hash === '#inventory') {
+        setActiveNav('inventory');
+        if (inventorySection) {
+            setTimeout(() => {
+                inventorySection.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
+    }
+
+    window.addEventListener('hashchange', () => {
+        if (window.location.hash === '#inventory') {
+            setActiveNav('inventory');
+        } else {
+            setActiveNav('dashboard');
+        }
     });
 </script>
 
