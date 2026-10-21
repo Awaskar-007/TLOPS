@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="styles.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TinkerLab Sign In</title>
-    <link rel="stylesheet" href="signin.css">
-    
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="main-container">
         
         <div class="left-column">
             <div class="logo-area">
-                <div class="logo-icon"></div>
+                <div class="logo-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a3c8e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"></path>
+                        <line x1="8.5" y1="2" x2="15.5" y2="2"></line>
+                        <path d="M7 16h10"></path>
+                    </svg>
+                </div>
                 <div class="logo-text">
                     <h1>TinkerLab</h1>
                     <p>Inventory Management System</p>
@@ -52,33 +56,64 @@
                 <h3>Sign in</h3>
                 <p class="subtitle">Access the tinkering lab inventory system</p>
                 
-                <div class="role-tabs">
-                    <button class="role-tab active"> Student</button>
-                    <button class="role-tab"> Teacher</button>
+                <div class="role-tabs" id="roleTabs">
+                    <button type="button" class="role-tab active" id="studentRoleBtn" data-role="student">Student</button>
+                    <button type="button" class="role-tab" id="teacherRoleBtn" data-role="teacher">Teacher</button>
                 </div>
                 
-                <form action="student.html">
+                <form id="signInForm" action="student.html">
                     <div class="input-group">
                         <label for="email">Institute Email</label>
-                        <input type="email" id="email" placeholder="cse001@bmu.edu.in">
+                        <input type="email" id="email" placeholder="cse001@bmu.edu.in" required>
                     </div>
                     
                     <div class="input-group">
                         <label for="password">Password</label>
                         <a href="#" class="forgot-link">Forgot password?</a>
-                        <input type="password" id="password" placeholder="********">
+                        <input type="password" id="password" placeholder="********" required>
                     </div>
                     
-                    <button type="submit" class="sign-in-btn">Sign In</button>
+                    <button type="submit" class="sign-in-btn" id="signInSubmitBtn">Sign In</button>
                 </form>
-                
-                <div class="demo-credentials">
-                    Demo Credentials
-                    <p>Student: name.surname@bmu.edu.in / any password</p>
-                    <p>Teacher: teacher_name.surname@bmu.edu.in / any password</p>
-                </div>
             </div>
         </div>
     </div>
+
+    <script>
+        let currentRole = 'student';
+        const studentRoleBtn = document.getElementById('studentRoleBtn');
+        const teacherRoleBtn = document.getElementById('teacherRoleBtn');
+        const signInForm = document.getElementById('signInForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+
+        function setRole(role) {
+            currentRole = role;
+            if (role === 'teacher') {
+                studentRoleBtn.classList.remove('active');
+                teacherRoleBtn.classList.add('active');
+                emailInput.placeholder = 'teacher_name.surname@bmu.edu.in';
+                signInForm.action = 'teacher_dashboard.html';
+            } else {
+                teacherRoleBtn.classList.remove('active');
+                studentRoleBtn.classList.add('active');
+                emailInput.placeholder = 'cse001@bmu.edu.in';
+                signInForm.action = 'student.html';
+            }
+        }
+
+        studentRoleBtn.addEventListener('click', () => setRole('student'));
+        teacherRoleBtn.addEventListener('click', () => setRole('teacher'));
+
+        signInForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            localStorage.setItem('tinkerlab_role', currentRole);
+            if (currentRole === 'teacher') {
+                window.location.href = 'teacher_dashboard.html';
+            } else {
+                window.location.href = 'student.html';
+            }
+        });
+    </script>
 </body>
 </html>
