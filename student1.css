@@ -244,20 +244,7 @@ a[href="admin.html"]:hover {
     color: var(--text-dark);
 }
 
-/* Notification Bell next to Teacher View button */
-a[href="admin.html"]::after {
-    content: "";
-    display: inline-block;
-    width: 32px;
-    height: 32px;
-    margin-left: 10px;
-    background-color: #f8fafc;
-    border: 1px solid var(--border-color);
-    border-radius: 50%;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f59e0b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9'%3E%3C/path%3E%3Cpath d='M10.3 21a1.94 1.94 0 0 0 3.4 0'%3E%3C/path%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: center;
-}
+/* Notification Bell removed as requested */
 
 /* ==========================================================================
    WELCOME BANNER (AARUSH SHRIVASTAVA)
@@ -800,3 +787,4 @@ button.btn-add-cart[data-item="dht11"]     { grid-row: 14; }
     font-weight: 600;
     margin-left: 4px;
 }
+
