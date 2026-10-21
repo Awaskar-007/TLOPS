@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Request - TinkerLab Admin View</title>
+    <link rel="stylesheet" href="teacher_review_request.css">
+</head>
+<body>
+
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+        <!-- Logo & Header -->
+        <div class="brand">
+            <div class="brand-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"></path>
+                    <line x1="8.5" y1="2" x2="15.5" y2="2"></line>
+                    <path d="M7 16h10"></path>
+                </svg>
+            </div>
+            <div class="brand-text">
+                <h2>TinkerLab</h2>
+                <p>Inventory System</p>
+            </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="nav-menu">
+            <a href="teacher_dashboard.html" class="nav-item" id="navDashboard">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                    <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                    <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                    <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                </svg>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="teacher_requests.html" class="nav-item active" id="navRequests">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <line x1="10" y1="9" x2="8" y2="9"></line>
+                </svg>
+                <span>Requests</span>
+            </a>
+
+            <a href="teacher_inventory.html" class="nav-item" id="navInventory">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+                <span>Inventory</span>
+            </a>
+
+            <a href="teacher_history.html" class="nav-item" id="navHistory">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>History</span>
+            </a>
+
+            <a href="teacher_profile.html" class="nav-item" id="navProfile">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span>Profile</span>
+            </a>
+        </nav>
+
+        <!-- Logged In User Card -->
+        <div class="user-profile-badge">
+            <span class="user-role-label">Logged in as</span>
+            <span class="user-name">Dr. Meera Krishnan</span>
+            <span class="user-id">Lab Administrator</span>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-wrapper">
+        <!-- Top Header Bar -->
+        <header class="top-header">
+            <div class="header-left">
+                <span class="header-breadcrumb">Review Request</span>
+            </div>
+            <div class="header-right">
+                <a href="student.html" class="switch-view-btn">
+                    <span>Switch to:</span>
+                    <span class="student-highlight">Student View</span>
+                </a>
+            </div>
+        </header>
+
+        <!-- Main Body Content -->
+        <main class="content-container">
+            <!-- Back Navigation Link -->
+            <div class="back-link-wrapper">
+                <a href="teacher_requests.html" class="back-link" id="backLink">&larr; Back to Requests</a>
+            </div>
+
+            <!-- Page Header Row -->
+            <div class="review-header-row">
+                <div class="review-title-group">
+                    <h1 class="page-title">Review Request</h1>
+                    <span class="req-id-sub" id="displayReqId">req001</span>
+                </div>
+                <div class="review-badge-group">
+                    <span class="badge-status badge-pending" id="displayReqStatus">Pending</span>
+                </div>
+            </div>
+
+            <div class="review-layout-wrapper">
+                <!-- Card 1: Student Information Card -->
+                <div class="review-card student-info-card">
+                    <div class="student-avatar-box" id="studentAvatar">AS</div>
+                    <div class="student-text-group">
+                        <h2 class="student-name" id="studentName">Arjun Sharma</h2>
+                        <div class="student-meta" id="studentMeta">CS21B001 &middot; Computer Science</div>
+                        <div class="student-timestamp" id="studentTimestamp">Submitted 14 Aug 2026 at 09:15 am</div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Requested Components Card -->
+                <div class="review-card components-card">
+                    <h3 class="card-section-label">REQUESTED COMPONENTS</h3>
+                    <div class="components-list" id="componentsList">
+                        <!-- Dynamic items inserted via JS -->
+                        <div class="component-row">
+                            <div class="comp-info">
+                                <div class="comp-title">Arduino Uno R3</div>
+                                <div class="comp-sub">Requested: 2 &middot; Available: 18 &middot; Rack A-1</div>
+                            </div>
+                            <div class="comp-status">
+                                <span class="pill-available">Available</span>
+                            </div>
+                        </div>
+
+                        <div class="component-row">
+                            <div class="comp-info">
+                                <div class="comp-title">HC-SR04 Ultrasonic Sensor</div>
+                                <div class="comp-sub">Requested: 3 &middot; Available: 35 &middot; Rack B-1</div>
+                            </div>
+                            <div class="comp-status">
+                                <span class="pill-available">Available</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Purpose & Required By Card -->
+                <div class="review-card purpose-card">
+                    <div class="purpose-group">
+                        <h3 class="card-section-label">PURPOSE</h3>
+                        <p class="purpose-text" id="purposeText">Final year project: Obstacle avoidance robot</p>
+                    </div>
+
+                    <div class="required-group">
+                        <h3 class="card-section-label">REQUIRED BY</h3>
+                        <p class="required-date" id="requiredDate">20 Aug 2026</p>
+                    </div>
+                </div>
+
+                <!-- Action Decision Buttons -->
+                <div class="review-actions-row" id="reviewActions">
+                    <button type="button" class="btn-action-reject" id="btnReject" onclick="handleDecision('Rejected')">Reject Request</button>
+                    <button type="button" class="btn-action-approve" id="btnApprove" onclick="handleDecision('Approved')">Approve Request &#10003;</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Floating Help Button -->
+    <button class="help-floating-btn" title="Help & Support" aria-label="Help" onclick="showHelpToast()">?</button>
+
+    <!-- Toast Notification -->
+    <div class="toast-notice" id="toastNotice">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" id="toastIcon">
+            <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span id="toastMessage">Request processed successfully.</span>
+    </div>
+
+    <!-- Script for Dynamic Request Loading & Interactive Actions -->
+    <script>
+        const REQUEST_DATABASE = {
+            'req001': {
+                id: 'req001',
+                studentName: 'Arjun Sharma',
+                studentRoll: 'CS21B001',
+                department: 'Computer Science',
+                submitted: '14 Aug 2026 at 09:15 am',
+                status: 'Pending',
+                components: [
+                    { name: 'Arduino Uno R3', requested: 2, available: 18, rack: 'Rack A-1', status: 'Available' },
+                    { name: 'HC-SR04 Ultrasonic Sensor', requested: 3, available: 35, rack: 'Rack B-1', status: 'Available' }
+                ],
+                purpose: 'Final year project: Obstacle avoidance robot',
+                requiredBy: '20 Aug 2026'
+            },
+            'req002': {
+                id: 'req002',
+                studentName: 'Priya Nair',
+                studentRoll: 'EC21B014',
+                department: 'Electronics & Communication',
+                submitted: '14 Aug 2026 at 10:45 am',
+                status: 'Pending',
+                components: [
+                    { name: 'ESP32 Dev Board', requested: 1, available: 24, rack: 'Rack A-3', status: 'Available' },
+                    { name: 'NRF24L01 RF Module', requested: 2, available: 12, rack: 'Rack C-2', status: 'Available' }
+                ],
+                purpose: 'IoT Smart Home project for mini project exhibition',
+                requiredBy: '22 Aug 2026'
+            },
+            'req003': {
+                id: 'req003',
+                studentName: 'Rahul Mehta',
+                studentRoll: 'ME21B007',
+                department: 'Mechanical Engineering',
+                submitted: '13 Aug 2026 at 03:20 pm',
+                status: 'Pending',
+                components: [
+                    { name: 'SG90 Servo Motor', requested: 2, available: 0, rack: 'Rack D-1', status: 'Out of Stock' },
+                    { name: 'L298N Motor Driver', requested: 1, available: 15, rack: 'Rack B-2', status: 'Available' }
+                ],
+                purpose: 'Robotics arm gripper mechanism',
+                requiredBy: '19 Aug 2026'
+            },
+            'req004': {
+                id: 'req004',
+                studentName: 'Sneha Kulkarni',
+                studentRoll: 'CS21B023',
+                department: 'Computer Science',
+                submitted: '12 Aug 2026 at 11:10 am',
+                status: 'Approved',
+                components: [
+                    { name: 'OLED Display 0.96"', requested: 1, available: 14, rack: 'Rack B-4', status: 'Available' },
+                    { name: 'ESP32 Dev Board', requested: 1, available: 24, rack: 'Rack A-3', status: 'Available' }
+                ],
+                purpose: 'Smart Wearable Health Monitor prototype',
+                requiredBy: '18 Aug 2026'
+            },
+            'req005': {
+                id: 'req005',
+                studentName: 'Vikram Singh',
+                studentRoll: 'EE21B031',
+                department: 'Electrical Engineering',
+                submitted: '11 Aug 2026 at 02:00 pm',
+                status: 'Approved',
+                components: [
+                    { name: '18650 Li-Ion Cell', requested: 4, available: 40, rack: 'Rack E-1', status: 'Available' },
+                    { name: 'TP4056 Charging Module', requested: 2, available: 18, rack: 'Rack E-2', status: 'Available' }
+                ],
+                purpose: 'Portable solar battery power management',
+                requiredBy: '17 Aug 2026'
+            },
+            'req006': {
+                id: 'req006',
+                studentName: 'Ananya Iyer',
+                studentRoll: 'CS21B009',
+                department: 'Computer Science',
+                submitted: '10 Aug 2026 at 04:15 pm',
+                status: 'Rejected',
+                components: [
+                    { name: 'Raspberry Pi 4 Model B', requested: 2, available: 6, rack: 'Rack A-2', status: 'Available' }
+                ],
+                purpose: 'Autonomous drone video stream processing',
+                requiredBy: '16 Aug 2026'
+            },
+            'req007': {
+                id: 'req007',
+                studentName: 'Arjun Sharma',
+                studentRoll: 'CS21B001',
+                department: 'Computer Science',
+                submitted: '08 Aug 2026 at 09:30 am',
+                status: 'Completed',
+                components: [
+                    { name: 'Jumper Wires M-M 40pcs', requested: 1, available: 50, rack: 'Rack C-1', status: 'Available' },
+                    { name: 'Breadboard 830 Points', requested: 1, available: 30, rack: 'Rack C-3', status: 'Available' }
+                ],
+                purpose: 'Basic circuit breadboarding lab assignment',
+                requiredBy: '14 Aug 2026'
+            },
+            'req008': {
+                id: 'req008',
+                studentName: 'Deepika Reddy',
+                studentRoll: 'IT21B045',
+                department: 'Information Technology',
+                submitted: '07 Aug 2026 at 01:45 pm',
+                status: 'Completed',
+                components: [
+                    { name: 'MPU-6050 IMU', requested: 1, available: 20, rack: 'Rack B-3', status: 'Available' },
+                    { name: 'Arduino Uno R3', requested: 1, available: 18, rack: 'Rack A-1', status: 'Available' }
+                ],
+                purpose: 'Gesture control navigation glove',
+                requiredBy: '13 Aug 2026'
+            }
+        };
+
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                id: params.get('id') || 'req001',
+                from: params.get('from') || 'requests'
+            };
+        }
+
+        function getInitials(name) {
+            const parts = name.trim().split(/\s+/);
+            if (parts.length >= 2) {
+                return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+            }
+            return name.substring(0, 2).toUpperCase();
+        }
+
+        let currentReq = null;
+
+        function loadRequestData() {
+            const { id, from } = getQueryParams();
+            const data = REQUEST_DATABASE[id] || REQUEST_DATABASE['req001'];
+            currentReq = data;
+
+            // Handle back navigation
+            const backLink = document.getElementById('backLink');
+            const navRequests = document.getElementById('navRequests');
+            const navHistory = document.getElementById('navHistory');
+
+            if (from === 'history') {
+                backLink.href = 'teacher_history.html';
+                backLink.innerHTML = '&larr; Back to History';
+                navRequests.classList.remove('active');
+                navHistory.classList.add('active');
+            } else if (from === 'dashboard') {
+                backLink.href = 'teacher_dashboard.html';
+                backLink.innerHTML = '&larr; Back to Dashboard';
+                navRequests.classList.remove('active');
+                document.getElementById('navDashboard').classList.add('active');
+            } else {
+                backLink.href = 'teacher_requests.html';
+                backLink.innerHTML = '&larr; Back to Requests';
+                navRequests.classList.add('active');
+                navHistory.classList.remove('active');
+            }
+
+            // Populate Request Header
+            document.getElementById('displayReqId').textContent = data.id;
+            updateStatusBadge(data.status);
+
+            // Populate Student Card
+            document.getElementById('studentAvatar').textContent = getInitials(data.studentName);
+            document.getElementById('studentName').textContent = data.studentName;
+            document.getElementById('studentMeta').innerHTML = `${data.studentRoll} &middot; ${data.department}`;
+            document.getElementById('studentTimestamp').textContent = `Submitted ${data.submitted}`;
+
+            // Populate Components
+            const compList = document.getElementById('componentsList');
+            compList.innerHTML = '';
+            data.components.forEach((c, idx) => {
+                const isAvailable = c.status === 'Available';
+                const pillClass = isAvailable ? 'pill-available' : (c.status === 'Low Stock' ? 'pill-low' : 'pill-out');
+                const row = document.createElement('div');
+                row.className = 'component-row';
+                row.innerHTML = `
+                    <div class="comp-info">
+                        <div class="comp-title">${c.name}</div>
+                        <div class="comp-sub">Requested: ${c.requested} &middot; Available: ${c.available} &middot; ${c.rack}</div>
+                    </div>
+                    <div class="comp-status">
+                        <span class="${pillClass}">${c.status}</span>
+                    </div>
+                `;
+                compList.appendChild(row);
+            });
+
+            // Populate Purpose & Required By
+            document.getElementById('purposeText').textContent = data.purpose;
+            document.getElementById('requiredDate').textContent = data.requiredBy;
+
+            // Handle buttons visibility if already approved/rejected/completed
+            const actions = document.getElementById('reviewActions');
+            if (data.status === 'Approved' || data.status === 'Rejected' || data.status === 'Completed') {
+                actions.style.opacity = '0.6';
+                actions.style.pointerEvents = 'none';
+            } else {
+                actions.style.opacity = '1';
+                actions.style.pointerEvents = 'auto';
+            }
+        }
+
+        function updateStatusBadge(status) {
+            const badge = document.getElementById('displayReqStatus');
+            badge.textContent = status;
+            badge.className = 'badge-status';
+
+            if (status === 'Pending') {
+                badge.classList.add('badge-pending');
+            } else if (status === 'Approved') {
+                badge.classList.add('badge-approved');
+            } else if (status === 'Rejected') {
+                badge.classList.add('badge-rejected');
+            } else {
+                badge.classList.add('badge-completed');
+            }
+        }
+
+        function handleDecision(decision) {
+            if (!currentReq) return;
+            currentReq.status = decision;
+            updateStatusBadge(decision);
+
+            const actions = document.getElementById('reviewActions');
+            actions.style.opacity = '0.6';
+            actions.style.pointerEvents = 'none';
+
+            if (decision === 'Approved') {
+                showToast(`Request ${currentReq.id} has been Approved! Component allocation saved.`, true);
+            } else {
+                showToast(`Request ${currentReq.id} has been Rejected. Student will be notified.`, false);
+            }
+        }
+
+        let toastTimer = null;
+        function showToast(msg, isSuccess = true) {
+            const toast = document.getElementById('toastNotice');
+            const icon = document.getElementById('toastIcon');
+            document.getElementById('toastMessage').textContent = msg;
+
+            if (isSuccess) {
+                icon.style.color = '#22c55e';
+                icon.innerHTML = '<polyline points="20 6 9 17 4 12"></polyline>';
+            } else {
+                icon.style.color = '#ef4444';
+                icon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>';
+            }
+
+            toast.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3500);
+        }
+
+        function showHelpToast() {
+            showToast('Lab Administrator review portal: Approving reserves the components in inventory.', true);
+        }
+
+        document.addEventListener('DOMContentLoaded', loadRequestData);
+    </script>
+
+</body>
+</html>
