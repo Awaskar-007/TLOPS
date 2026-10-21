@@ -1,0 +1,482 @@
+/* ==========================================================================
+   TinkerLab - Lab Administrator Profile Stylesheet (teacher_profile.css)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --primary-blue: #2563eb;
+    --primary-blue-hover: #1d4ed8;
+    --sidebar-gradient: linear-gradient(180deg, #1b45ab 0%, #163688 100%);
+    --active-nav-bg: #2563eb;
+    --nav-text-inactive: #bfdbfe;
+    --page-bg: #f8fafc;
+    --card-bg: #ffffff;
+    --border-color: #e2e8f0;
+    --border-subtle: #f1f5f9;
+    --text-dark: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --text-subtle: #94a3b8;
+
+    --font-main: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--page-bg);
+    font-family: var(--font-main);
+    color: var(--text-dark);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex;
+}
+
+/* ==========================================================================
+   SIDEBAR NAVIGATION
+   ========================================================================== */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: var(--sidebar-gradient);
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.04);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+    padding-left: 4px;
+}
+
+.brand-icon {
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    flex-shrink: 0;
+}
+
+.brand-text h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.1;
+    letter-spacing: -0.2px;
+}
+
+.brand-text p {
+    font-size: 12px;
+    color: #93c5fd;
+    margin-top: 3px;
+    font-weight: 400;
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 16px;
+    color: var(--nav-text-inactive);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.18s ease;
+}
+
+.nav-item svg {
+    flex-shrink: 0;
+    stroke: var(--nav-text-inactive);
+    transition: stroke 0.18s ease;
+}
+
+.nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+.nav-item:hover svg {
+    stroke: #ffffff;
+}
+
+.nav-item.active {
+    background-color: var(--active-nav-bg);
+    color: #ffffff;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+}
+
+.nav-item.active svg {
+    stroke: #ffffff;
+}
+
+/* User Card at bottom of Sidebar */
+.user-profile-badge {
+    margin-top: auto;
+    padding: 12px 14px;
+    background: rgba(15, 23, 42, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.user-role-label {
+    display: block;
+    font-size: 11px;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.user-name {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.user-id {
+    display: block;
+    font-size: 12px;
+    color: #bfdbfe;
+    font-weight: 500;
+    margin-top: 1px;
+}
+
+/* ==========================================================================
+   MAIN CONTENT WRAPPER & TOP BAR
+   ========================================================================== */
+.main-wrapper {
+    margin-left: 250px;
+    flex: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.top-header {
+    height: 64px;
+    padding: 0 48px;
+    background-color: #ffffff;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.header-left .header-breadcrumb {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-dark);
+    letter-spacing: -0.2px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.switch-view-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 18px;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 9999px;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    transition: all 0.18s ease;
+}
+
+.switch-view-btn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: var(--text-dark);
+}
+
+.student-highlight {
+    color: var(--primary-blue);
+    font-weight: 600;
+}
+
+.notification-bell-btn {
+    width: 36px;
+    height: 36px;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.18s ease;
+}
+
+.notification-bell-btn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.notification-dot {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 7px;
+    height: 7px;
+    background-color: #f59e0b;
+    border-radius: 50%;
+    border: 1.5px solid #ffffff;
+}
+
+/* ==========================================================================
+   CONTENT CONTAINER
+   ========================================================================== */
+.content-container {
+    padding: 36px 48px 60px 48px;
+    width: 100%;
+}
+
+.page-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text-dark);
+    letter-spacing: -0.4px;
+    margin-bottom: 24px;
+}
+
+/* ==========================================================================
+   PROFILE LAYOUT & CARDS
+   ========================================================================== */
+.profile-layout-wrapper {
+    max-width: 580px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Profile Header Card */
+.profile-header-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.profile-banner {
+    height: 125px;
+    background: #1d4ed8;
+    background: linear-gradient(90deg, #1d4ed8 0%, #2563eb 100%);
+    width: 100%;
+}
+
+.profile-card-body {
+    padding: 0 28px 24px 28px;
+    position: relative;
+}
+
+.profile-avatar-box {
+    width: 64px;
+    height: 64px;
+    background: #ffffff;
+    border: 2.5px solid #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -32px;
+    margin-bottom: 16px;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary-blue);
+    letter-spacing: -0.3px;
+    flex-shrink: 0;
+}
+
+.profile-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-dark);
+    letter-spacing: -0.3px;
+    margin-bottom: 4px;
+}
+
+.profile-subtitle {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+/* Account Information Form Card */
+.profile-form-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 26px 28px 28px 28px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.form-section-title {
+    font-size: 15.5px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+    letter-spacing: -0.2px;
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+    letter-spacing: -0.1px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px 14px;
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--text-dark);
+    font-family: var(--font-main);
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.form-action {
+    margin-top: 6px;
+}
+
+.btn-save-changes {
+    padding: 10px 22px;
+    background-color: var(--primary-blue);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: var(--font-main);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.28);
+    transition: background-color 0.18s ease, transform 0.15s ease;
+}
+
+.btn-save-changes:hover {
+    background-color: var(--primary-blue-hover);
+    transform: translateY(-1px);
+}
+
+.btn-save-changes:active {
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   FLOATING HELP BUTTON (?)
+   ========================================================================== */
+.help-floating-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #0f172a;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: var(--font-main);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+    z-index: 1000;
+    transition: transform 0.18s ease, background-color 0.18s ease;
+}
+
+.help-floating-btn:hover {
+    background-color: #1e293b;
+    transform: scale(1.06);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+
+    .main-wrapper {
+        margin-left: 0;
+    }
+
+    .content-container {
+        padding: 24px 20px;
+    }
+
+    .top-header {
+        padding: 0 20px;
+    }
+
+    .profile-layout-wrapper {
+        max-width: 100%;
+    }
+}
