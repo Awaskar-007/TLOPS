@@ -1,0 +1,528 @@
+/* ==========================================================================
+   TinkerLab - Teacher Review Request Stylesheet (teachers_requests_review.css)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --primary-blue: #2563eb;
+    --primary-blue-hover: #1d4ed8;
+    --danger-red: #dc2626;
+    --danger-red-hover: #b91c1c;
+    --sidebar-gradient: linear-gradient(180deg, #1b45ab 0%, #163688 100%);
+    --active-nav-bg: #2563eb;
+    --nav-text-inactive: #bfdbfe;
+    --page-bg: #f8fafc;
+    --card-bg: #ffffff;
+    --border-color: #e2e8f0;
+    --border-subtle: #f1f5f9;
+    --text-dark: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --text-subtle: #94a3b8;
+
+    /* Badges */
+    --badge-pending-bg: #e0f2fe;
+    --badge-pending-text: #0284c7;
+    --badge-available-bg: #dcfce7;
+    --badge-available-text: #16a34a;
+
+    --font-main: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--page-bg);
+    font-family: var(--font-main);
+    color: var(--text-dark);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex;
+}
+
+/* ==========================================================================
+   SIDEBAR NAVIGATION
+   ========================================================================== */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: var(--sidebar-gradient);
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.04);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+    padding-left: 4px;
+}
+
+.brand-icon {
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    flex-shrink: 0;
+}
+
+.brand-text h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.1;
+    letter-spacing: -0.2px;
+}
+
+.brand-text p {
+    font-size: 12px;
+    color: #93c5fd;
+    margin-top: 3px;
+    font-weight: 400;
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 16px;
+    color: var(--nav-text-inactive);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.18s ease;
+}
+
+.nav-item svg {
+    flex-shrink: 0;
+    stroke: var(--nav-text-inactive);
+    transition: stroke 0.18s ease;
+}
+
+.nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+.nav-item:hover svg {
+    stroke: #ffffff;
+}
+
+.nav-item.active {
+    background-color: var(--active-nav-bg);
+    color: #ffffff;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+}
+
+.nav-item.active svg {
+    stroke: #ffffff;
+}
+
+/* User Card at bottom of Sidebar */
+.user-profile-badge {
+    margin-top: auto;
+    padding: 12px 14px;
+    background: rgba(15, 23, 42, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.user-role-label {
+    display: block;
+    font-size: 11px;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.user-name {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.user-id {
+    display: block;
+    font-size: 12px;
+    color: #bfdbfe;
+    font-weight: 500;
+    margin-top: 1px;
+}
+
+/* ==========================================================================
+   MAIN CONTENT WRAPPER & TOP BAR
+   ========================================================================== */
+.main-wrapper {
+    margin-left: 250px;
+    flex: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.top-header {
+    height: 64px;
+    padding: 0 48px;
+    background-color: #ffffff;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.header-left .header-breadcrumb {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-dark);
+    letter-spacing: -0.2px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.switch-view-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 18px;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 9999px;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    transition: all 0.18s ease;
+}
+
+.switch-view-btn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: var(--text-dark);
+}
+
+.student-highlight {
+    color: var(--primary-blue);
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   CONTENT CONTAINER
+   ========================================================================== */
+.content-container {
+    padding: 32px 48px 60px 48px;
+    max-width: 880px;
+    width: 100%;
+}
+
+/* Back Link */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    margin-bottom: 18px;
+    transition: color 0.18s ease;
+}
+
+.back-link:hover {
+    color: var(--primary-blue);
+}
+
+/* Title & Status Row */
+.title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.title-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.page-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text-dark);
+    letter-spacing: -0.4px;
+    line-height: 1.2;
+}
+
+.req-code {
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--text-muted);
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+.badge-pending {
+    background-color: var(--badge-pending-bg);
+    color: var(--badge-pending-text);
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+/* ==========================================================================
+   CARDS
+   ========================================================================== */
+.review-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+/* Card 1: Student Information */
+.student-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.student-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background-color: #e0f2fe;
+    color: var(--primary-blue);
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    letter-spacing: -0.2px;
+}
+
+.student-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.student-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.25;
+}
+
+.student-dept {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 3px;
+}
+
+.submitted-time {
+    font-size: 12px;
+    color: var(--text-subtle);
+    margin-top: 3px;
+}
+
+/* Card 2: Requested Components */
+.card-section-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+.components-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.component-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-top: 1px solid var(--border-subtle);
+}
+
+.component-item:first-child {
+    border-top: 1px solid var(--border-color);
+}
+
+.comp-details-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.comp-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.25;
+}
+
+.comp-meta {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.badge-available {
+    background-color: var(--badge-available-bg);
+    color: var(--badge-available-text);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+/* Card 3: Purpose & Requirement */
+.purpose-block {
+    margin-bottom: 18px;
+}
+
+.purpose-block:last-child {
+    margin-bottom: 0;
+}
+
+.purpose-text {
+    font-size: 14px;
+    color: var(--text-dark);
+    font-weight: 500;
+    margin-top: 4px;
+    line-height: 1.4;
+}
+
+/* ==========================================================================
+   ACTION BUTTONS
+   ========================================================================== */
+.review-actions-row {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.btn-reject {
+    flex: 1;
+    padding: 12px 24px;
+    background-color: var(--danger-red);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 1px 3px rgba(220, 38, 38, 0.25);
+    transition: all 0.18s ease;
+}
+
+.btn-reject:hover {
+    background-color: var(--danger-red-hover);
+    box-shadow: 0 4px 10px rgba(220, 38, 38, 0.35);
+    transform: translateY(-1px);
+}
+
+.btn-reject:active {
+    transform: translateY(0);
+}
+
+.btn-approve {
+    flex: 1;
+    padding: 12px 24px;
+    background-color: var(--primary-blue);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 1px 3px rgba(37, 99, 235, 0.25);
+    transition: all 0.18s ease;
+}
+
+.btn-approve:hover {
+    background-color: var(--primary-blue-hover);
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.35);
+    transform: translateY(-1px);
+}
+
+.btn-approve:active {
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 900px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+    .main-wrapper {
+        margin-left: 0;
+    }
+    body {
+        flex-direction: column;
+    }
+    .top-header {
+        padding: 0 20px;
+    }
+    .content-container {
+        padding: 24px 20px;
+    }
+    .review-actions-row {
+        flex-direction: column;
+    }
+}

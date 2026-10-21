@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Request - TinkerLab Teacher View</title>
+    <link rel="stylesheet" href="teachers_requests_review.css">
+</head>
+<body>
+
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+        <!-- Logo & Header -->
+        <div class="brand">
+            <div class="brand-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"></path>
+                    <line x1="8.5" y1="2" x2="15.5" y2="2"></line>
+                    <path d="M7 16h10"></path>
+                </svg>
+            </div>
+            <div class="brand-text">
+                <h2>TinkerLab</h2>
+                <p>Inventory System</p>
+            </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="nav-menu">
+            <a href="teacher_requests.html" class="nav-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                    <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                    <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                    <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                </svg>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="teacher_requests.html" class="nav-item active">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <line x1="10" y1="9" x2="8" y2="9"></line>
+                </svg>
+                <span>Requests</span>
+            </a>
+
+            <a href="teacher_inventory.html" class="nav-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+                <span>Inventory</span>
+            </a>
+
+            <a href="teacher_history.html" class="nav-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>History</span>
+            </a>
+
+            <a href="#profile" class="nav-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span>Profile</span>
+            </a>
+        </nav>
+
+        <!-- Logged In User Card -->
+        <div class="user-profile-badge">
+            <span class="user-role-label">Logged in as</span>
+            <span class="user-name">Dr. Meera Krishnan</span>
+            <span class="user-id">Lab Administrator</span>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-wrapper">
+        <!-- Top Header Bar -->
+        <header class="top-header">
+            <div class="header-left">
+                <span class="header-breadcrumb">Review Request</span>
+            </div>
+            <div class="header-right">
+                <a href="student.html" class="switch-view-btn">
+                    <span>Switch to:</span>
+                    <span class="student-highlight">Student View</span>
+                </a>
+            </div>
+        </header>
+
+        <!-- Main Body Content -->
+        <main class="content-container">
+            <!-- Back Link -->
+            <a href="teacher_requests.html" class="back-link">
+                &larr; Back to Requests
+            </a>
+
+            <!-- Title & Status Row -->
+            <div class="title-row">
+                <div class="title-left">
+                    <h1 class="page-title">Review Request</h1>
+                    <span class="req-code">req001</span>
+                </div>
+                <span class="badge-pending">Pending</span>
+            </div>
+
+            <!-- Card 1: Student Information -->
+            <div class="review-card student-card">
+                <div class="student-avatar">AS</div>
+                <div class="student-info">
+                    <span class="student-name">Arjun Sharma</span>
+                    <span class="student-dept">CS21B001 · Computer Science</span>
+                    <span class="submitted-time">Submitted 14 Aug 2026 at 09:15 am</span>
+                </div>
+            </div>
+
+            <!-- Card 2: Requested Components -->
+            <div class="review-card">
+                <div class="card-section-label">REQUESTED COMPONENTS</div>
+                <div class="components-list">
+                    <!-- Component 1 -->
+                    <div class="component-item">
+                        <div class="comp-details-left">
+                            <span class="comp-name">Arduino Uno R3</span>
+                            <span class="comp-meta">Requested: 2 · Available: 18 · Rack A-1</span>
+                        </div>
+                        <span class="badge-available">Available</span>
+                    </div>
+
+                    <!-- Component 2 -->
+                    <div class="component-item">
+                        <div class="comp-details-left">
+                            <span class="comp-name">HC-SR04 Ultrasonic Sensor</span>
+                            <span class="comp-meta">Requested: 3 · Available: 35 · Rack B-1</span>
+                        </div>
+                        <span class="badge-available">Available</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Purpose & Requirement -->
+            <div class="review-card">
+                <div class="purpose-block">
+                    <div class="card-section-label">PURPOSE</div>
+                    <p class="purpose-text">Final year project: Obstacle avoidance robot</p>
+                </div>
+
+                <div class="purpose-block">
+                    <div class="card-section-label">REQUIRED BY</div>
+                    <p class="purpose-text">20 Aug 2026</p>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="review-actions-row">
+                <a href="teacher_requests.html" class="btn-reject">Reject Request</a>
+                <a href="teacher_requests.html" class="btn-approve">Approve Request &check;</a>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>
