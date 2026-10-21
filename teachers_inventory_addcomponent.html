@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Component - TinkerLab Teacher View</title>
+    <link rel="stylesheet" href="teachers_inventory_addcomponent.css">
+</head>
+<body>
+
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+        <!-- Logo & Header -->
+        <div class="brand">
+            <div class="brand-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"></path>
+                    <line x1="8.5" y1="2" x2="15.5" y2="2"></line>
+                    <path d="M7 16h10"></path>
+                </svg>
+            </div>
+            <div class="brand-text">
+                <h2>TinkerLab</h2>
+                <p>Inventory System</p>
+            </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="nav-menu">
+            <a href="teacher_requests.html" class="nav-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                    <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                    <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                    <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                </svg>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="teacher_requests.html" class="nav-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <line x1="10" y1="9" x2="8" y2="9"></line>
+                </svg>
+                <span>Requests</span>
+            </a>
+
+            <a href="teacher_inventory.html" class="nav-item active">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+                <span>Inventory</span>
+            </a>
+
+            <a href="teacher_history.html" class="nav-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>History</span>
+            </a>
+
+            <a href="#profile" class="nav-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span>Profile</span>
+            </a>
+        </nav>
+
+        <!-- Logged In User Card -->
+        <div class="user-profile-badge">
+            <span class="user-role-label">Logged in as</span>
+            <span class="user-name">Dr. Meera Krishnan</span>
+            <span class="user-id">Lab Administrator</span>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-wrapper">
+        <!-- Top Header Bar -->
+        <header class="top-header">
+            <div class="header-left">
+                <span class="header-breadcrumb">Add Component</span>
+            </div>
+            <div class="header-right">
+                <a href="student.html" class="switch-view-btn">
+                    <span>Switch to:</span>
+                    <span class="student-highlight">Student View</span>
+                </a>
+            </div>
+        </header>
+
+        <!-- Main Body Content -->
+        <main class="content-container">
+            <!-- Back Link -->
+            <a href="teacher_inventory.html" class="back-link">
+                &larr; Back to Inventory
+            </a>
+
+            <h1 class="page-title">Add New Component</h1>
+
+            <!-- Card 1: Component Icon Selection -->
+            <div class="form-card">
+                <h2 class="card-title">Component Icon</h2>
+                <div class="icon-grid">
+                    <!-- Row 1 -->
+                    <button type="button" class="icon-btn" title="Microcontroller">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#2563eb"><rect x="4" y="4" width="16" height="16" rx="3" transform="rotate(45 12 12)"/></svg>
+                    </button>
+                    <button type="button" class="icon-btn" title="SBC">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#dc2626"><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
+                    </button>
+                    <button type="button" class="icon-btn" title="Dev Board">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#ea580c"><polygon points="12,2 22,12 12,22 2,12"/></svg>
+                    </button>
+                    <button type="button" class="icon-btn" title="Ultrasonic Sensor">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round"><circle cx="7" cy="12" r="4"/><circle cx="17" cy="12" r="4"/><line x1="11" y1="12" x2="13" y2="12"/></svg>
+                    </button>
+                    <button type="button" class="icon-btn" title="Temperature Sensor">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>
+                    </button>
+                    <button type="button" class="icon-btn" title="Gyroscope">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4M2 12h4m12 0h4"/></svg>
+                    </button>
+                    <button type="button" class="icon-btn" title="Servo Motor">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    </button>
+                    <button type="button" class="icon-btn" title="Power Supply">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M9 4v4M15 16v4"/></svg>
+                    </button>
+                    <button type="button" class="icon-btn" title="Monitor Display">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    </button>
+                    <button type="button" class="icon-btn" title="Television / LCD">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/></svg>
+                    </button>
+                    <button type="button" class="icon-btn" title="Signal Chart">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    </button>
+
+                    <!-- Row 2 -->
+                    <button type="button" class="icon-btn" title="Component Circle">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#3b82f6"><circle cx="12" cy="12" r="10"/></svg>
+                    </button>
+                    <button type="button" class="icon-btn" title="Battery">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="16" height="10" rx="2"/><line x1="22" y1="11" x2="22" y2="13"/></svg>
+                    </button>
+                    <button type="button" class="icon-btn" title="Lightning Power">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    </button>
+                    <button type="button" class="icon-btn" title="Interface Link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </button>
+                    <button type="button" class="icon-btn" title="Logic Green">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#10b981"><rect x="3" y="3" width="18" height="18" rx="3"/></svg>
+                    </button>
+                    <button type="button" class="icon-btn" title="Camera Sensor">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </button>
+                    <button type="button" class="icon-btn" title="Indicator Light">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2" stroke-linecap="round"><path d="M9 18h6M10 22h4M12 2v1M12 14a5 5 0 1 0-5-5c0 1.8 1 3.5 2 4.5v1.5h6V14"/></svg>
+                    </button>
+                    <button type="button" class="icon-btn" title="IC Module">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#c084fc"><rect x="3" y="3" width="18" height="18" rx="3"/></svg>
+                    </button>
+                    <!-- Active selection as shown in screenshot -->
+                    <button type="button" class="icon-btn active" title="Wrench Tool">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                    </button>
+                    <button type="button" class="icon-btn" title="Microscope">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round"><path d="M6 18h8M3 22h18M14 22a7 7 0 1 0 0-14h-1M9 14h2M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2z"/></svg>
+                    </button>
+                    <button type="button" class="icon-btn" title="Storage Disk">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7e22ce" stroke-width="2" stroke-linecap="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                    </button>
+
+                    <!-- Row 3 -->
+                    <button type="button" class="icon-btn" title="Matrix Keypad">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8" cy="8" r="1"/><circle cx="12" cy="8" r="1"/><circle cx="16" cy="8" r="1"/><circle cx="8" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="16" cy="12" r="1"/><circle cx="8" cy="16" r="1"/><circle cx="12" cy="16" r="1"/><circle cx="16" cy="16" r="1"/></svg>
+                    </button>
+                    <button type="button" class="icon-btn" title="Relay Module">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="9" cy="9" r="1.5"/><circle cx="15" cy="9" r="1.5"/><circle cx="9" cy="15" r="1.5"/><circle cx="15" cy="15" r="1.5"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Card 2: Basic Information -->
+            <div class="form-card">
+                <h2 class="card-title">Basic Information</h2>
+
+                <div class="form-group">
+                    <label class="form-label" for="compName">Component Name <span class="required-star">*</span></label>
+                    <input type="text" id="compName" class="form-input" placeholder="e.g. Arduino Uno R3" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="compCategory">Category <span class="required-star">*</span></label>
+                    <div class="select-wrapper">
+                        <select id="compCategory" class="form-select">
+                            <option value="microcontrollers">Microcontrollers</option>
+                            <option value="sensors">Sensors</option>
+                            <option value="actuators">Actuators</option>
+                            <option value="displays">Displays</option>
+                            <option value="power">Power Supplies</option>
+                            <option value="cables">Cables &amp; Accessories</option>
+                        </select>
+                        <div class="select-arrow">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="compDesc">Description <span class="required-star">*</span></label>
+                    <textarea id="compDesc" class="form-textarea" placeholder="Describe the component, its specs, and intended use..."></textarea>
+                </div>
+            </div>
+
+            <!-- Card 3: Stock & Location Details -->
+            <div class="form-card">
+                <h2 class="card-title">Stock &amp; Location Details</h2>
+
+                <div class="form-grid-3">
+                    <div class="form-group">
+                        <label class="form-label" for="initQty">Initial Quantity <span class="required-star">*</span></label>
+                        <input type="number" id="initQty" class="form-input" placeholder="e.g. 20" min="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="minThreshold">Minimum Threshold <span class="required-star">*</span></label>
+                        <input type="number" id="minThreshold" class="form-input" placeholder="e.g. 5" min="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="rackLoc">Storage Location <span class="required-star">*</span></label>
+                        <input type="text" id="rackLoc" class="form-input" placeholder="e.g. Rack A-1">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="form-actions-row">
+                <a href="teacher_inventory.html" class="btn-cancel">Cancel</a>
+                <a href="teacher_inventory.html" class="btn-save-comp">+ Add Component</a>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>
