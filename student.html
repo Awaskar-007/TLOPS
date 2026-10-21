@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TinkerLab - Student Dashboard</title>
+    <link rel="stylesheet" href="student1.css">
 </head>
-<link rel="stylesheet" href="student1.css">
 <body>
 
 <nav>
@@ -26,6 +28,13 @@
     <a href="requests.html">My Requests</a> |
     <a href="cart.html">Cart</a> |
     <a href="profile.html">Profile</a>
+
+    <!-- User Information Badge at bottom -->
+    <div class="user-profile-badge">
+        <span class="user-role-label">Logged in as</span>
+        <strong class="user-name" id="sidebarUserName">Arjun Sharma</strong>
+        <span class="user-id" id="sidebarUserId">CS21B001 &bull; Student</span>
+    </div>
 </nav>
 
 <!-- Top Header Bar -->
@@ -42,7 +51,7 @@
 
 <hr>
 
-<h2>Good morning, student</h2>
+<h2>Good morning, <span id="studentGreetingName">student</span></h2>
 <p>Here's what's happening with your lab requests today.</p>
 
 <h3>Available Components</h3>
@@ -207,6 +216,41 @@
             setActiveNav('dashboard');
         }
     });
+
+    // Load student profile from localStorage to dynamically set student name and details
+    const DEFAULT_PROFILE = {
+        fullName: 'Arjun Sharma',
+        rollNumber: 'CS21B001',
+        email: 'cs21b001@nitk.edu.in',
+        department: 'Computer Science',
+        phone: '+91 98765 43210'
+    };
+
+    function getStudentProfile() {
+        try {
+            return Object.assign({}, DEFAULT_PROFILE, JSON.parse(localStorage.getItem('tinkerlab_profile') || '{}'));
+        } catch (e) {
+            return DEFAULT_PROFILE;
+        }
+    }
+
+    function loadStudentProfile() {
+        const p = getStudentProfile();
+        const greetingNameEl = document.getElementById('studentGreetingName');
+        if (greetingNameEl) {
+            greetingNameEl.textContent = p.fullName || 'student';
+        }
+        const sidebarNameEl = document.getElementById('sidebarUserName');
+        if (sidebarNameEl) {
+            sidebarNameEl.textContent = p.fullName;
+        }
+        const sidebarIdEl = document.getElementById('sidebarUserId');
+        if (sidebarIdEl) {
+            sidebarIdEl.innerHTML = `${p.rollNumber || 'CS21B001'} &bull; Student`;
+        }
+    }
+
+    loadStudentProfile();
 </script>
 
 </body>

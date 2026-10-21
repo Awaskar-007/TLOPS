@@ -47,6 +47,8 @@ body {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0 20px;
+    max-width: 1498px;
+    box-sizing: border-box;
 }
 
 /* Hide all raw separator rules */
@@ -127,7 +129,7 @@ nav a {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 10px 14px;
+    padding: 11px 16px;
     color: #bfdbfe;
     text-decoration: none;
     font-size: 14px;
@@ -211,11 +213,8 @@ nav a:hover::before {
     filter: brightness(0) invert(1);
 }
 
-/* User Card at bottom of Sidebar */
-nav::after {
-    content: "Logged in as\A Arjun Sharma\A CS21B001 \2022  Student";
-    white-space: pre-line;
-    display: block;
+/* User Information Badge at bottom of Sidebar */
+.user-profile-badge {
     margin-top: auto;
     padding: 12px 14px;
     background: rgba(15, 23, 42, 0.28);
@@ -223,9 +222,31 @@ nav::after {
     border-radius: 10px;
     color: #ffffff;
     font-size: 13px;
-    font-weight: 600;
-    line-height: 1.5;
-    letter-spacing: 0.1px;
+    line-height: 1.45;
+}
+
+.user-role-label {
+    display: block;
+    font-size: 11px;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.user-name {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.user-id {
+    display: block;
+    font-size: 12px;
+    color: #bfdbfe;
+    font-weight: 500;
+    margin-top: 1px;
 }
 
 /* ==========================================================================
@@ -703,7 +724,7 @@ button.btn-add-cart[data-item="dht11"]     { grid-row: 14; }
         margin-bottom: 24px;
         border-radius: 12px;
     }
-    nav::after {
+    .user-profile-badge {
         margin-top: 16px;
     }
     h3:nth-of-type(1),

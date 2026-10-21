@@ -78,8 +78,8 @@
         <!-- User Information Badge at bottom -->
         <div class="user-profile-badge">
             <span class="user-role-label">Logged in as</span>
-            <strong class="user-name">Arjun Sharma</strong>
-            <span class="user-id">CS21B001 &bull; Student</span>
+            <strong class="user-name" id="sidebarUserName">Arjun Sharma</strong>
+            <span class="user-id" id="sidebarUserId">CS21B001 &bull; Student</span>
         </div>
     </aside>
 
@@ -317,6 +317,21 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeModal();
         });
+    
+        // Sync user profile name in sidebar
+        (function() {
+            try {
+                const p = JSON.parse(localStorage.getItem('tinkerlab_profile') || '{}');
+                if (p.fullName) {
+                    const nameEl = document.getElementById('sidebarUserName');
+                    if (nameEl) nameEl.textContent = p.fullName;
+                }
+                if (p.rollNumber) {
+                    const idEl = document.getElementById('sidebarUserId');
+                    if (idEl) idEl.innerHTML = `${p.rollNumber} &bull; Student`;
+                }
+            } catch(e) {}
+        })();
     </script>
 </body>
 </html>
