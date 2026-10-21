@@ -506,34 +506,7 @@ body {
     text-decoration: underline;
 }
 
-/* ==========================================================================
-   FLOATING HELP BUTTON
-   ========================================================================== */
-.floating-help-btn {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background-color: #1e293b;
-    color: #ffffff;
-    border: none;
-    font-size: 15px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: all 0.2s ease;
-    z-index: 90;
-}
 
-.floating-help-btn:hover {
-    background-color: #0f172a;
-    transform: scale(1.05);
-}
 
 /* ==========================================================================
    RESPONSIVE
