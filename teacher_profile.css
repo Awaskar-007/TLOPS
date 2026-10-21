@@ -1,5 +1,6 @@
 /* ==========================================================================
    TinkerLab - Lab Administrator Profile Stylesheet (teacher_profile.css)
+   Exact match to Student Profile reference with Teacher Data & Actions
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
@@ -239,23 +240,27 @@ body {
    CONTENT CONTAINER
    ========================================================================== */
 .content-container {
-    padding: 32px 48px 60px 48px;
+    padding: 36px 48px 60px 48px;
+    max-width: 1200px;
     width: 100%;
 }
 
-.page-title {
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--text-dark);
-    letter-spacing: -0.3px;
+.page-title-row {
     margin-bottom: 24px;
 }
 
+.page-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text-dark);
+    letter-spacing: -0.3px;
+}
+
 /* ==========================================================================
-   PROFILE LAYOUT & CARDS
+   PROFILE LAYOUT WRAPPER (Expanded to match reference)
    ========================================================================== */
 .profile-layout-wrapper {
-    max-width: 580px;
+    max-width: 820px;
     display: flex;
     flex-direction: column;
     gap: 24px;
@@ -265,135 +270,194 @@ body {
 .profile-header-card {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 14px;
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
     overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    position: relative;
 }
 
 .profile-banner {
-    height: 125px;
-    background: #1d4ed8;
+    height: 120px;
+    background: #2563eb;
     background: linear-gradient(90deg, #1d4ed8 0%, #2563eb 100%);
     width: 100%;
 }
 
-.profile-card-body {
-    padding: 0 28px 24px 28px;
+.profile-header-body {
+    padding: 0 32px 28px 32px;
     position: relative;
 }
 
-.profile-avatar-box {
-    width: 64px;
-    height: 64px;
+.profile-avatar-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.profile-avatar {
+    width: 82px;
+    height: 82px;
     background: #ffffff;
-    border: 2.5px solid #ffffff;
-    border-radius: 14px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 3px solid #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: -32px;
-    margin-bottom: 16px;
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--primary-blue);
-    letter-spacing: -0.3px;
+    margin-top: -41px;
+    font-size: 26px;
+    font-weight: 800;
+    color: #2563eb;
+    letter-spacing: -0.5px;
     flex-shrink: 0;
 }
 
-.profile-name {
-    font-size: 20px;
-    font-weight: 700;
+.btn-edit-profile {
+    margin-top: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 18px;
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
     color: var(--text-dark);
-    letter-spacing: -0.3px;
-    margin-bottom: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: var(--font-main);
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    transition: all 0.18s ease;
 }
 
-.profile-subtitle {
-    font-size: 13.5px;
+.btn-edit-profile:hover {
+    background-color: #f8fafc;
+    border-color: #94a3b8;
+}
+
+.profile-name {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+    letter-spacing: -0.3px;
+}
+
+.profile-role-dept {
+    font-size: 14px;
     color: var(--text-muted);
     font-weight: 400;
 }
 
-/* Account Information Form Card */
-.profile-form-card {
+/* Account Information Card */
+.profile-info-card {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 14px;
-    padding: 26px 28px 28px 28px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    padding: 28px 32px 36px 32px;
 }
 
-.form-section-title {
-    font-size: 15.5px;
+.profile-info-title {
+    font-size: 17px;
     font-weight: 700;
     color: var(--text-dark);
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     letter-spacing: -0.2px;
 }
 
-.profile-form {
+.profile-form-grid {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
 }
 
-.form-group {
+.profile-field-group {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
 }
 
-.form-group label {
+.profile-label {
     font-size: 13px;
     font-weight: 600;
     color: #334155;
     letter-spacing: -0.1px;
 }
 
-.form-input {
+.profile-input {
     width: 100%;
-    padding: 10px 14px;
+    padding: 12px 16px;
     background-color: #ffffff;
     border: 1px solid #cbd5e1;
-    border-radius: 8px;
+    border-radius: 10px;
     font-size: 14px;
     color: var(--text-dark);
     font-family: var(--font-main);
-    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
 }
 
-.form-input:focus {
+.profile-input:focus {
     outline: none;
     border-color: var(--primary-blue);
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
-.form-action {
-    margin-top: 6px;
+.profile-input[readonly] {
+    background-color: #ffffff;
+    cursor: default;
 }
 
-.btn-save-changes {
-    padding: 10px 22px;
+.profile-input.editable {
+    background-color: #f8fafc;
+    border-color: var(--primary-blue);
+}
+
+/* Profile Edit Action Buttons */
+.profile-edit-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.btn-save-profile {
+    padding: 10px 24px;
     background-color: var(--primary-blue);
     color: #ffffff;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     font-family: var(--font-main);
     border: none;
     border-radius: 8px;
     cursor: pointer;
     box-shadow: 0 2px 6px rgba(37, 99, 235, 0.28);
-    transition: background-color 0.18s ease, transform 0.15s ease;
+    transition: background-color 0.18s ease, transform 0.18s ease;
 }
 
-.btn-save-changes:hover {
+.btn-save-profile:hover {
     background-color: var(--primary-blue-hover);
     transform: translateY(-1px);
 }
 
-.btn-save-changes:active {
-    transform: translateY(0);
+.btn-cancel-profile {
+    padding: 9px 20px;
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-family: var(--font-main);
+    cursor: pointer;
+    transition: background-color 0.18s ease, border-color 0.18s ease;
+}
+
+.btn-cancel-profile:hover {
+    background-color: #f8fafc;
+    border-color: #94a3b8;
+    color: var(--text-dark);
 }
 
 /* ==========================================================================
@@ -428,20 +492,29 @@ body {
 
 .toast-notice {
     position: fixed;
-    bottom: 76px;
-    right: 24px;
+    bottom: 24px;
+    right: 80px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
     background-color: #0f172a;
     color: #ffffff;
-    padding: 12px 18px;
-    border-radius: 10px;
-    font-size: 13.5px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
     font-family: var(--font-main);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     opacity: 0;
     pointer-events: none;
     transform: translateY(10px);
-    transition: opacity 0.22s ease, transform 0.22s ease;
+    transition: all 0.22s ease;
     z-index: 1000;
+}
+
+.toast-notice svg {
+    color: #22c55e;
+    flex-shrink: 0;
 }
 
 .toast-notice.show {
