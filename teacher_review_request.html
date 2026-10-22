@@ -324,7 +324,37 @@
 
         function loadRequestData() {
             const { id, from } = getQueryParams();
-            const data = REQUEST_DATABASE[id] || REQUEST_DATABASE['req001'];
+            let data = REQUEST_DATABASE[id];
+
+            if (!data) {
+                try {
+                    const customList = JSON.parse(localStorage.getItem('tinkerlab_custom_requests') || '[]');
+                    const found = customList.find(r => r.id === id);
+                    if (found) {
+                        data = {
+                            id: found.id,
+                            studentName: found.studentName || 'Arjun Sharma',
+                            studentRoll: found.studentRoll || 'CS21B001',
+                            department: found.studentDept || 'Computer Science',
+                            submitted: found.submitted,
+                            status: found.status || 'Pending',
+                            components: [
+                                {
+                                    name: found.componentName + (found.isUnlisted ? ' (Unlisted Custom Request)' : ''),
+                                    requested: found.quantity || 1,
+                                    available: 0,
+                                    rack: 'Special Order / Lab Procurement',
+                                    status: 'Special Order'
+                                }
+                            ],
+                            purpose: found.purpose + (found.partRef ? ` [Ref: ${found.partRef}]` : '') + (found.priority ? ` [Priority: ${found.priority}]` : ''),
+                            requiredBy: found.due
+                        };
+                    }
+                } catch(e) {}
+            }
+
+            if (!data) data = REQUEST_DATABASE['req001'];
             currentReq = data;
 
             // Handle back navigation
@@ -414,6 +444,17 @@
             if (!currentReq) return;
             currentReq.status = decision;
             updateStatusBadge(decision);
+
+            // Update in localStorage if it is a custom request
+            try {
+                const customList = JSON.parse(localStorage.getItem('tinkerlab_custom_requests') || '[]');
+                const idx = customList.findIndex(r => r.id === currentReq.id);
+                if (idx !== -1) {
+                    customList[idx].status = decision;
+                    customList[idx].statusClass = decision === 'Approved' ? 'badge-approved' : 'badge-rejected';
+                    localStorage.setItem('tinkerlab_custom_requests', JSON.stringify(customList));
+                }
+            } catch(e) {}
 
             const actions = document.getElementById('reviewActions');
             actions.style.opacity = '0.6';
