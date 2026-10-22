@@ -138,6 +138,42 @@
                         <!-- Items dynamically injected here -->
                     </div>
 
+                    <!-- Required Reason for Request Section -->
+                    <div class="cart-reason-card">
+                        <div class="reason-header">
+                            <label for="requestReasonInput" class="reason-title" id="reasonTitleLabel">
+                                <span>Reason for Request</span>
+                                <span class="required-star">*</span>
+                            </label>
+                            <span class="reason-badge">Required</span>
+                        </div>
+                        <p class="reason-subtitle">Specify the academic purpose or project need for requesting these components. Lab staff review and approve this justification before issuing equipment.</p>
+                        
+                        <div class="reason-input-wrapper">
+                            <textarea 
+                                id="requestReasonInput" 
+                                class="reason-textarea" 
+                                placeholder="e.g. Building an obstacle avoidance robot prototype for CSE302 Robotics Lab course..." 
+                                rows="3"
+                                required></textarea>
+                            <div class="reason-error" id="reasonError" style="display: none;">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                                </svg>
+                                <span>Please enter a reason for requesting these components before submitting.</span>
+                            </div>
+                        </div>
+
+                        <div class="reason-meta-row">
+                            <div class="reason-meta-field">
+                                <label for="cartReturnDate" class="reason-meta-label">Required Return Due Date <span class="required-star">*</span></label>
+                                <input type="date" id="cartReturnDate" class="reason-date-input" required>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="cart-actions-footer">
                         <div class="cart-total-label">
                             Total requested components: <strong id="cartTotalQty">0</strong>
@@ -178,6 +214,31 @@
         function saveCart(cart) {
             localStorage.setItem('tinkerlab_cart', JSON.stringify(cart));
             renderCart();
+        }
+
+        function initReasonControls() {
+            const dateInput = document.getElementById('cartReturnDate');
+            if (dateInput && !dateInput.value) {
+                const now = new Date();
+                dateInput.min = now.toISOString().split('T')[0];
+                const future = new Date();
+                future.setDate(future.getDate() + 7);
+                const yyyy = future.getFullYear();
+                const mm = String(future.getMonth() + 1).padStart(2, '0');
+                const dd = String(future.getDate()).padStart(2, '0');
+                dateInput.value = `${yyyy}-${mm}-${dd}`;
+            }
+
+            const reasonInput = document.getElementById('requestReasonInput');
+            const reasonError = document.getElementById('reasonError');
+            if (reasonInput) {
+                reasonInput.addEventListener('input', () => {
+                    if (reasonInput.value.trim().length > 0) {
+                        reasonInput.classList.remove('input-invalid');
+                        if (reasonError) reasonError.style.display = 'none';
+                    }
+                });
+            }
         }
 
         function renderCart() {
@@ -232,6 +293,20 @@
 
             itemsCountText.textContent = `Selected Items (${itemKeys.length})`;
             totalQtyText.textContent = totalQty;
+
+            // Tailor the reason label depending on item count
+            const reasonTitle = document.getElementById('reasonTitleLabel');
+            if (reasonTitle) {
+                if (itemKeys.length === 1) {
+                    const singleMeta = CATALOG[itemKeys[0]];
+                    const singleName = singleMeta ? singleMeta.name : 'Component';
+                    reasonTitle.innerHTML = `<span>Reason for Requesting ${singleName}</span> <span class="required-star">*</span>`;
+                } else {
+                    reasonTitle.innerHTML = `<span>Reason for Requesting Components</span> <span class="required-star">*</span>`;
+                }
+            }
+
+            initReasonControls();
         }
 
         function updateQty(id, delta) {
@@ -254,6 +329,8 @@
 
         function clearCart() {
             localStorage.removeItem('tinkerlab_cart');
+            const reasonInput = document.getElementById('requestReasonInput');
+            if (reasonInput) reasonInput.value = '';
             renderCart();
             showToast('Cart cleared');
         }
@@ -263,19 +340,128 @@
             const itemKeys = Object.keys(cart).filter(key => cart[key] > 0);
             if (itemKeys.length === 0) return;
 
-            // Clear cart and show notification
+            const reasonInput = document.getElementById('requestReasonInput');
+            const reasonError = document.getElementById('reasonError');
+            const reason = reasonInput ? reasonInput.value.trim() : '';
+
+            // Validation: Reason is mandatory before submitting
+            if (!reason) {
+                if (reasonInput) {
+                    reasonInput.classList.add('input-invalid');
+                    reasonInput.focus();
+                }
+                if (reasonError) {
+                    reasonError.style.display = 'flex';
+                }
+                showToast('Please provide a reason for requesting the component(s) before submitting.');
+                return;
+            }
+
+            // Clear any error state
+            if (reasonInput) reasonInput.classList.remove('input-invalid');
+            if (reasonError) reasonError.style.display = 'none';
+
+            // Gather component items
+            const items = [];
+            const itemTitles = [];
+            let totalQty = 0;
+
+            itemKeys.forEach(id => {
+                const qty = cart[id];
+                totalQty += qty;
+                const meta = CATALOG[id] || { name: id, category: 'Components' };
+                itemTitles.push(`${meta.name}${qty > 1 ? ` ×${qty}` : ''}`);
+                items.push({
+                    name: meta.name,
+                    qty: qty,
+                    category: meta.category,
+                    serial: 'INV-PENDING'
+                });
+            });
+
+            // Format dates
+            const returnDateInput = document.getElementById('cartReturnDate');
+            let dueDateStr = '—';
+            if (returnDateInput && returnDateInput.value) {
+                const d = new Date(returnDateInput.value);
+                if (!isNaN(d.getTime())) {
+                    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                    dueDateStr = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+                } else {
+                    dueDateStr = returnDateInput.value;
+                }
+            } else {
+                const d = new Date();
+                d.setDate(d.getDate() + 7);
+                const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                dueDateStr = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+            }
+
+            const now = new Date();
+            const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+            const submittedDateStr = `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+
+            // Generate next request ID
+            let maxNum = 8;
+            let existingRequests = [];
+            try {
+                existingRequests = JSON.parse(localStorage.getItem('tinkerlab_custom_requests') || '[]');
+                existingRequests.forEach(r => {
+                    const m = r.id && r.id.match(/^req(\d+)$/i);
+                    if (m) {
+                        const n = parseInt(m[1], 10);
+                        if (n > maxNum) maxNum = n;
+                    }
+                });
+            } catch (e) {}
+
+            const newId = 'req' + String(maxNum + 1).padStart(3, '0');
+
+            // Student profile
+            let studentName = 'Arjun Sharma';
+            let studentRoll = 'CS21B001';
+            let studentDept = 'Computer Science';
+            try {
+                const p = JSON.parse(localStorage.getItem('tinkerlab_profile') || '{}');
+                if (p.fullName) studentName = p.fullName;
+                if (p.rollNumber) studentRoll = p.rollNumber;
+                if (p.department) studentDept = p.department;
+            } catch (e) {}
+
+            const newRequest = {
+                id: newId,
+                status: 'Pending',
+                statusClass: 'badge-pending',
+                submitted: submittedDateStr,
+                due: dueDateStr,
+                purpose: reason,
+                componentName: itemTitles.join(', '),
+                quantity: totalQty,
+                studentName: studentName,
+                studentRoll: studentRoll,
+                studentDept: studentDept,
+                items: items
+            };
+
+            // Save to shared request repository
+            existingRequests.unshift(newRequest);
+            localStorage.setItem('tinkerlab_custom_requests', JSON.stringify(existingRequests));
+
+            // Clear cart & input
             localStorage.removeItem('tinkerlab_cart');
+            if (reasonInput) reasonInput.value = '';
             renderCart();
-            showToast('Request submitted successfully! View in My Requests.');
+
+            showToast(`Request ${newId} submitted for review! <a href="requests.html" style="color:#93c5fd; text-decoration:underline; font-weight:600; margin-left:6px;">View in My Requests &rarr;</a>`);
         }
 
         function showToast(message) {
             const toast = document.getElementById('toastNotice');
-            document.getElementById('toastMessage').textContent = message;
+            document.getElementById('toastMessage').innerHTML = message;
             toast.classList.add('show');
             setTimeout(() => {
                 toast.classList.remove('show');
-            }, 3000);
+            }, 4000);
         }
 
         // Initialize on page load

@@ -281,6 +281,147 @@
     transform: translateY(-1px);
 }
 
+/* Reason for Request Section */
+.cart-reason-card {
+    background: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin-bottom: 24px;
+}
+
+.reason-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.reason-title {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.required-star {
+    color: #ef4444;
+}
+
+.reason-badge {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #b91c1c;
+    background-color: #fee2e2;
+    border: 1px solid #fecaca;
+    padding: 2px 8px;
+    border-radius: 9999px;
+}
+
+.reason-subtitle {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+    line-height: 1.45;
+}
+
+.reason-input-wrapper {
+    position: relative;
+    margin-bottom: 14px;
+}
+
+.reason-textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 12px 14px;
+    font-family: inherit;
+    font-size: 13.5px;
+    color: var(--text-dark);
+    background-color: #ffffff;
+    border: 1.5px solid var(--border-color);
+    border-radius: 8px;
+    outline: none;
+    resize: vertical;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+    box-sizing: border-box;
+}
+
+.reason-textarea:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.reason-textarea.input-invalid {
+    border-color: #ef4444 !important;
+    background-color: #fffaf0;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.14) !important;
+    animation: reasonShake 0.3s ease;
+}
+
+@keyframes reasonShake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
+}
+
+.reason-error {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #dc2626;
+}
+
+.reason-error svg {
+    flex-shrink: 0;
+}
+
+.reason-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-top: 12px;
+    border-top: 1px dashed #e2e8f0;
+}
+
+.reason-meta-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    max-width: 250px;
+}
+
+.reason-meta-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.reason-date-input {
+    height: 38px;
+    padding: 0 12px;
+    background-color: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--text-dark);
+    outline: none;
+    transition: all 0.18s ease;
+}
+
+.reason-date-input:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
 /* ==========================================================================
    STUDENT PROFILE STYLES
    ========================================================================== */
