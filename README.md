@@ -134,9 +134,6 @@ Since TLOPS is built using standard native web technologies, it requires **zero 
 
 - **Devasis Awaskar** — Founder & Fullstack Developer ([GitHub](https://github.com/Awaskar-007))
 - **Aarush Shrivastava** — Founder & Frontend Developer ([GitHub](https://github.com/Highusername))
-
+- **Manish Bishwokarma** — Founder & Backend Developer ([GitHub](https://github.com/bishwokarmamanish19-star))
 ---
 
-<p align="center">
-  Made with ❤️ for BMU Tinkering Lab
-</p>
