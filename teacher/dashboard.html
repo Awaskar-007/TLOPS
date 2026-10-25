@@ -109,21 +109,7 @@
             
                 <p class="page-subtitle" id="dashboardDateLabel">Loading date...</p>
 
-                <script>
-                 const dashboardDateLabel = document.getElementById('dashboardDateLabel');
-                 if (dashboardDateLabel) {
-                 const now = new Date();
-
-                 const formattedDate = new Intl.DateTimeFormat('en-GB', {
-                 weekday: 'long',
-                 day: 'numeric',
-                 month: 'long',
-                 year: 'numeric'
-                 }).format(now);
-
-                 dashboardDateLabel.textContent = `${formattedDate} · BML MUNJAL TINKERING LAB`;
-                    }
-               </script>
+                
             </div>
 
             <!-- 6 KPI Stat Cards Grid -->
@@ -395,16 +381,9 @@
         </main>
     </div>
 
-    <script>
-        (function syncTeacherSidebar() {
-            try {
-                const profile = JSON.parse(localStorage.getItem('tinkerlab_teacher_profile') || '{}');
-                if (profile && profile.fullName) {
-                    const el = document.getElementById('sidebarTeacherName');
-                    if (el) el.textContent = profile.fullName;
-                }
-            } catch (e) {}
-        })();
-    </script>
+    <!-- External Modular Scripts -->
+<script src="../js/storage.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/teacher-dashboard.js"></script>
 </body>
 </html>

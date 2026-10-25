@@ -264,50 +264,9 @@
             </div>
         </main>
     </div>
-    <script>
-        // -- Filter Pills ----------------------------------------------
-        const pills = document.querySelectorAll('.filter-pill');
-        const rows  = document.querySelectorAll('.history-table tbody tr');
-
-        pills.forEach(pill => {
-            pill.addEventListener('click', () => {
-                pills.forEach(p => p.classList.remove('active'));
-                pill.classList.add('active');
-                const filter = pill.textContent.trim();
-                rows.forEach(row => {
-                    const badge = row.querySelector('.badge');
-                    const match = filter === 'All' || (badge && badge.textContent.trim() === filter);
-                    row.style.display = match ? '' : 'none';
-                });
-            });
-        });
-
-        // -- Search Input ----------------------------------------------
-        const searchInput = document.querySelector('.search-input');
-        if (searchInput) {
-            searchInput.addEventListener('input', () => {
-                const query = searchInput.value.toLowerCase();
-                rows.forEach(row => {
-                    const text = row.textContent.toLowerCase();
-                    row.style.display = text.includes(query) ? '' : 'none';
-                });
-                if (query.length > 0) {
-                    pills.forEach(p => p.classList.remove('active'));
-                    document.querySelector('.filter-pill').classList.add('active');
-                }
-            });
-        }
-    </script>
-    <script>
-        (function syncTeacherSidebar() {
-            try {
-                const profile = JSON.parse(localStorage.getItem('tinkerlab_teacher_profile') || '{}');
-                if (profile && profile.fullName) {
-                    const el = document.getElementById('sidebarTeacherName');
-                    if (el) el.textContent = profile.fullName;
-                }
-            } catch (e) {}
-        })();
-    </script>
+    <!-- External Modular Scripts -->
+<script src="../js/storage.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/teacher-history.js"></script>
 </body>
 </html>

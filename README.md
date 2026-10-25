@@ -85,8 +85,22 @@ TLOPS/
 │       ├── history.css
 │       └── profile.css
 │
-├── js/                         # ⚡ Shared JavaScript & Utilities
-│   └── main.js                 # Central state helpers, profile utilities & toast notifications
+├── js/                         # ⚡ Modular JavaScript Controllers
+│   ├── storage.js              # Safe localStorage getData/saveData helpers with try/catch
+│   ├── common.js               # Route auth guard, sidebar sync, logout behavior
+│   ├── login.js                # Sign-in & role toggling
+│   ├── student-dashboard.js    # Student catalog & quick cart add
+│   ├── cart.js                 # Cart calculation & checkout submission
+│   ├── requests.js             # Student requests table & unlisted parts modal
+│   ├── student-profile.js      # Student profile editing & persistence
+│   ├── teacher-dashboard.js    # Teacher dashboard metrics & live university date
+│   ├── teacher-requests.js     # Teacher request review queue & live search
+│   ├── review-request.js       # Teacher 1-click Approve/Reject decision logic
+│   ├── inventory.js            # Equipment catalog filtering
+│   ├── add-component.js        # Add equipment modal handling
+│   ├── edit-component.js       # Edit equipment specifications
+│   ├── teacher-history.js      # Completed & rejected records filter
+│   └── teacher-profile.js      # Lab administrator profile settings
 │
 ├── assets/                     # 🖼️ Static Media & Graphics
 │   ├── icons/                  # SVG icons & symbols

@@ -79,41 +79,9 @@
         </div>
     </div>
 
-    <script>
-        let currentRole = 'student';
-        const studentRoleBtn = document.getElementById('studentRoleBtn');
-        const teacherRoleBtn = document.getElementById('teacherRoleBtn');
-        const signInForm = document.getElementById('signInForm');
-        const emailInput = document.getElementById('email');
-        const passwordInput = document.getElementById('password');
-
-        function setRole(role) {
-            currentRole = role;
-            if (role === 'teacher') {
-                studentRoleBtn.classList.remove('active');
-                teacherRoleBtn.classList.add('active');
-                emailInput.placeholder = 'teacher_name.surname@bmu.edu.in';
-                signInForm.action = 'teacher/dashboard.html';
-            } else {
-                teacherRoleBtn.classList.remove('active');
-                studentRoleBtn.classList.add('active');
-                emailInput.placeholder = 'cse001@bmu.edu.in';
-                signInForm.action = 'student/dashboard.html';
-            }
-        }
-
-        studentRoleBtn.addEventListener('click', () => setRole('student'));
-        teacherRoleBtn.addEventListener('click', () => setRole('teacher'));
-
-        signInForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            localStorage.setItem('tinkerlab_role', currentRole);
-            if (currentRole === 'teacher') {
-                window.location.href = 'teacher/dashboard.html';
-            } else {
-                window.location.href = 'student/dashboard.html';
-            }
-        });
-    </script>
+    <!-- External Modular Scripts -->
+    <script src="js/storage.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/login.js"></script>
 </body>
 </html>

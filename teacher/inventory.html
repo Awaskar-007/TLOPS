@@ -345,17 +345,10 @@
     </div>
 
    
-    <script>
-        (function syncTeacherSidebar() {
-            try {
-                const profile = JSON.parse(localStorage.getItem('tinkerlab_teacher_profile') || '{}');
-                if (profile && profile.fullName) {
-                    const el = document.getElementById('sidebarTeacherName');
-                    if (el) el.textContent = profile.fullName;
-                }
-            } catch (e) {}
-        })();
-    </script>
+    <!-- External Modular Scripts -->
+<script src="../js/storage.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/inventory.js"></script>
 </body>
 </html>
 

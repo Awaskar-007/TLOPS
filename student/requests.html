@@ -124,7 +124,7 @@
                     <div class="banner-title">Need a component not listed in the lab inventory?</div>
                     <div class="banner-text">Can't find a microcontroller, sensor, or custom module in stock? Submit a special procurement request for lab staff approval.</div>
                 </div>
-                <button type="button" class="btn-banner-action" onclick="openUnlistedModal()">
+                <button type="button" class="btn-banner-action" >
                     + Request Component
                 </button>
             </div>
@@ -165,7 +165,7 @@
                                 <span class="status-badge badge-pending">Pending</span>
                             </td>
                             <td class="req-action">
-                                <button class="view-btn" onclick="openDetails('req001')" aria-label="View request details">View &rarr;</button>
+                                <button class="view-btn" data-req-id="req001" aria-label="View request details">View &rarr;</button>
                             </td>
                         </tr>
 
@@ -182,7 +182,7 @@
                                 <span class="status-badge badge-completed">Completed</span>
                             </td>
                             <td class="req-action">
-                                <button class="view-btn" onclick="openDetails('req007')" aria-label="View request details">View &rarr;</button>
+                                <button class="view-btn" data-req-id="req007" aria-label="View request details">View &rarr;</button>
                             </td>
                         </tr>
                     </tbody>
@@ -197,11 +197,11 @@
     </div>
 
     <!-- Request Details Modal -->
-    <div id="requestModal" class="modal-overlay" onclick="handleOverlayClick(event)">
+    <div id="requestModal" class="modal-overlay" >
         <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
             <div class="modal-header">
                 <h3 id="modalTitle">Request Details</h3>
-                <button class="close-btn" onclick="closeModal()" aria-label="Close dialog">&times;</button>
+                <button class="close-btn"  aria-label="Close dialog">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="modal-detail-row">
@@ -247,13 +247,13 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn-secondary" onclick="closeModal()">Close</button>
+                <button class="btn-secondary" >Close</button>
             </div>
         </div>
     </div>
 
     <!-- Request Unlisted Component Modal -->
-    <div id="unlistedModal" class="modal-overlay" onclick="handleUnlistedOverlayClick(event)">
+    <div id="unlistedModal" class="modal-overlay" >
         <div class="modal-card modal-card-lg" role="dialog" aria-modal="true" aria-labelledby="unlistedModalTitle">
             <div class="modal-header">
                 <div class="modal-header-text">
@@ -261,10 +261,10 @@
                     <h3 id="unlistedModalTitle">Request Unlisted Component</h3>
                     <p class="modal-header-sub">Request lab equipment, microcontrollers, or sensors not currently in the inventory catalog.</p>
                 </div>
-                <button class="close-btn" onclick="closeUnlistedModal()" aria-label="Close dialog">&times;</button>
+                <button class="close-btn"  aria-label="Close dialog">&times;</button>
             </div>
 
-            <form id="unlistedRequestForm" onsubmit="handleUnlistedFormSubmit(event)">
+            <form id="unlistedRequestForm">
                 <div class="modal-body custom-request-body">
                     <div class="unlisted-info-callout">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -367,7 +367,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn-secondary" onclick="closeUnlistedModal()">Cancel</button>
+                    <button type="button" class="btn-secondary" >Cancel</button>
                     <button type="submit" class="btn-primary" id="unlistedSubmitBtn">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="22" y1="2" x2="11" y2="13"></line>
@@ -389,474 +389,10 @@
     </div>
 
     <!-- Interactive Filtering, Persistence & Modal Script -->
-    <script>
-        // Base request dataset
-        const requestData = {
-            "req001": {
-                id: "req001",
-                status: "Pending",
-                statusClass: "badge-pending",
-                submitted: "14 Aug 2026",
-                due: "20 Aug 2026",
-                purpose: "Obstacle Avoidance Robot Project (CSE302)",
-                items: [
-                    { name: "Arduino Uno R3", qty: 1, serial: "ARD-2026-991" },
-                    { name: "HC-SR04 Ultrasonic Sensor", qty: 1, serial: "SEN-0412" }
-                ]
-            },
-            "req007": {
-                id: "req007",
-                status: "Completed",
-                statusClass: "badge-completed",
-                submitted: "8 Aug 2026",
-                due: "Returned on 13 Aug 2026",
-                purpose: "Breadboard Prototyping Workshop",
-                items: [
-                    { name: "Jumper Wires M-M 40pcs", qty: 1, serial: "WIR-40M" },
-                    { name: "Breadboard 830 Points", qty: 1, serial: "BRD-830-18" }
-                ]
-            }
-        };
-
-        // Storage helpers
-        const STORAGE_KEY = 'tinkerlab_custom_requests';
-
-        function getCustomRequests() {
-            try {
-                return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-            } catch (e) {
-                return [];
-            }
-        }
-
-        function saveCustomRequests(list) {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-        }
-
-        function generateRequestId() {
-            const custom = getCustomRequests();
-            let maxNum = 8; // base requests span req001 to req008 across the app
-            custom.forEach(r => {
-                const match = r.id && r.id.match(/^req(\d+)$/i);
-                if (match) {
-                    const num = parseInt(match[1], 10);
-                    if (num > maxNum) maxNum = num;
-                }
-            });
-            return 'req' + String(maxNum + 1).padStart(3, '0');
-        }
-
-        function escapeHtml(str) {
-            if (!str) return '';
-            return String(str)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
-        }
-
-        function formatDateDisplay(dateStr) {
-            if (!dateStr) return '—';
-            try {
-                // If already formatted like "20 Aug 2026", return as is
-                if (dateStr.includes(' ')) return dateStr;
-                const d = new Date(dateStr);
-                if (isNaN(d.getTime())) return dateStr;
-                const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-                return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
-            } catch (e) {
-                return dateStr;
-            }
-        }
-
-        function getTodayDisplay() {
-            const d = new Date();
-            const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-            return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
-        }
-
-        // Render a custom request row into the table
-        function createRequestRowElement(req) {
-            const tr = document.createElement('tr');
-            tr.className = 'request-row';
-            tr.setAttribute('data-status', (req.status || 'pending').toLowerCase());
-            tr.setAttribute('data-id', req.id);
-
-            const isUnlisted = !!req.isUnlisted;
-            const unlistedTagHtml = isUnlisted 
-                ? `<span class="unlisted-tag"><span class="unlisted-tag-pulse"></span> Unlisted</span>` 
-                : '';
-            const countSubtitle = isUnlisted
-                ? `${req.quantity || 1} item${(req.quantity || 1) > 1 ? 's' : ''} &bull; Special Request`
-                : `${(req.items && req.items.length) || 1} items`;
-
-            tr.innerHTML = `
-                <td class="req-id">${escapeHtml(req.id)}</td>
-                <td class="req-components">
-                    <div class="comp-title-container">
-                        <span class="comp-title">${escapeHtml(req.componentName || (req.items && req.items[0] && req.items[0].name) || 'Custom Component')}</span>
-                        ${unlistedTagHtml}
-                    </div>
-                    <div class="comp-count">${countSubtitle}</div>
-                </td>
-                <td class="req-submitted">${escapeHtml(req.submitted)}</td>
-                <td class="req-due">${escapeHtml(req.due || '—')}</td>
-                <td class="req-status">
-                    <span class="status-badge ${escapeHtml(req.statusClass || 'badge-pending')}">${escapeHtml(req.status || 'Pending')}</span>
-                </td>
-                <td class="req-action">
-                    <button class="view-btn" onclick="openDetails('${escapeHtml(req.id)}')" aria-label="View request details">View &rarr;</button>
-                </td>
-            `;
-            return tr;
-        }
-
-        // Update counts on filter pills
-        function updateFilterPillsCount() {
-            const allRows = document.querySelectorAll('#requestsTableBody .request-row');
-            let counts = { all: 0, pending: 0, approved: 0, rejected: 0, completed: 0 };
-
-            allRows.forEach(row => {
-                counts.all++;
-                const status = (row.getAttribute('data-status') || '').toLowerCase();
-                if (counts[status] !== undefined) {
-                    counts[status]++;
-                }
-            });
-
-            const pillAll = document.getElementById('pillAll');
-            const pillPending = document.getElementById('pillPending');
-            const pillApproved = document.getElementById('pillApproved');
-            const pillRejected = document.getElementById('pillRejected');
-            const pillCompleted = document.getElementById('pillCompleted');
-
-            if (pillAll) pillAll.textContent = `All (${counts.all})`;
-            if (pillPending) pillPending.textContent = `Pending (${counts.pending})`;
-            if (pillApproved) pillApproved.textContent = `Approved (${counts.approved})`;
-            if (pillRejected) pillRejected.textContent = `Rejected (${counts.rejected})`;
-            if (pillCompleted) pillCompleted.textContent = `Completed (${counts.completed})`;
-        }
-
-        // Apply current active filter to table rows
-        function applyCurrentFilter() {
-            const activePill = document.querySelector('.filter-pill.active');
-            const filter = activePill ? activePill.getAttribute('data-filter') : 'all';
-            const rows = document.querySelectorAll('#requestsTableBody .request-row');
-            const emptyState = document.getElementById('emptyState');
-            let visibleCount = 0;
-
-            rows.forEach(row => {
-                const rowStatus = row.getAttribute('data-status');
-                if (filter === 'all' || rowStatus === filter) {
-                    row.style.display = '';
-                    visibleCount++;
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-
-            if (emptyState) {
-                emptyState.style.display = (visibleCount === 0) ? 'block' : 'none';
-            }
-        }
-
-        // Toast notifications
-        let toastTimer = null;
-        function showToast(message) {
-            const toast = document.getElementById('toastNotice');
-            const textEl = document.getElementById('toastMessage');
-            if (!toast || !textEl) return;
-            textEl.textContent = message;
-            toast.classList.add('show');
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3500);
-        }
-
-        // Tab Filtering Listeners
-        const filterPills = document.querySelectorAll('.filter-pill');
-        filterPills.forEach(pill => {
-            pill.addEventListener('click', () => {
-                filterPills.forEach(p => {
-                    p.classList.remove('active');
-                    p.setAttribute('aria-selected', 'false');
-                });
-                pill.classList.add('active');
-                pill.setAttribute('aria-selected', 'true');
-                applyCurrentFilter();
-            });
-        });
-
-        // Request Details Modal Logic
-        function openDetails(reqId) {
-            const req = requestData[reqId];
-            if (!req) return;
-
-            document.getElementById('modalReqId').textContent = req.id;
-            document.getElementById('modalStatusBadge').innerHTML = `<span class="status-badge ${req.statusClass}">${req.status}</span>`;
-            document.getElementById('modalSubmitted').textContent = req.submitted;
-            document.getElementById('modalDue').textContent = req.due;
-            document.getElementById('modalPurpose').textContent = req.purpose;
-
-            const modalTitle = document.getElementById('modalTitle');
-            if (modalTitle) {
-                modalTitle.textContent = req.isUnlisted ? 'Unlisted Request Details' : 'Request Details';
-            }
-
-            // Unlisted metadata rows
-            const typeRow = document.getElementById('modalReqTypeRow');
-            const catRow = document.getElementById('modalCategoryRow');
-            const priorityRow = document.getElementById('modalPriorityRow');
-            const partRefRow = document.getElementById('modalPartRefRow');
-
-            if (req.isUnlisted) {
-                if (typeRow) {
-                    typeRow.style.display = 'flex';
-                    document.getElementById('modalReqType').innerHTML = '<span class="unlisted-tag"><span class="unlisted-tag-pulse"></span> Unlisted Component</span>';
-                }
-                if (catRow) {
-                    catRow.style.display = 'flex';
-                    document.getElementById('modalCategory').textContent = req.category || 'Special Order';
-                }
-                if (priorityRow) {
-                    priorityRow.style.display = 'flex';
-                    document.getElementById('modalPriority').textContent = req.priority || 'Normal';
-                }
-                if (partRefRow) {
-                    if (req.partRef && req.partRef.trim()) {
-                        partRefRow.style.display = 'flex';
-                        const refVal = req.partRef.trim();
-                        if (/^https?:\/\//i.test(refVal)) {
-                            document.getElementById('modalPartRef').innerHTML = `<a href="${escapeHtml(refVal)}" target="_blank" rel="noopener noreferrer" style="color:#2563eb; text-decoration:underline;">View Link &nearr;</a>`;
-                        } else {
-                            document.getElementById('modalPartRef').textContent = refVal;
-                        }
-                    } else {
-                        partRefRow.style.display = 'none';
-                    }
-                }
-            } else {
-                if (typeRow) typeRow.style.display = 'none';
-                if (catRow) catRow.style.display = 'none';
-                if (priorityRow) priorityRow.style.display = 'none';
-                if (partRefRow) partRefRow.style.display = 'none';
-            }
-
-            const itemsContainer = document.getElementById('modalItemsContainer');
-            itemsContainer.innerHTML = '';
-            (req.items || []).forEach(item => {
-                const itemDiv = document.createElement('div');
-                itemDiv.className = 'modal-item-entry';
-                if (req.isUnlisted) {
-                    itemDiv.innerHTML = `
-                        <div>
-                            <span><strong>${escapeHtml(item.name)}</strong> <span class="unlisted-tag" style="margin-left: 6px;">Special Item</span></span>
-                            <div style="color:#64748b; font-size:12px; margin-top:3px;">Serial: ${escapeHtml(item.serial || 'Pending Lab Staff Allotment')}</div>
-                        </div>
-                        <span style="font-weight:600; color:#2563eb;">Qty: ${item.qty}</span>
-                    `;
-                } else {
-                    itemDiv.innerHTML = `
-                        <span><strong>${escapeHtml(item.name)}</strong> <span style="color:#64748b; font-size:12px;">(${escapeHtml(item.serial || 'N/A')})</span></span>
-                        <span style="font-weight:600; color:#2563eb;">Qty: ${item.qty}</span>
-                    `;
-                }
-                itemsContainer.appendChild(itemDiv);
-            });
-
-            document.getElementById('requestModal').classList.add('open');
-        }
-
-        function closeModal() {
-            document.getElementById('requestModal').classList.remove('open');
-        }
-
-        function handleOverlayClick(event) {
-            if (event.target === document.getElementById('requestModal')) {
-                closeModal();
-            }
-        }
-
-        // Unlisted Request Modal Logic
-        function setDefaultDueDate() {
-            const dateInput = document.getElementById('unlistedDueDate');
-            if (!dateInput) return;
-            const now = new Date();
-            const minStr = now.toISOString().split('T')[0];
-            dateInput.min = minStr;
-
-            const future = new Date();
-            future.setDate(future.getDate() + 7);
-            const yyyy = future.getFullYear();
-            const mm = String(future.getMonth() + 1).padStart(2, '0');
-            const dd = String(future.getDate()).padStart(2, '0');
-            dateInput.value = `${yyyy}-${mm}-${dd}`;
-        }
-
-        function openUnlistedModal() {
-            setDefaultDueDate();
-            const modal = document.getElementById('unlistedModal');
-            if (modal) {
-                modal.classList.add('open');
-                setTimeout(() => {
-                    const firstInput = document.getElementById('unlistedCompName');
-                    if (firstInput) firstInput.focus();
-                }, 100);
-            }
-        }
-
-        function closeUnlistedModal() {
-            const modal = document.getElementById('unlistedModal');
-            if (modal) {
-                modal.classList.remove('open');
-            }
-        }
-
-        function handleUnlistedOverlayClick(event) {
-            if (event.target === document.getElementById('unlistedModal')) {
-                closeUnlistedModal();
-            }
-        }
-
-        // Form Submit Handler
-        function handleUnlistedFormSubmit(e) {
-            e.preventDefault();
-
-            const compName = document.getElementById('unlistedCompName').value.trim();
-            const category = document.getElementById('unlistedCategory').value;
-            const qty = parseInt(document.getElementById('unlistedQuantity').value, 10) || 1;
-            const rawDueDate = document.getElementById('unlistedDueDate').value;
-            const priority = document.getElementById('unlistedPriority').value;
-            const partRef = document.getElementById('unlistedPartRef').value.trim();
-            const purpose = document.getElementById('unlistedPurpose').value.trim();
-
-            if (!compName || !category || !purpose || !rawDueDate) {
-                alert('Please fill in all required fields.');
-                return;
-            }
-
-            const formattedDue = formatDateDisplay(rawDueDate);
-            const submittedDate = getTodayDisplay();
-            const newId = generateRequestId();
-
-            // Retrieve student profile if available
-            let studentName = 'Arjun Sharma';
-            let studentRoll = 'CS21B001';
-            let studentDept = 'Computer Science';
-            try {
-                const profile = JSON.parse(localStorage.getItem('tinkerlab_profile') || '{}');
-                if (profile.fullName) studentName = profile.fullName;
-                if (profile.rollNumber) studentRoll = profile.rollNumber;
-                if (profile.department) studentDept = profile.department;
-            } catch (err) {}
-
-            const newRequest = {
-                id: newId,
-                isUnlisted: true,
-                status: 'Pending',
-                statusClass: 'badge-pending',
-                submitted: submittedDate,
-                due: formattedDue,
-                rawDueDate: rawDueDate,
-                purpose: purpose,
-                componentName: compName,
-                category: category,
-                quantity: qty,
-                priority: priority,
-                partRef: partRef,
-                studentName: studentName,
-                studentRoll: studentRoll,
-                studentDept: studentDept,
-                items: [
-                    {
-                        name: compName,
-                        qty: qty,
-                        serial: 'UNLISTED / PENDING ALLOCATION',
-                        isUnlisted: true,
-                        category: category,
-                        partRef: partRef
-                    }
-                ]
-            };
-
-            // 1. Add to active memory requestData
-            requestData[newId] = newRequest;
-
-            // 2. Persist in localStorage
-            const customList = getCustomRequests();
-            customList.unshift(newRequest);
-            saveCustomRequests(customList);
-
-            // 3. Insert new row at the top of table body
-            const tbody = document.getElementById('requestsTableBody');
-            const newRow = createRequestRowElement(newRequest);
-            if (tbody.firstChild) {
-                tbody.insertBefore(newRow, tbody.firstChild);
-            } else {
-                tbody.appendChild(newRow);
-            }
-
-            // 4. Update filter badges and active view
-            updateFilterPillsCount();
-            applyCurrentFilter();
-
-            // 5. Reset form and close dialog
-            document.getElementById('unlistedRequestForm').reset();
-            setDefaultDueDate();
-            closeUnlistedModal();
-
-            // 6. Show toast confirmation
-            showToast(`Unlisted request for "${compName}" submitted successfully!`);
-        }
-
-        // Close on Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeModal();
-                closeUnlistedModal();
-            }
-        });
-
-        // Initialize custom requests on page load
-        (function initRequestsPage() {
-            try {
-                // Populate custom requests from storage
-                const customList = getCustomRequests();
-                const tbody = document.getElementById('requestsTableBody');
-
-                // Add to requestData and prepend to table
-                customList.slice().reverse().forEach(req => {
-                    requestData[req.id] = req;
-                    const rowEl = createRequestRowElement(req);
-                    if (tbody.firstChild) {
-                        tbody.insertBefore(rowEl, tbody.firstChild);
-                    } else {
-                        tbody.appendChild(rowEl);
-                    }
-                });
-
-                // Update filter badges
-                updateFilterPillsCount();
-                applyCurrentFilter();
-                setDefaultDueDate();
-
-                // Sync user profile name in sidebar
-                const p = JSON.parse(localStorage.getItem('tinkerlab_profile') || '{}');
-                if (p.fullName) {
-                    const nameEl = document.getElementById('sidebarUserName');
-                    if (nameEl) nameEl.textContent = p.fullName;
-                }
-                if (p.rollNumber) {
-                    const idEl = document.getElementById('sidebarUserId');
-                    if (idEl) idEl.innerHTML = `${p.rollNumber} &bull; Student`;
-                }
-            } catch (err) {
-                console.error('Error initializing requests page:', err);
-            }
-        })();
-    </script>
+    <!-- External Modular Scripts -->
+<script src="../js/storage.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/requests.js"></script>
 </body>
 </html>
 
