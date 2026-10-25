@@ -77,7 +77,7 @@
         <!-- Logged In User Card -->
         <div class="user-profile-badge">
             <span class="user-role-label">Logged in as</span>
-            <span class="user-name">Dr. Meera Krishnan</span>
+            <span class="user-name" id="sidebarTeacherName">Dr. Meera Krishnan</span>
             <span class="user-id">Lab Administrator</span>
         </div>
     </aside>
@@ -395,5 +395,16 @@
         </main>
     </div>
 
+    <script>
+        (function syncTeacherSidebar() {
+            try {
+                const profile = JSON.parse(localStorage.getItem('tinkerlab_teacher_profile') || '{}');
+                if (profile && profile.fullName) {
+                    const el = document.getElementById('sidebarTeacherName');
+                    if (el) el.textContent = profile.fullName;
+                }
+            } catch (e) {}
+        })();
+    </script>
 </body>
 </html>
