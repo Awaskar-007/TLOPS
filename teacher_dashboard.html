@@ -106,7 +106,24 @@
             <!-- Header section matching reference -->
             <div class="dashboard-header">
                 <h1 class="page-title">Lab Administrator Dashboard</h1>
-                <p class="page-subtitle">Thursday, 14 August 2026 &middot; NITK Electronics Tinkering Lab</p>
+            
+                <p class="page-subtitle" id="dashboardDateLabel">Loading date...</p>
+
+                <script>
+                 const dashboardDateLabel = document.getElementById('dashboardDateLabel');
+                 if (dashboardDateLabel) {
+                 const now = new Date();
+
+                 const formattedDate = new Intl.DateTimeFormat('en-GB', {
+                 weekday: 'long',
+                 day: 'numeric',
+                 month: 'long',
+                 year: 'numeric'
+                 }).format(now);
+
+                 dashboardDateLabel.textContent = `${formattedDate} · BML MUNJAL TINKERING LAB`;
+                    }
+               </script>
             </div>
 
             <!-- 6 KPI Stat Cards Grid -->
