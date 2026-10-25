@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Request History - TinkerLab Teacher View</title>
-    <link rel="stylesheet" href="teacher_history.css">
+    <link rel="stylesheet" href="../css/teacher/history.css">
 </head>
 <body>
 
@@ -27,7 +27,7 @@
 
         <!-- Navigation Links -->
         <nav class="nav-menu">
-            <a href="teacher_dashboard.html" class="nav-item">
+            <a href="dashboard.html" class="nav-item">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="7" height="7" rx="1"></rect>
                     <rect x="14" y="3" width="7" height="7" rx="1"></rect>
@@ -37,7 +37,7 @@
                 <span>Dashboard</span>
             </a>
 
-            <a href="teacher_requests.html" class="nav-item">
+            <a href="requests.html" class="nav-item">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                     <polyline points="14 2 14 8 20 8"></polyline>
@@ -48,7 +48,7 @@
                 <span>Requests</span>
             </a>
 
-            <a href="teacher_inventory.html" class="nav-item">
+            <a href="inventory.html" class="nav-item">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
                     <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
@@ -57,7 +57,7 @@
                 <span>Inventory</span>
             </a>
 
-            <a href="teacher_history.html" class="nav-item active">
+            <a href="history.html" class="nav-item active">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
                     <polyline points="12 6 12 12 16 14"></polyline>
@@ -65,7 +65,7 @@
                 <span>History</span>
             </a>
 
-            <a href="teacher_profile.html" class="nav-item">
+            <a href="profile.html" class="nav-item">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                     <circle cx="12" cy="7" r="4"></circle>
@@ -90,7 +90,7 @@
                 <span class="header-breadcrumb">Request History</span>
             </div>
             <div class="header-right">
-        <a href="index.html" class="logout-btn" title="Sign out of TinkerLab">
+        <a href="../index.html" class="logout-btn" title="Sign out of TinkerLab">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                 <polyline points="16 17 21 12 16 7"></polyline>
@@ -152,7 +152,7 @@
                             <td><span class="comp-list">Arduino Uno R3, HC-SR04 Ultraso...</span></td>
                             <td><span class="req-date">14 Aug 2026</span></td>
                             <td><span class="badge badge-pending">Pending</span></td>
-                            <td><a href="teacher_review_request.html?id=req001&from=history" class="view-link">View &rarr;</a></td>
+                            <td><a href="review-request.html?id=req001&from=history" class="view-link">View &rarr;</a></td>
                         </tr>
 
                         <!-- Row 2: req002 -->
@@ -167,7 +167,7 @@
                             <td><span class="comp-list">ESP32 Dev Board, NRF24L01 RF Mo...</span></td>
                             <td><span class="req-date">14 Aug 2026</span></td>
                             <td><span class="badge badge-pending">Pending</span></td>
-                            <td><a href="teacher_review_request.html?id=req002&from=history" class="view-link">View &rarr;</a></td>
+                            <td><a href="review-request.html?id=req002&from=history" class="view-link">View &rarr;</a></td>
                         </tr>
 
                         <!-- Row 3: req003 -->
@@ -182,7 +182,7 @@
                             <td><span class="comp-list">SG90 Servo Motor, L298N Motor D...</span></td>
                             <td><span class="req-date">13 Aug 2026</span></td>
                             <td><span class="badge badge-pending">Pending</span></td>
-                            <td><a href="teacher_review_request.html?id=req003&from=history" class="view-link">View &rarr;</a></td>
+                            <td><a href="review-request.html?id=req003&from=history" class="view-link">View &rarr;</a></td>
                         </tr>
 
                         <!-- Row 4: req004 -->
@@ -197,7 +197,7 @@
                             <td><span class="comp-list">OLED Display 0.96", ESP32 Dev Bo...</span></td>
                             <td><span class="req-date">12 Aug 2026</span></td>
                             <td><span class="badge badge-approved">Approved</span></td>
-                            <td><a href="teacher_review_request.html?id=req004&from=history" class="view-link">View &rarr;</a></td>
+                            <td><a href="review-request.html?id=req004&from=history" class="view-link">View &rarr;</a></td>
                         </tr>
 
                         <!-- Row 5: req005 -->
@@ -212,7 +212,7 @@
                             <td><span class="comp-list">18650 Li-Ion Cell, TP4056 Chargin...</span></td>
                             <td><span class="req-date">11 Aug 2026</span></td>
                             <td><span class="badge badge-approved">Approved</span></td>
-                            <td><a href="teacher_review_request.html?id=req005&from=history" class="view-link">View &rarr;</a></td>
+                            <td><a href="review-request.html?id=req005&from=history" class="view-link">View &rarr;</a></td>
                         </tr>
 
                         <!-- Row 6: req006 -->
@@ -227,7 +227,7 @@
                             <td><span class="comp-list">Raspberry Pi 4 Model B</span></td>
                             <td><span class="req-date">10 Aug 2026</span></td>
                             <td><span class="badge badge-rejected">Rejected</span></td>
-                            <td><a href="teacher_review_request.html?id=req006&from=history" class="view-link">View &rarr;</a></td>
+                            <td><a href="review-request.html?id=req006&from=history" class="view-link">View &rarr;</a></td>
                         </tr>
 
                         <!-- Row 7: req007 -->
@@ -242,7 +242,7 @@
                             <td><span class="comp-list">Jumper Wires M-M 40pcs, Breadb...</span></td>
                             <td><span class="req-date">8 Aug 2026</span></td>
                             <td><span class="badge badge-completed">Completed</span></td>
-                            <td><a href="teacher_review_request.html?id=req007&from=history" class="view-link">View &rarr;</a></td>
+                            <td><a href="review-request.html?id=req007&from=history" class="view-link">View &rarr;</a></td>
                         </tr>
 
                         <!-- Row 8: req008 -->
@@ -257,7 +257,7 @@
                             <td><span class="comp-list">MPU-6050 IMU, Arduino Uno R3</span></td>
                             <td><span class="req-date">7 Aug 2026</span></td>
                             <td><span class="badge badge-completed">Completed</span></td>
-                            <td><a href="teacher_review_request.html?id=req008&from=history" class="view-link">View &rarr;</a></td>
+                            <td><a href="review-request.html?id=req008&from=history" class="view-link">View &rarr;</a></td>
                         </tr>
                     </tbody>
                 </table>

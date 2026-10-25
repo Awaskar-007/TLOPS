@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lab Administrator Dashboard - TinkerLab</title>
-    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="../css/teacher/dashboard.css">
 </head>
 <body>
 
@@ -37,7 +37,7 @@
                 <span>Dashboard</span>
             </a>
 
-            <a href="teacher_requests.html" class="nav-item">
+            <a href="requests.html" class="nav-item">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                     <polyline points="14 2 14 8 20 8"></polyline>
@@ -48,7 +48,7 @@
                 <span>Requests</span>
             </a>
 
-            <a href="teacher_inventory.html" class="nav-item">
+            <a href="inventory.html" class="nav-item">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
                     <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
@@ -57,7 +57,7 @@
                 <span>Inventory</span>
             </a>
 
-            <a href="teacher_history.html" class="nav-item">
+            <a href="history.html" class="nav-item">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
                     <polyline points="12 6 12 12 16 14"></polyline>
@@ -65,7 +65,7 @@
                 <span>History</span>
             </a>
 
-            <a href="teacher_profile.html" class="nav-item">
+            <a href="profile.html" class="nav-item">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                     <circle cx="12" cy="7" r="4"></circle>
@@ -90,7 +90,7 @@
                 <span class="header-breadcrumb">Dashboard</span>
             </div>
             <div class="header-right">
-        <a href="index.html" class="logout-btn" title="Sign out of TinkerLab">
+        <a href="../index.html" class="logout-btn" title="Sign out of TinkerLab">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                 <polyline points="16 17 21 12 16 7"></polyline>
@@ -106,7 +106,24 @@
             <!-- Header section matching reference -->
             <div class="dashboard-header">
                 <h1 class="page-title">Lab Administrator Dashboard</h1>
-                <p class="page-subtitle">Thursday, 14 August 2026 &middot; NITK Electronics Tinkering Lab</p>
+            
+                <p class="page-subtitle" id="dashboardDateLabel">Loading date...</p>
+
+                <script>
+                 const dashboardDateLabel = document.getElementById('dashboardDateLabel');
+                 if (dashboardDateLabel) {
+                 const now = new Date();
+
+                 const formattedDate = new Intl.DateTimeFormat('en-GB', {
+                 weekday: 'long',
+                 day: 'numeric',
+                 month: 'long',
+                 year: 'numeric'
+                 }).format(now);
+
+                 dashboardDateLabel.textContent = `${formattedDate} · BML MUNJAL TINKERING LAB`;
+                    }
+               </script>
             </div>
 
             <!-- 6 KPI Stat Cards Grid -->
@@ -211,7 +228,7 @@
                 <section class="dashboard-panel requests-panel">
                     <div class="panel-header">
                         <h2 class="panel-title">Pending Requests</h2>
-                        <a href="teacher_requests.html" class="panel-link">View all &rarr;</a>
+                        <a href="requests.html" class="panel-link">View all &rarr;</a>
                     </div>
 
                     <div class="panel-list">
@@ -236,7 +253,7 @@
                                 </div>
                             </div>
                             <div class="item-right">
-                                <a href="teacher_requests.html" class="review-link">Review &rarr;</a>
+                                <a href="requests.html" class="review-link">Review &rarr;</a>
                             </div>
                         </div>
 
@@ -261,7 +278,7 @@
                                 </div>
                             </div>
                             <div class="item-right">
-                                <a href="teacher_requests.html" class="review-link">Review &rarr;</a>
+                                <a href="requests.html" class="review-link">Review &rarr;</a>
                             </div>
                         </div>
 
@@ -286,7 +303,7 @@
                                 </div>
                             </div>
                             <div class="item-right">
-                                <a href="teacher_requests.html" class="review-link">Review &rarr;</a>
+                                <a href="requests.html" class="review-link">Review &rarr;</a>
                             </div>
                         </div>
                     </div>
@@ -296,7 +313,7 @@
                 <section class="dashboard-panel alerts-panel">
                     <div class="panel-header">
                         <h2 class="panel-title">Stock Alerts</h2>
-                        <a href="teacher_inventory.html" class="panel-link">Manage &rarr;</a>
+                        <a href="inventory.html" class="panel-link">Manage &rarr;</a>
                     </div>
 
                     <div class="panel-list">

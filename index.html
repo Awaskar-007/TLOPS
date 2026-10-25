@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TinkerLab Sign In</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/auth.css">
 </head>
 <body>
     <div class="main-container">
@@ -61,7 +61,7 @@
                     <button type="button" class="role-tab" id="teacherRoleBtn" data-role="teacher">Teacher</button>
                 </div>
                 
-                <form id="signInForm" action="student.html">
+                <form id="signInForm" action="student/dashboard.html">
                     <div class="input-group">
                         <label for="email">Institute Email</label>
                         <input type="email" id="email" placeholder="cse001@bmu.edu.in" required>
@@ -93,12 +93,12 @@
                 studentRoleBtn.classList.remove('active');
                 teacherRoleBtn.classList.add('active');
                 emailInput.placeholder = 'teacher_name.surname@bmu.edu.in';
-                signInForm.action = 'teacher_dashboard.html';
+                signInForm.action = 'teacher/dashboard.html';
             } else {
                 teacherRoleBtn.classList.remove('active');
                 studentRoleBtn.classList.add('active');
                 emailInput.placeholder = 'cse001@bmu.edu.in';
-                signInForm.action = 'student.html';
+                signInForm.action = 'student/dashboard.html';
             }
         }
 
@@ -109,9 +109,9 @@
             e.preventDefault();
             localStorage.setItem('tinkerlab_role', currentRole);
             if (currentRole === 'teacher') {
-                window.location.href = 'teacher_dashboard.html';
+                window.location.href = 'teacher/dashboard.html';
             } else {
-                window.location.href = 'student.html';
+                window.location.href = 'student/dashboard.html';
             }
         });
     </script>
