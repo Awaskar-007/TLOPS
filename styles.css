@@ -1,0 +1,5 @@
+/**
+ * styles.css - Reusable authentication styles
+ * Imports and forwards styles from css/auth.css for TinkerLab authentication pages.
+ */
+@import url("css/auth.css");
