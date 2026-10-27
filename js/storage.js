@@ -63,3 +63,35 @@ function removeData(key) {
 window.getData = getData;
 window.saveData = saveData;
 window.removeData = removeData;
+
+// Seed initial default test accounts if 'users' array does not exist in localStorage
+(function initDefaultAccounts() {
+    try {
+        const existingUsers = getData('users');
+        if (!existingUsers || !Array.isArray(existingUsers) || existingUsers.length === 0) {
+            const defaultUsers = [
+                {
+                    fullName: 'Arjun Sharma',
+                    email: 'cse001@bmu.edu.in',
+                    role: 'student',
+                    password: 'Password@123',
+                    id: 'CS21B001',
+                    department: 'Computer Science',
+                    registeredAt: new Date().toISOString()
+                },
+                {
+                    fullName: 'Dr. Meera Krishnan',
+                    email: 'meera.k@bmu.edu.in',
+                    role: 'teacher',
+                    password: 'Password@123',
+                    id: 'ECE-FAC-012',
+                    department: 'Electronics & Communication Engineering',
+                    registeredAt: new Date().toISOString()
+                }
+            ];
+            saveData('users', defaultUsers);
+        }
+    } catch (e) {
+        console.warn('[storage.js] Error seeding default accounts:', e);
+    }
+})();

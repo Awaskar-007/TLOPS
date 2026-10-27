@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (role === 'teacher') {
             studentRoleBtn.classList.remove('active');
             teacherRoleBtn.classList.add('active');
-            emailInput.placeholder = 'teacher_name.surname@bmu.edu.in';
+            emailInput.placeholder = 'meera.k@bmu.edu.in';
             signInForm.setAttribute('action', 'teacher/dashboard.html');
         } else {
             teacherRoleBtn.classList.remove('active');
