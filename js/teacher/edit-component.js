@@ -5,9 +5,25 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Icon selection toggle
+    const iconButtons = document.querySelectorAll('.icon-btn');
+    iconButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            iconButtons.forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+        });
+    });
+
     const saveBtn = document.querySelector('.btn-save-comp');
     if (saveBtn) {
         saveBtn.addEventListener('click', (e) => {
+            const nameInput = document.getElementById('compName');
+            if (nameInput && !nameInput.value.trim()) {
+                e.preventDefault();
+                alert('Component name cannot be empty.');
+                nameInput.focus();
+                return;
+            }
             console.log('[edit-component.js] Saving component modifications.');
         });
     }
