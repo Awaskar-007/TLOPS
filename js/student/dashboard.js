@@ -2,8 +2,8 @@
  * student-dashboard.js - Student Dashboard Controller
  * 
  * Dynamically displays available inventory from localStorage (JSON),
- * allows quick "+1" additions to the cart, calculates live KPI metrics,
- * and renders student's recent requests from shared storage.
+ * includes live search filtering, allows quick "+1" additions to the cart,
+ * calculates live KPI metrics, and renders student's recent requests from shared storage.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -34,24 +34,33 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!inventoryHeading) return;
 
         const inventory = (typeof getInventory === 'function') ? getInventory() : [];
+        const searchInput = document.getElementById('studentInventorySearch');
 
-        // Remove old dynamic or static items between #inventory and the next <hr>
-        let nextEl = inventoryHeading.nextElementSibling;
-        while (nextEl && nextEl.tagName !== 'HR' && !nextEl.classList.contains('toast-notice')) {
-            const toRemove = nextEl;
-            nextEl = nextEl.nextElementSibling;
+        // Locate or create container for dynamic inventory items
+        let itemsContainer = document.getElementById('studentInventoryContainer');
+        if (!itemsContainer) {
+            itemsContainer = document.createElement('div');
+            itemsContainer.id = 'studentInventoryContainer';
+
+            // Insert after the search input wrapper (or after #inventory)
+            const searchWrap = searchInput ? searchInput.parentElement : inventoryHeading;
+            searchWrap.after(itemsContainer);
+        }
+
+        // Clean any existing static elements between #inventory / search and the next <hr>
+        let sibling = itemsContainer.nextElementSibling;
+        while (sibling && sibling.tagName !== 'HR' && !sibling.classList.contains('toast-notice')) {
+            const toRemove = sibling;
+            sibling = sibling.nextElementSibling;
             toRemove.remove();
         }
 
+        itemsContainer.innerHTML = '';
+
         if (inventory.length === 0) {
-            const emptyP = document.createElement('p');
-            emptyP.textContent = 'No components currently in inventory.';
-            inventoryHeading.after(emptyP);
+            itemsContainer.innerHTML = '<p style="color: #64748b; margin: 12px 0;">No components currently in inventory.</p>';
             return;
         }
-
-        // Insert items right after the #inventory heading in reverse so they appear in correct order
-        const frag = document.createDocumentFragment();
 
         inventory.forEach(item => {
             const safeName = escapeHtml(item.name);
@@ -62,11 +71,21 @@ document.addEventListener('DOMContentLoaded', () => {
             if (qty <= 0) statusText = 'Out of Stock';
             else if (qty <= minThreshold) statusText = 'Low Stock';
 
+            const card = document.createElement('div');
+            card.className = 'student-inventory-item';
+            card.setAttribute('data-name', (item.name || '').toLowerCase());
+            card.setAttribute('data-desc', (item.description || '').toLowerCase());
+            card.setAttribute('data-cat', (item.category || '').toLowerCase());
+            card.style.marginBottom = '18px';
+
             const h3 = document.createElement('h3');
             h3.textContent = item.name;
+            h3.style.margin = '0 0 4px 0';
 
             const p = document.createElement('p');
-            p.textContent = `${qty} in stock - ${statusText}`;
+            p.textContent = `${qty} in stock - ${statusText} · ${item.category || 'General'}`;
+            p.style.margin = '0 0 8px 0';
+            p.style.color = qty <= 0 ? '#ef4444' : '#64748b';
 
             const btn = document.createElement('button');
             btn.type = 'button';
@@ -90,12 +109,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 showToast(`${safeName} added! <a href="cart.html" style="color:#93c5fd; text-decoration:underline; font-weight:600; margin-left:6px;">View Cart &rarr;</a>`);
             });
 
-            frag.appendChild(h3);
-            frag.appendChild(p);
-            frag.appendChild(btn);
+            card.appendChild(h3);
+            card.appendChild(p);
+            card.appendChild(btn);
+            itemsContainer.appendChild(card);
         });
 
-        inventoryHeading.after(frag);
+        // Live search filter listener
+        if (searchInput) {
+            searchInput.addEventListener('input', () => {
+                const q = searchInput.value.toLowerCase().trim();
+                const cards = itemsContainer.querySelectorAll('.student-inventory-item');
+                cards.forEach(c => {
+                    const name = c.getAttribute('data-name') || '';
+                    const desc = c.getAttribute('data-desc') || '';
+                    const cat = c.getAttribute('data-cat') || '';
+                    const match = !q || name.includes(q) || desc.includes(q) || cat.includes(q);
+                    c.style.display = match ? 'block' : 'none';
+                });
+            });
+        }
     }
 
     /**
@@ -219,4 +252,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderInventoryItems();
     renderRecentRequestsAndMetrics();
+
+    // Check for flash toast messages
+    if (typeof getData === 'function') {
+        const flashMsg = getData('tlops_flash_toast');
+        if (flashMsg) {
+            showToast(flashMsg);
+            if (typeof removeData === 'function') removeData('tlops_flash_toast');
+        }
+    }
 });

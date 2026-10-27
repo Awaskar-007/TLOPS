@@ -104,15 +104,21 @@
         <!-- Main Body Content -->
         <main class="content-container">
             <!-- Header section matching reference -->
-            <div class="dashboard-header">
-                <h1 class="page-title">Lab Administrator Dashboard</h1>
-            
-                <p class="page-subtitle" id="dashboardDateLabel">Loading date...</p>
-
-                
+                        <div class="dashboard-header-row">
+                <div class="dashboard-header">
+                    <h1 class="page-title">Lab Administrator Dashboard</h1>
+                    <p class="page-subtitle" id="dashboardDateLabel">Loading date...</p>
+                </div>
+                <button type="button" class="btn-export-data" id="btnExportData" title="Export all users, requests, and inventory as JSON files">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span>Export Data</span>
+                </button>
             </div>
-
-            <!-- 6 KPI Stat Cards Grid -->
+<!-- 6 KPI Stat Cards Grid -->
             <div class="stats-grid">
                 <!-- Card 1: Pending Requests -->
                 <div class="stat-card">
@@ -386,5 +392,10 @@
 <script src="../js/data.js"></script>
 <script src="../js/common.js"></script>
 <script src="../js/teacher/dashboard.js"></script>
+
+    <!-- Toast Notification -->
+    <div class="toast-notice" id="toastNotice">
+        <span id="toastMessage">Action completed successfully!</span>
+    </div>
 </body>
 </html>

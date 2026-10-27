@@ -2,7 +2,7 @@
  * add-component.js - Add New Laboratory Component Controller
  * 
  * Handles new component form validation, icon selection, and persistence
- * into the shared localStorage inventory dataset.
+ * into the shared localStorage inventory dataset with success toast notification.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Map title/index to iconType
     const iconButtons = document.querySelectorAll('.icon-btn');
-    iconButtons.forEach((btn, idx) => {
+    iconButtons.forEach((btn) => {
         btn.addEventListener('click', () => {
             iconButtons.forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
@@ -46,7 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const rawCat = categorySelect ? categorySelect.value : 'microcontrollers';
-            // Format category name neatly
             const catMap = {
                 'microcontrollers': 'Microcontrollers',
                 'sensors': 'Sensors',
@@ -67,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (qtyVal <= 0) status = 'Out of Stock';
             else if (qtyVal <= minVal) status = 'Low Stock';
 
-            // Generate clean ID
             const cleanId = 'comp_' + nameVal.toLowerCase().replace(/[^a-z0-9]+/g, '_') + '_' + Date.now();
 
             const newComponent = {
@@ -87,6 +85,11 @@ document.addEventListener('DOMContentLoaded', () => {
             inventory.push(newComponent);
             if (typeof saveInventory === 'function') {
                 saveInventory(inventory);
+            }
+
+            // Save flash toast for inventory page
+            if (typeof saveData === 'function') {
+                saveData('tlops_flash_toast', 'Component "' + nameVal + '" added successfully to inventory!');
             }
 
             // Redirect back to inventory page

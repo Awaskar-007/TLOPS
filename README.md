@@ -1,153 +1,90 @@
-# 🛠️ TLOPS — Tinkering Lab Operations & Inventory System
+# 🛠️ TLOPS — Tinkering Lab Operations & Inventory Management System
 
-<p align="center">
-  <b>A centralized, real-time lab inventory and component checkout system designed for college tinkering labs and maker spaces.</b>
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Status-Active_Development-brightgreen?style=flat-square" alt="Status">
-  <img src="https://img.shields.io/badge/Frontend-HTML5_%7C_CSS3_%7C_JS-blue?style=flat-square" alt="Tech">
-  <img src="https://img.shields.io/badge/Hosting-GitHub_Pages-orange?style=flat-square" alt="GitHub Pages">
-  <img src="https://img.shields.io/badge/Institute-BML_Munjal_University-navy?style=flat-square" alt="BMU">
-</p>
+A multi-page, serverless laboratory inventory tracking and equipment requisition system designed for university tinkering labs and maker spaces.
 
 ---
 
-## 📖 Origin Story
+## 🚀 Overview & Key Features
 
-One day, we visited the tinkering lab at our university to collect materials for our engineering project. We saw our teacher overwhelmed trying to track, allot, and record components manually on paper as dozens of students rushed in simultaneously with varied requests. 
-
-When given an opportunity to build a project for our course curriculum, we knew this was the exact real-world problem we needed to solve. **TLOPS** was born to eliminate manual registers, streamline component allotment, prevent equipment loss, and make lab management effortless for teachers and students alike.
-
----
-
-## 🌟 Key Features
-
-### 🎓 Student Portal (`/student`)
-- **Interactive Component Catalog**: Browse microcontrollers (Arduino Uno, ESP32, Raspberry Pi 4), sensors, and tools with live stock indicators.
-- **Request Cart**: Add multiple lab components to a unified checkout cart.
-- **Custom Request Specifications**: Specify the required duration (due date), purpose/project reason, and request custom or out-of-stock parts.
-- **Live Status Tracking**: Track requests in real time across lifecycle stages (`Pending`, `Approved`, `Completed`).
-- **Student Profile**: View registered student ID, department, email, and historical requests.
-
-### 👨‍🏫 Teacher / Lab Admin Portal (`/teacher`)
-- **Executive Metrics Dashboard**: Overview of total inventory, active borrows, pending approvals, and low-stock alerts with dynamic university date headers.
-- **Request Review Queue**: Review incoming student requests with detailed borrower metadata.
-- **One-Click Approval / Rejection**: Approve components for collection or provide rejection reasons.
-- **Inventory Management**: Add new laboratory components, edit quantities, and update equipment specifications.
-- **Audit & History Log**: Searchable history table of all completed and past checkout records.
-
-### ⚡ Zero-Server Data Synchronization
-- Fully functional without requiring an external backend or database setup during prototype testing.
-- Uses synchronized browser `localStorage` across student and teacher views so checkout requests, cart contents, approvals, and profile changes persist instantly in real time.
+- **Zero-Backend Architecture**: All persistent state (user accounts, inventory components, student requests, and checkout cart) is synchronized locally across student and teacher portals using standard browser `localStorage` (JSON).
+- **Role-Based Portals**:
+  - **🎓 Student Portal (`/student`)**: Browse component stock with live search, add items to cart, request unlisted hardware, and monitor request statuses (`Pending`, `Approved`, `Rejected`, `Completed`).
+  - **👨‍🏫 Teacher / Lab Admin Portal (`/teacher`)**: Executive KPI dashboard, incoming review queue, one-click Approve/Reject with faculty notes, component catalog management (Add, Edit, Delete with confirmation), historical audit logs, and one-click JSON data export.
+- **Data Export**: Generates and downloads `users.json`, `requests.json`, and `inventory.json` directly in the browser via Blob URLs.
+- **Action Notifications**: In-app toast banners provide feedback for sign-up, sign-in, request submissions, faculty decisions, and inventory additions/deletions.
 
 ---
 
-## 📂 Repository Structure
+## 📄 Pages Directory
 
-The repository is organized following clean, industry-standard multi-page web architecture:
+### Authentication & Landing
+- [`index.html`](index.html): Role-based sign-in (`Student` / `Teacher`) with institutional email validation, password toggle, and demo accounts.
+- [`signup.html`](signup.html): Student and faculty registration with instant form validation and duplicate email prevention.
 
-```text
-TLOPS/
-├── index.html                  # 🚀 Main entry point & role sign-in (GitHub Pages root)
-│
-├── student/                    # 🎓 Student Portal
-│   ├── index.html              # Quick redirect to dashboard
-│   ├── dashboard.html          # Student inventory browsing & request hub
-│   ├── cart.html               # Cart review & request submission
-│   ├── requests.html           # My Requests tracking table & custom requests modal
-│   └── profile.html            # Student profile details
-│
-├── teacher/                    # 👨‍🏫 Teacher / Lab Admin Portal
-│   ├── index.html              # Quick redirect to dashboard
-│   ├── dashboard.html          # Admin dashboard & laboratory statistics
-│   ├── requests.html           # Incoming student request queue
-│   ├── review-request.html     # Request approval & component inspection
-│   ├── inventory.html          # Lab equipment stock management
-│   ├── add-component.html      # Add new equipment modal/page
-│   ├── edit-component.html     # Edit equipment details modal/page
-│   ├── history.html            # Historical checkout logs
-│   └── profile.html            # Lab administrator profile
-│
-├── css/                        # 🎨 Organized Stylesheets
-│   ├── auth.css                # Sign-in & landing page styling
-│   ├── student/                # Student-specific styles
-│   │   ├── dashboard.css
-│   │   ├── cart-profile.css
-│   │   └── requests.css
-│   └── teacher/                # Teacher-specific styles
-│       ├── dashboard.css
-│       ├── requests.css
-│       ├── review-request.css
-│       ├── inventory.css
-│       ├── add-component.css
-│       ├── edit-component.css
-│       ├── history.css
-│       └── profile.css
-│
-├── js/                         # ⚡ Modular JavaScript Controllers
-│   ├── storage.js              # Safe localStorage getData/saveData helpers with try/catch
-│   ├── common.js               # Route auth guard, sidebar sync, logout behavior
-│   ├── login.js                # Sign-in & role toggling
-│   ├── student-dashboard.js    # Student catalog & quick cart add
-│   ├── cart.js                 # Cart calculation & checkout submission
-│   ├── requests.js             # Student requests table & unlisted parts modal
-│   ├── student-profile.js      # Student profile editing & persistence
-│   ├── teacher-dashboard.js    # Teacher dashboard metrics & live university date
-│   ├── teacher-requests.js     # Teacher request review queue & live search
-│   ├── review-request.js       # Teacher 1-click Approve/Reject decision logic
-│   ├── inventory.js            # Equipment catalog filtering
-│   ├── add-component.js        # Add equipment modal handling
-│   ├── edit-component.js       # Edit equipment specifications
-│   ├── teacher-history.js      # Completed & rejected records filter
-│   └── teacher-profile.js      # Lab administrator profile settings
-│
-├── assets/                     # 🖼️ Static Media & Graphics
-│   ├── icons/                  # SVG icons & symbols
-│   └── images/                 # Component images & banners
-│
-├── .gitignore                  # Git ignore rules for OS & IDE files
-└── README.md                   # Project documentation
-```
+### Student Portal (`/student`)
+- [`student/dashboard.html`](student/dashboard.html): Real-time KPI summary cards, live search inventory quick browse, `+1` cart buttons, and recent request status.
+- [`student/cart.html`](student/cart.html): Component quantity controls, return date selector, purpose justification validation, and request submission.
+- [`student/requests.html`](student/requests.html): Filterable My Requests table (`All`, `Pending`, `Approved`, `Rejected`, `Completed`), request details modal, and unlisted component requisition form.
+- [`student/profile.html`](student/profile.html): Editable student profile with instant sidebar user synchronization.
+
+### Teacher / Admin Portal (`/teacher`)
+- [`teacher/dashboard.html`](teacher/dashboard.html): Executive metric cards, live university date header, pending requests queue, and **Export Data** button.
+- [`teacher/requests.html`](teacher/requests.html): All pending borrowing requests with borrower details, requested items, and review navigation.
+- [`teacher/review-request.html`](teacher/review-request.html): Request inspection, rack location details, stock indicators, and Approve/Reject decision modal with faculty comments.
+- [`teacher/inventory.html`](teacher/inventory.html): Equipment catalog with dual real-time text search and category dropdown filters.
+- [`teacher/add-component.html`](teacher/add-component.html): New component specification form with icon presets and validation.
+- [`teacher/edit-component.html`](teacher/edit-component.html): Modify component specifications, stock thresholds, and delete items with native confirmation.
+- [`teacher/history.html`](teacher/history.html): Audit log of all past and completed requests with status pill filters.
+- [`teacher/profile.html`](teacher/profile.html): Administrator profile management with live "Logged in as" synchronization across all admin headers.
 
 ---
 
-## 🚀 Getting Started
+## 🎬 End-to-End Demo Flow
 
-### 1. Run Locally (No Installation Required)
-Since TLOPS is built using standard native web technologies, it requires **zero setup**:
-1. Clone or download this repository:
-   ```bash
-   git clone https://github.com/Awaskar-007/TLOPS.git
-   ```
-2. Open `index.html` in any web browser (Chrome, Edge, Firefox, Safari) by double-clicking it.
-3. Or open the project in **VS Code** and click **"Go Live"** using the **Live Server** extension.
+Follow these steps to experience the complete shared-state workflow:
 
-### 2. Deploy to GitHub Pages (1-Click Hosting)
-1. In your GitHub repository, navigate to **Settings** > **Pages**.
-2. Under **Build and deployment** > **Source**, choose **Deploy from a branch**.
-3. Select branch: `main` and folder: `/ (root)`.
-4. Click **Save**. Your site will be live at:
-   ```
-   https://<your-username>.github.io/TLOPS/
-   ```
+1. **Sign Up / Sign In**:
+   - Open [`index.html`](index.html) in any browser.
+   - You can click **Sign Up** to create a new student or teacher account, or use the pre-seeded demo accounts:
+     - **Student**: `cse001@bmu.edu.in` / `Password@123`
+     - **Teacher**: `meera.k@bmu.edu.in` / `Password@123`
+   - Sign in as **Student** to enter the Student Dashboard.
+
+2. **Student Submits Request**:
+   - Under **Quick Browse**, use the search box to filter components (e.g., type `Arduino` or `Sensor`).
+   - Click **+1** on components to add them to your cart.
+   - Go to **Cart** ([`student/cart.html`](student/cart.html)), specify your return date, enter your project justification, and click **Submit Request**.
+   - A success toast will confirm submission, and the request appears under **My Requests** as `Pending`.
+
+3. **Teacher Approves or Rejects Request**:
+   - Click **Logout** from the header to return to [`index.html`](index.html).
+   - Switch to the **Teacher** tab and sign in using `meera.k@bmu.edu.in` / `Password@123`.
+   - On the **Admin Dashboard**, the Pending Requests counter updates immediately.
+   - Open **Requests** ([`teacher/requests.html`](teacher/requests.html)) and click **Review** on the student's request.
+   - Click **Approve Request** (enter collection notes) or **Reject Request** (enter reason). The decision is saved instantly.
+
+4. **Student Sees Live Update**:
+   - Log back in as **Student** and open **My Requests** ([`student/requests.html`](student/requests.html)).
+   - Notice the status badge and pill counters (`Approved` / `Rejected`) update dynamically.
+   - Click **View →** to see the requested components along with the faculty comment.
+
+5. **Teacher Inventory Management**:
+   - In Teacher view, go to **Inventory** ([`teacher/inventory.html`](teacher/inventory.html)).
+   - Click **+ Add Component** to add a new item, or **Edit** to modify quantities.
+   - Click **Delete Component** to test the confirmation popup and removal.
+   - When you switch back to Student View, the updated inventory and search box reflect these changes in real time.
+
+6. **Export Data**:
+   - On the Teacher Dashboard ([`teacher/dashboard.html`](teacher/dashboard.html)), click **Export Data**.
+   - Your browser will automatically download:
+     - `tlops_users_YYYY-MM-DD.json`
+     - `tlops_requests_YYYY-MM-DD.json`
+     - `tlops_inventory_YYYY-MM-DD.json`
 
 ---
 
-## 🗺️ Roadmap & Future Vision
+## 🛠️ Technology Stack
 
-- [ ] **Node.js Backend & API**: Migrate simulated `localStorage` to an Express/Next.js REST API.
-- [ ] **Database Integration**: Connect MongoDB or PostgreSQL with Prisma ORM for persistent lab records across all devices.
-- [ ] **QR Code Scanning**: Rapid check-in and check-out via camera scan of student ID and equipment tags.
-- [ ] **University Single Sign-On (SSO)**: Direct authentication with institutional Google Workspace / LDAP accounts.
-- [ ] **Automated Email / SMS Alerts**: Notifications when a request is approved or overdue.
-
----
-
-## 👥 Authors & Contributors
-
-- **Devasis Awaskar** — Founder & Fullstack Developer ([GitHub](https://github.com/Awaskar-007))
-- **Aarush Shrivastava** — Founder & Frontend Developer ([GitHub](https://github.com/Highusername))
-- **Manish Bishwokarma** — Founder & Backend Developer ([GitHub](https://github.com/bishwokarmamanish19-star))
----
-
+- **HTML5 & Vanilla JavaScript**: No frameworks, no external dependencies, no build tools required.
+- **CSS3**: Pure custom stylesheets with CSS variables and responsive flex/grid layouts.
+- **Browser Web APIs**: HTML5 `localStorage`, `Blob`, `URL.createObjectURL`, `Intl.DateTimeFormat`.

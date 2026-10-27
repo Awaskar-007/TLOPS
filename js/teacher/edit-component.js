@@ -94,7 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (selectedIconType) currentComp.iconType = selectedIconType;
                 currentComp.status = status;
             } else {
-                // If editing without query param, find by name or add
                 const existingIdx = inventory.findIndex(c => c.name.toLowerCase() === nameVal.toLowerCase());
                 if (existingIdx !== -1) {
                     inventory[existingIdx].qty = qtyVal;
@@ -107,6 +106,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (typeof saveInventory === 'function') {
                 saveInventory(inventory);
+            }
+
+            if (typeof saveData === 'function') {
+                saveData('tlops_flash_toast', 'Component "' + nameVal + '" updated successfully!');
             }
 
             window.location.href = 'inventory.html';
@@ -131,6 +134,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (typeof saveInventory === 'function') {
                     saveInventory(updated);
+                }
+
+                if (typeof saveData === 'function') {
+                    saveData('tlops_flash_toast', 'Component "' + compName + '" deleted from inventory.');
                 }
 
                 window.location.href = 'inventory.html';

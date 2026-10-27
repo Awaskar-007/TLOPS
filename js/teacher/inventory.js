@@ -2,7 +2,8 @@
  * inventory.js - Lab Inventory Catalog Controller
  * 
  * Dynamically renders inventory items from localStorage (JSON),
- * supports category filtering, real-time search, and editing/deleting components.
+ * supports category filtering, real-time search, and editing/deleting components
+ * with live toast notifications.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -50,6 +51,20 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (qty <= minThreshold) qtyClass = 'qty-low';
 
         return `<span class="qty-value"><strong class="${qtyClass}">${qty}</strong> <span class="min-qty">/ min ${minThreshold}</span></span>`;
+    }
+
+    // Toast Notification helper
+    let toastTimer = null;
+    function showToast(msg) {
+        const toast = document.getElementById('toastNotice');
+        const msgEl = document.getElementById('toastMessage');
+        if (!toast || !msgEl) return;
+        msgEl.innerHTML = msg;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3500);
     }
 
     // Renders the table from stored inventory
@@ -140,4 +155,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial render
     renderInventoryTable();
+
+    // Check for flash toast messages
+    if (typeof getData === 'function') {
+        const flashMsg = getData('tlops_flash_toast');
+        if (flashMsg) {
+            showToast(flashMsg);
+            if (typeof removeData === 'function') removeData('tlops_flash_toast');
+        }
+    }
 });

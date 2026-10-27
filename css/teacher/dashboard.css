@@ -685,3 +685,37 @@ body {
 .logout-btn:hover svg {
     stroke: #ef4444;
 }
+
+
+/* Export Data Button */
+.btn-export-data {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: #1b45ab;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(27, 69, 171, 0.25);
+    transition: background 0.18s ease, transform 0.12s ease;
+}
+
+.btn-export-data:hover {
+    background: #15368a;
+    transform: translateY(-1px);
+}
+
+.btn-export-data svg {
+    stroke: #ffffff;
+}
+
+.dashboard-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}

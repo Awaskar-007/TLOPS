@@ -195,6 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 email: matched.email
             });
             saveData('tinkerlab_role', matched.role);
+            saveData('tlops_flash_toast', 'Welcome back, ' + (matched.fullName || 'User') + '! You have successfully signed in.');
             // Redirect to appropriate dashboard
             const root = './';
             window.location.href = matched.role === 'teacher' ? `${root}teacher/dashboard.html` : `${root}student/dashboard.html`;

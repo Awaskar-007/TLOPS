@@ -1,8 +1,9 @@
 /**
  * teacher-dashboard.js - Teacher & Lab Admin Dashboard Controller
  * 
- * Formats live university date header and dynamically updates
- * KPI stat cards and pending requests panel from shared localStorage.
+ * Formats live university date header, dynamically updates
+ * KPI stat cards and pending requests panel from shared localStorage,
+ * and handles "Export Data" JSON download via Blob.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -104,6 +105,77 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
                 pendingListPanel.appendChild(card);
             });
+        }
+    }
+
+    // Helper: Toast notifications on dashboard
+    let toastTimer = null;
+    function showToast(msg) {
+        const toast = document.getElementById('toastNotice');
+        const msgEl = document.getElementById('toastMessage');
+        if (!toast || !msgEl) return;
+        msgEl.innerHTML = msg;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3500);
+    }
+
+    // 3. Export Data: Downloads users, requests, and inventory as .json files using Blob
+    function downloadJsonFile(filename, dataObj) {
+        const jsonStr = JSON.stringify(dataObj, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 100);
+    }
+
+    const exportBtn = document.getElementById('btnExportData');
+    if (exportBtn) {
+        exportBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            try {
+                // Fetch current datasets from localStorage
+                const users = (typeof getData === 'function') ? getData('users', []) : [];
+                const allReqs = (typeof getRequests === 'function') ? getRequests() : [];
+                const allInv = (typeof getInventory === 'function') ? getInventory() : [];
+
+                const timestamp = new Date().toISOString().split('T')[0];
+
+                // Download users.json
+                downloadJsonFile(`tlops_users_${timestamp}.json`, users);
+
+                // Download requests.json (staggered slightly so browser handles multi-download cleanly)
+                setTimeout(() => {
+                    downloadJsonFile(`tlops_requests_${timestamp}.json`, allReqs);
+                }, 200);
+
+                // Download inventory.json
+                setTimeout(() => {
+                    downloadJsonFile(`tlops_inventory_${timestamp}.json`, allInv);
+                }, 400);
+
+                showToast('Export successful! Users, requests, and inventory downloaded as JSON files.');
+            } catch (err) {
+                console.error('[teacher-dashboard.js] Export error:', err);
+                alert('An error occurred while exporting data: ' + err.message);
+            }
+        });
+    }
+
+    // Check for flash toast messages
+    if (typeof getData === 'function') {
+        const flashMsg = getData('tlops_flash_toast');
+        if (flashMsg) {
+            showToast(flashMsg);
+            if (typeof removeData === 'function') removeData('tlops_flash_toast');
         }
     }
 });
