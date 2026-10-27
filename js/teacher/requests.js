@@ -1,81 +1,107 @@
 /**
  * teacher-requests.js - Teacher Requests Review Queue Controller
  * 
- * Loads pending student requests from localStorage, renders interactive cards,
- * and provides live search filtering for lab administrators.
+ * Dynamically displays all pending requests from shared localStorage,
+ * provides live student/component search, and routes to review-request.html.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    try {
-        const custom = getData('tinkerlab_custom_requests', []);
-        const pendingCustom = custom.filter(r => (r.status || 'Pending').toLowerCase() === 'pending');
-        const list = document.querySelector('.requests-list');
-        const subtitle = document.querySelector('.page-subtitle');
+    const list = document.querySelector('.requests-list');
+    const subtitle = document.querySelector('.page-subtitle');
+    const searchInput = document.querySelector('.search-input');
 
-        if (pendingCustom.length > 0 && subtitle) {
-            subtitle.textContent = `${3 + pendingCustom.length} requests awaiting review`;
+    /**
+     * Extracts uppercase 2-letter initials from student name.
+     */
+    function getInitials(name) {
+        if (!name) return 'ST';
+        const parts = name.trim().split(/\s+/).filter(Boolean);
+        if (parts.length >= 2) {
+            return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
         }
-
-        /**
-         * Extracts 2-letter uppercase initials from student name.
-         * @param {string} name - Student name.
-         * @returns {string} Initials.
-         */
-        function getInitials(name) {
-            if (!name) return 'ST';
-            const parts = name.trim().split(/\s+/);
-            if (parts.length >= 2) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-            return name.substring(0, 2).toUpperCase();
-        }
-
-        // Render each custom pending request as a review card
-        if (list) {
-            pendingCustom.forEach(req => {
-                const card = document.createElement('div');
-                card.className = 'request-card';
-                card.innerHTML = `
-                    <div class="card-left">
-                        <div class="student-avatar">${getInitials(req.studentName || 'Arjun Sharma')}</div>
-                        <div class="student-details">
-                            <div class="student-header">
-                                <span class="student-name">${req.studentName || 'Arjun Sharma'}</span>
-                                <span class="separator">·</span>
-                                <span class="student-roll">${req.studentRoll || 'CS21B001'}</span>
-                            </div>
-                            <div class="student-dept">${req.studentDept || 'Computer Science'}</div>
-                            <div class="component-pills">
-                                <span class="comp-pill">${req.componentName} &times;${req.quantity || 1}</span>
-                                <span class="comp-pill" style="background:#fef3c7; color:#92400e; border:1px solid #fde68a; font-weight:600;">Unlisted Special Order</span>
-                            </div>
-                            <p class="project-quote">&ldquo;${req.purpose}&rdquo;</p>
-                        </div>
-                    </div>
-                    <div class="card-right">
-                        <span class="badge-pending">Pending</span>
-                        <span class="request-date">${req.submitted}</span>
-                        <span class="due-date">Due ${req.due || '—'}</span>
-                        <a href="review-request.html?id=${req.id}&from=requests" class="btn-review">Review</a>
-                    </div>
-                `;
-                if (list.firstChild) {
-                    list.insertBefore(card, list.firstChild);
-                } else {
-                    list.appendChild(card);
-                }
-            });
-        }
-
-        // Live search filter across all request cards
-        const searchInput = document.querySelector('.search-input');
-        if (searchInput) {
-            searchInput.addEventListener('input', (e) => {
-                const q = e.target.value.toLowerCase().trim();
-                document.querySelectorAll('.request-card').forEach(c => {
-                    c.style.display = c.textContent.toLowerCase().includes(q) ? 'flex' : 'none';
-                });
-            });
-        }
-    } catch (e) {
-        console.error('[teacher-requests.js] Error initializing requests queue:', e);
+        return parts[0].substring(0, 2).toUpperCase();
     }
+
+    /**
+     * Renders all pending request cards dynamically from localStorage.
+     */
+    function renderTeacherRequests() {
+        if (!list) return;
+
+        const requests = (typeof getRequests === 'function') ? getRequests() : [];
+        const pending = requests.filter(r => (r.status || 'Pending').toLowerCase() === 'pending');
+
+        if (subtitle) {
+            subtitle.textContent = `${pending.length} ${pending.length === 1 ? 'request' : 'requests'} awaiting review`;
+        }
+
+        list.innerHTML = '';
+
+        if (pending.length === 0) {
+            list.innerHTML = `
+                <div class="empty-state" style="padding: 48px; text-align: center; background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0;">
+                    <p style="color: #64748b; font-size: 15px; margin: 0;">No pending requests at this time. All requests have been reviewed!</p>
+                </div>
+            `;
+            return;
+        }
+
+        pending.forEach(req => {
+            const card = document.createElement('div');
+            card.className = 'request-card';
+            card.setAttribute('data-id', req.id);
+
+            const initials = getInitials(req.studentName);
+            const safeName = escapeHtml(req.studentName || 'Student');
+            const safeRoll = escapeHtml(req.studentRoll || 'N/A');
+            const safeDept = escapeHtml(req.department || 'Engineering');
+            const safePurpose = escapeHtml(req.purpose || 'Laboratory Project');
+            const safeSubDate = escapeHtml(req.submittedDate || 'Recent');
+            const safeDueDate = escapeHtml(req.dueDate || '—');
+            const safeId = escapeHtml(req.id);
+
+            const items = req.items || [];
+            const pillsHtml = items.map(item => {
+                return `<span class="comp-pill">${escapeHtml(item.name)} &times;${item.qty || 1}</span>`;
+            }).join(' ');
+
+            card.innerHTML = `
+                <div class="card-left">
+                    <div class="student-avatar">${initials}</div>
+                    <div class="student-details">
+                        <div class="student-header">
+                            <span class="student-name">${safeName}</span>
+                            <span class="separator">·</span>
+                            <span class="student-roll">${safeRoll}</span>
+                        </div>
+                        <div class="student-dept">${safeDept}</div>
+                        <div class="component-pills">
+                            ${pillsHtml}
+                        </div>
+                        <p class="project-quote">&ldquo;${safePurpose}&rdquo;</p>
+                    </div>
+                </div>
+                <div class="card-right">
+                    <span class="badge-pending">Pending</span>
+                    <span class="request-date">${safeSubDate}</span>
+                    <span class="due-date">Due ${safeDueDate}</span>
+                    <a href="review-request.html?id=${encodeURIComponent(safeId)}&from=requests" class="btn-review">Review</a>
+                </div>
+            `;
+
+            list.appendChild(card);
+        });
+    }
+
+    // Real-time live search filter across all cards
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const q = e.target.value.toLowerCase().trim();
+            document.querySelectorAll('.request-card').forEach(c => {
+                c.style.display = c.textContent.toLowerCase().includes(q) ? 'flex' : 'none';
+            });
+        });
+    }
+
+    renderTeacherRequests();
 });
