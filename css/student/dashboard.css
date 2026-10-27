@@ -124,9 +124,9 @@ nav .brand-text p,
     line-height: 1.2 !important;
 }
 
-/* Nav Links */
+/* Ensure all sidebar navigation links are always visible */
 nav a {
-    display: flex;
+    display: flex !important;
     align-items: center;
     gap: 12px;
     padding: 11px 16px;
@@ -165,7 +165,8 @@ nav a[href="#dashboard"]::before {
     background-position: center;
 }
 
-nav a[href="#inventory"]::before {
+nav a[href="#inventory"]::before,
+nav a[href="inventory.html"]::before {
     content: "";
     display: inline-block;
     width: 18px;
@@ -402,7 +403,7 @@ h3:nth-of-type(4) {
 /* Card 1: Available Components (Top Left) */
 h3:nth-of-type(1) {
     grid-column: 1;
-    grid-row: 4;
+    grid-row: 3;
 }
 h3:nth-of-type(1)::after {
     content: "";
@@ -419,13 +420,13 @@ h3:nth-of-type(1)::after {
 
 p:nth-of-type(2) {
     grid-column: 1;
-    grid-row: 4;
+    grid-row: 3;
 }
 
 /* Card 2: Active Requests (Top Right) */
 h3:nth-of-type(2) {
     grid-column: 2;
-    grid-row: 4;
+    grid-row: 3;
 }
 h3:nth-of-type(2)::after {
     content: "";
@@ -442,13 +443,13 @@ h3:nth-of-type(2)::after {
 
 p:nth-of-type(3) {
     grid-column: 2;
-    grid-row: 4;
+    grid-row: 3;
 }
 
 /* Card 3: Pending Approval (Bottom Left) */
 h3:nth-of-type(3) {
     grid-column: 1;
-    grid-row: 5;
+    grid-row: 4;
 }
 h3:nth-of-type(3)::after {
     content: "";
@@ -465,13 +466,13 @@ h3:nth-of-type(3)::after {
 
 p:nth-of-type(4) {
     grid-column: 1;
-    grid-row: 5;
+    grid-row: 4;
 }
 
 /* Card 4: Approved (Bottom Right) */
 h3:nth-of-type(4) {
     grid-column: 2;
-    grid-row: 5;
+    grid-row: 4;
 }
 h3:nth-of-type(4)::after {
     content: "";
@@ -488,7 +489,7 @@ h3:nth-of-type(4)::after {
 
 p:nth-of-type(5) {
     grid-column: 2;
-    grid-row: 5;
+    grid-row: 4;
 }
 
 /* Big Numbers & Subtitles inside Metric Cards */
@@ -521,7 +522,7 @@ p:nth-of-type(5)::first-line {
    ========================================================================== */
 #requests {
     grid-column: 1 / -1;
-    grid-row: 6;
+    grid-row: 5;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -529,6 +530,7 @@ p:nth-of-type(5)::first-line {
     font-weight: 700;
     color: var(--text-dark);
     margin: 32px 0 16px 0;
+    cursor: pointer;
 }
 
 #requests::after {
@@ -542,7 +544,7 @@ p:nth-of-type(5)::first-line {
 /* Request 1 Card: Arduino Uno R3, HC-SR04 */
 h3:nth-of-type(5) {
     grid-column: 1 / -1;
-    grid-row: 7;
+    grid-row: 6;
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 12px;
@@ -552,11 +554,18 @@ h3:nth-of-type(5) {
     font-weight: 600;
     color: var(--text-dark);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+h3:nth-of-type(5):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 p:nth-of-type(6) {
     grid-column: 1 / -1;
-    grid-row: 7;
+    grid-row: 6;
     align-self: end;
     padding: 0 24px 20px 24px;
     margin: 0;
@@ -568,7 +577,7 @@ p:nth-of-type(6) {
 
 p:nth-of-type(7) {
     grid-column: 1 / -1;
-    grid-row: 7;
+    grid-row: 6;
     justify-self: end;
     align-self: center;
     margin: 0 24px 0 0;
@@ -582,14 +591,10 @@ p:nth-of-type(7) {
     z-index: 10;
 }
 
-a[href="#request1"] {
-    display: none;
-}
-
 /* Request 2 Card: Jumper Wires M-M 40pcs */
 h3:nth-of-type(6) {
     grid-column: 1 / -1;
-    grid-row: 8;
+    grid-row: 7;
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 12px;
@@ -599,11 +604,18 @@ h3:nth-of-type(6) {
     font-weight: 600;
     color: var(--text-dark);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+h3:nth-of-type(6):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 p:nth-of-type(8) {
     grid-column: 1 / -1;
-    grid-row: 8;
+    grid-row: 7;
     align-self: end;
     padding: 0 24px 20px 24px;
     margin: 0;
@@ -615,7 +627,7 @@ p:nth-of-type(8) {
 
 p:nth-of-type(9) {
     grid-column: 1 / -1;
-    grid-row: 8;
+    grid-row: 7;
     justify-self: end;
     align-self: center;
     margin: 0 24px 0 0;
@@ -629,113 +641,12 @@ p:nth-of-type(9) {
     z-index: 10;
 }
 
-a[href="#request2"] {
-    display: none;
+/* Hide rogue view request buttons inside dashboard cards */
+a[href="#request1"],
+a[href="#request2"],
+.view-request-btn {
+    display: none !important;
 }
-
-/* ==========================================================================
-   QUICK BROWSE INVENTORY SECTION
-   ========================================================================== */
-#inventory {
-    grid-column: 1 / -1;
-    grid-row: 9;
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--text-dark);
-    margin: 36px 0 16px 0;
-    scroll-margin-top: 80px;
-}
-
-/* Quick Browse Component Cards */
-h3:nth-of-type(7),
-h3:nth-of-type(8),
-h3:nth-of-type(9),
-h3:nth-of-type(10),
-h3:nth-of-type(11) {
-    grid-column: 1 / -1;
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 18px 100px 40px 24px;
-    margin: 0 0 10px 0;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--text-dark);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
-}
-
-h3:nth-of-type(7) { grid-row: 10; }
-h3:nth-of-type(8) { grid-row: 11; }
-h3:nth-of-type(9) { grid-row: 12; }
-h3:nth-of-type(10) { grid-row: 13; }
-h3:nth-of-type(11) { grid-row: 14; }
-
-p:nth-of-type(10),
-p:nth-of-type(11),
-p:nth-of-type(12),
-p:nth-of-type(13),
-p:nth-of-type(14) {
-    grid-column: 1 / -1;
-    align-self: end;
-    padding: 0 24px 18px 24px;
-    margin: 0;
-    font-size: 13px;
-    color: #16a34a;
-    font-weight: 500;
-    pointer-events: none;
-    z-index: 10;
-}
-
-p:nth-of-type(10) { grid-row: 10; }
-p:nth-of-type(11) { grid-row: 11; }
-p:nth-of-type(12) { grid-row: 12; }
-p:nth-of-type(13) { grid-row: 13; }
-p:nth-of-type(14) { 
-    grid-row: 14; 
-    color: #d97706; /* Low Stock Alert */
-}
-
-
-/* Quick Browse "Add to Cart" Action Buttons */
-.btn-add-cart {
-    grid-column: 1 / -1;
-    justify-self: end;
-    align-self: center;
-    margin-right: 24px;
-    padding: 6px 14px;
-    background-color: var(--active-pill);
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 1px 3px rgba(37, 99, 235, 0.25);
-    transition: all 0.2s ease;
-    z-index: 10;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.btn-add-cart:hover {
-    background-color: var(--primary-blue);
-    box-shadow: 0 3px 8px rgba(37, 99, 235, 0.35);
-    transform: translateY(-1px);
-}
-
-.btn-add-cart:active {
-    transform: translateY(0);
-}
-
-/* Row assignments for Add to Cart buttons */
-button.btn-add-cart[data-item="arduino"]   { grid-row: 10; }
-button.btn-add-cart[data-item="raspberry"] { grid-row: 11; }
-button.btn-add-cart[data-item="esp32"]     { grid-row: 12; }
-button.btn-add-cart[data-item="sensor"]    { grid-row: 13; }
-button.btn-add-cart[data-item="dht11"]     { grid-row: 14; }
-
 
 /* ==========================================================================
    RESPONSIVE DESIGN
@@ -772,17 +683,11 @@ button.btn-add-cart[data-item="dht11"]     { grid-row: 14; }
 }
 
 @media (max-width: 600px) {
-    h3:nth-of-type(7),
-    h3:nth-of-type(8),
-    h3:nth-of-type(9),
-    h3:nth-of-type(10),
-    h3:nth-of-type(11) {
+    h3:nth-of-type(5),
+    h3:nth-of-type(6),
+    h3:nth-of-type(n+5) {
         padding-right: 20px;
-        padding-bottom: 60px;
-    }
-    .btn-add-cart {
-        align-self: end;
-        margin-bottom: 12px;
+        padding-bottom: 54px;
     }
 }
 

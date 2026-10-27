@@ -1,9 +1,9 @@
 /**
- * student-dashboard.js - Student Dashboard Controller
+ * dashboard.js - Student Dashboard Controller
  * 
- * Dynamically displays available inventory from localStorage (JSON),
- * includes live search filtering, allows quick "+1" additions to the cart,
- * calculates live KPI metrics, and renders student's recent requests from shared storage.
+ * Calculates live KPI metrics from shared storage,
+ * and renders student's recent requests.
+ * Component browsing has been moved to its own dedicated page (inventory.html).
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -24,111 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
         toastTimer = setTimeout(() => {
             toast.classList.remove('show');
         }, 3000);
-    }
-
-    /**
-     * Renders Quick Browse inventory items from stored array.
-     */
-    function renderInventoryItems() {
-        const inventoryHeading = document.getElementById('inventory');
-        if (!inventoryHeading) return;
-
-        const inventory = (typeof getInventory === 'function') ? getInventory() : [];
-        const searchInput = document.getElementById('studentInventorySearch');
-
-        // Locate or create container for dynamic inventory items
-        let itemsContainer = document.getElementById('studentInventoryContainer');
-        if (!itemsContainer) {
-            itemsContainer = document.createElement('div');
-            itemsContainer.id = 'studentInventoryContainer';
-
-            // Insert after the search input wrapper (or after #inventory)
-            const searchWrap = searchInput ? searchInput.parentElement : inventoryHeading;
-            searchWrap.after(itemsContainer);
-        }
-
-        // Clean any existing static elements between #inventory / search and the next <hr>
-        let sibling = itemsContainer.nextElementSibling;
-        while (sibling && sibling.tagName !== 'HR' && !sibling.classList.contains('toast-notice')) {
-            const toRemove = sibling;
-            sibling = sibling.nextElementSibling;
-            toRemove.remove();
-        }
-
-        itemsContainer.innerHTML = '';
-
-        if (inventory.length === 0) {
-            itemsContainer.innerHTML = '<p style="color: #64748b; margin: 12px 0;">No components currently in inventory.</p>';
-            return;
-        }
-
-        inventory.forEach(item => {
-            const safeName = escapeHtml(item.name);
-            const qty = (typeof item.qty === 'number') ? item.qty : parseInt(item.qty, 10) || 0;
-            const minThreshold = (typeof item.minThreshold === 'number') ? item.minThreshold : parseInt(item.minThreshold, 10) || 0;
-
-            let statusText = 'Available';
-            if (qty <= 0) statusText = 'Out of Stock';
-            else if (qty <= minThreshold) statusText = 'Low Stock';
-
-            const card = document.createElement('div');
-            card.className = 'student-inventory-item';
-            card.setAttribute('data-name', (item.name || '').toLowerCase());
-            card.setAttribute('data-desc', (item.description || '').toLowerCase());
-            card.setAttribute('data-cat', (item.category || '').toLowerCase());
-            card.style.marginBottom = '18px';
-
-            const h3 = document.createElement('h3');
-            h3.textContent = item.name;
-            h3.style.margin = '0 0 4px 0';
-
-            const p = document.createElement('p');
-            p.textContent = `${qty} in stock - ${statusText} · ${item.category || 'General'}`;
-            p.style.margin = '0 0 8px 0';
-            p.style.color = qty <= 0 ? '#ef4444' : '#64748b';
-
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'btn-add-cart';
-            btn.setAttribute('data-item', item.name);
-            btn.textContent = '+1';
-
-            if (qty <= 0) {
-                btn.disabled = true;
-                btn.style.opacity = '0.5';
-                btn.style.cursor = 'not-allowed';
-            }
-
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const cart = (typeof getData === 'function') ? getData('tinkerlab_cart', {}) : {};
-                cart[item.name] = (cart[item.name] || 0) + 1;
-                if (typeof saveData === 'function') {
-                    saveData('tinkerlab_cart', cart);
-                }
-                showToast(`${safeName} added! <a href="cart.html" style="color:#93c5fd; text-decoration:underline; font-weight:600; margin-left:6px;">View Cart &rarr;</a>`);
-            });
-
-            card.appendChild(h3);
-            card.appendChild(p);
-            card.appendChild(btn);
-            itemsContainer.appendChild(card);
-        });
-
-        // Live search filter listener
-        if (searchInput) {
-            searchInput.addEventListener('input', () => {
-                const q = searchInput.value.toLowerCase().trim();
-                const cards = itemsContainer.querySelectorAll('.student-inventory-item');
-                cards.forEach(c => {
-                    const name = c.getAttribute('data-name') || '';
-                    const desc = c.getAttribute('data-desc') || '';
-                    const cat = c.getAttribute('data-cat') || '';
-                    const match = !q || name.includes(q) || desc.includes(q) || cat.includes(q);
-                    c.style.display = match ? 'block' : 'none';
-                });
-            });
-        }
     }
 
     /**
@@ -168,8 +63,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update My Recent Requests section
         const recentHeading = document.getElementById('requests');
         if (recentHeading) {
+            recentHeading.style.cursor = 'pointer';
+            recentHeading.title = 'View all requests';
+            recentHeading.addEventListener('click', () => {
+                window.location.href = 'requests.html';
+            });
+
             let nextEl = recentHeading.nextElementSibling;
-            while (nextEl && nextEl.tagName !== 'HR') {
+            while (nextEl && nextEl.tagName !== 'HR' && !nextEl.classList.contains('toast-notice')) {
                 const toRemove = nextEl;
                 nextEl = nextEl.nextElementSibling;
                 toRemove.remove();
@@ -179,6 +80,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (recentList.length === 0) {
                 const emptyP = document.createElement('p');
                 emptyP.textContent = 'No requests submitted yet.';
+                emptyP.style.color = '#64748b';
+                emptyP.style.gridColumn = '1 / -1';
+                emptyP.style.padding = '16px 0';
                 recentHeading.after(emptyP);
             } else {
                 const frag = document.createDocumentFragment();
@@ -186,6 +90,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     const h3 = document.createElement('h3');
                     const compNames = (req.items || []).map(i => i.name).join(', ') || 'Custom Component';
                     h3.textContent = compNames;
+                    h3.style.cursor = 'pointer';
+                    h3.title = 'Click to view requests';
+                    h3.addEventListener('click', () => {
+                        window.location.href = 'requests.html';
+                    });
 
                     const p1 = document.createElement('p');
                     const itemCount = (req.items || []).length;
@@ -195,62 +104,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     p2.textContent = req.status || 'Pending';
                     p2.style.fontWeight = '600';
 
-                    const a = document.createElement('a');
-                    a.href = 'requests.html';
-                    a.textContent = 'View Request';
-
                     frag.appendChild(h3);
                     frag.appendChild(p1);
                     frag.appendChild(p2);
-                    frag.appendChild(a);
+                    // View Request link removed per requirement
                 });
                 recentHeading.after(frag);
             }
         }
     }
 
-    // Navigation active highlighting logic for Dashboard vs Inventory
-    const navDashboard = document.getElementById('nav-dashboard');
-    const navInventory = document.getElementById('nav-inventory');
-    const inventorySection = document.getElementById('inventory');
-    let isManualClick = false;
-
-    function setActiveNav(item) {
-        if (!navDashboard || !navInventory) return;
-        if (item === 'inventory') {
-            navInventory.classList.add('active');
-            navDashboard.classList.remove('active');
-        } else {
-            navDashboard.classList.add('active');
-            navInventory.classList.remove('active');
-        }
-    }
-
-    if (navInventory) {
-        navInventory.addEventListener('click', (e) => {
-            e.preventDefault();
-            isManualClick = true;
-            setActiveNav('inventory');
-            history.pushState(null, null, '#inventory');
-            if (inventorySection) {
-                inventorySection.scrollIntoView({ behavior: 'smooth' });
-            }
-            setTimeout(() => { isManualClick = false; }, 800);
-        });
-    }
-
-    if (navDashboard) {
-        navDashboard.addEventListener('click', (e) => {
-            e.preventDefault();
-            isManualClick = true;
-            setActiveNav('dashboard');
-            history.pushState(null, null, window.location.pathname);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            setTimeout(() => { isManualClick = false; }, 800);
-        });
-    }
-
-    renderInventoryItems();
     renderRecentRequestsAndMetrics();
 
     // Check for flash toast messages

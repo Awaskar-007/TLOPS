@@ -468,17 +468,11 @@ body {
 .component-cell {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 0;
 }
 
 .comp-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+    display: none !important;
 }
 
 .icon-blue-diamond {

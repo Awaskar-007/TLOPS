@@ -1,0 +1,571 @@
+/* ==========================================================================
+   TinkerLab - Student Inventory Stylesheet (inventory.css)
+   Inherits design language and layout from requests.css
+   Provides a clean, balanced, full-width responsive grid for lab components
+   ========================================================================== */
+
+@import url('requests.css');
+
+/* ==========================================================================
+   PAGE HEADER & TITLE ROW
+   ========================================================================== */
+.page-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.title-with-subtitle {
+    display: flex;
+    flex-direction: column;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-dark);
+    letter-spacing: -0.3px;
+    margin: 0 0 4px 0;
+}
+
+.page-subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.btn-view-cart {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 18px;
+    background-color: #ffffff;
+    color: var(--primary-blue);
+    border: 1.5px solid #bfdbfe;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(37, 99, 235, 0.08);
+}
+
+.btn-view-cart:hover {
+    background-color: #eff6ff;
+    border-color: var(--primary-blue);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.15);
+}
+
+.btn-view-cart svg {
+    stroke: var(--primary-blue);
+}
+
+.cart-pill-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    background-color: var(--primary-blue);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 9999px;
+}
+
+/* ==========================================================================
+   SEARCH & FILTER TOOLBAR
+   ========================================================================== */
+.inventory-controls-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    background-color: #ffffff;
+    padding: 16px 20px;
+    border-radius: 14px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.search-input-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 260px;
+    max-width: 440px;
+}
+
+.search-input-wrap .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+.search-input-wrap input {
+    width: 100%;
+    padding: 10px 38px 10px 42px;
+    background-color: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--text-dark);
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.search-input-wrap input:focus {
+    background-color: #ffffff;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.clear-search-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    line-height: 1;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.clear-search-btn:hover {
+    color: var(--text-dark);
+    background-color: #e2e8f0;
+}
+
+.filter-controls-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.filter-category-tabs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.category-tab {
+    padding: 8px 16px;
+    background-color: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: 9999px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.category-tab:hover {
+    background-color: #eff6ff;
+    border-color: #bfdbfe;
+    color: var(--primary-blue);
+}
+
+.category-tab.active {
+    background-color: var(--primary-blue);
+    border-color: var(--primary-blue);
+    color: #ffffff;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+}
+
+.category-tab .tab-count {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.08);
+}
+
+.category-tab.active .tab-count {
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+}
+
+.stock-filter-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    padding-left: 8px;
+    border-left: 1px solid var(--border-color);
+}
+
+.stock-filter-toggle input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--primary-blue);
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   NORMAL INVENTORY GRID (BALANCED, FULL-WIDTH)
+   ========================================================================== */
+.student-inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.inventory-card {
+    background-color: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.inventory-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    border-color: #cbd5e1;
+}
+
+.card-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    gap: 8px;
+}
+
+.category-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.category-badge.microcontrollers {
+    background-color: #eff6ff;
+    color: #1d4ed8;
+}
+
+.category-badge.sensors {
+    background-color: #f5f3ff;
+    color: #7c3aed;
+}
+
+.category-badge.actuators {
+    background-color: #fff7ed;
+    color: #c2410c;
+}
+
+.category-badge.general {
+    background-color: #f1f5f9;
+    color: #475569;
+}
+
+.stock-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.stock-status-badge::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.stock-status-badge.available {
+    background-color: #dcfce7;
+    color: #15803d;
+}
+.stock-status-badge.available::before {
+    background-color: #22c55e;
+}
+
+.stock-status-badge.low {
+    background-color: #fef3c7;
+    color: #b45309;
+}
+.stock-status-badge.low::before {
+    background-color: #f59e0b;
+}
+
+.stock-status-badge.out {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+.stock-status-badge.out::before {
+    background-color: #ef4444;
+}
+
+.card-item-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.card-icon-box {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.card-icon-box.icon-amber {
+    background-color: #fef3c7;
+    border-color: #fde68a;
+    color: #d97706;
+}
+
+.card-icon-box.icon-blue {
+    background-color: #eff6ff;
+    border-color: #dbeafe;
+    color: #2563eb;
+}
+
+.card-icon-box.icon-purple {
+    background-color: #f5f3ff;
+    border-color: #ede9fe;
+    color: #7c3aed;
+}
+
+.card-icon-box.icon-orange {
+    background-color: #fff7ed;
+    border-color: #ffedd5;
+    color: #ea580c;
+}
+
+.item-name-heading {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.3;
+}
+
+.item-description {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin: 0 0 16px 0;
+    flex: 1;
+}
+
+.card-meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    padding: 8px 12px;
+    background-color: #f8fafc;
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+
+.card-location {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500;
+}
+
+.card-stock-qty {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.card-footer-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-top: 1px solid var(--border-subtle);
+    padding-top: 14px;
+}
+
+.in-cart-indicator {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--primary-blue);
+    background-color: #eff6ff;
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.in-cart-indicator.hidden {
+    visibility: hidden;
+}
+
+.btn-add-to-cart {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 18px;
+    background-color: var(--primary-blue);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(37, 99, 235, 0.25);
+    transition: all 0.2s ease;
+    margin-left: auto;
+}
+
+.btn-add-to-cart:hover:not(:disabled) {
+    background-color: var(--primary-blue-hover);
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.35);
+    transform: translateY(-1px);
+}
+
+.btn-add-to-cart:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.btn-add-to-cart:disabled {
+    background-color: #f1f5f9;
+    color: #94a3b8;
+    border: 1px solid #e2e8f0;
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ==========================================================================
+   EMPTY STATE
+   ========================================================================== */
+.inventory-empty-state {
+    text-align: center;
+    padding: 64px 20px;
+    background-color: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    margin-top: 10px;
+}
+
+.empty-icon-wrap {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 16px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f1f5f9;
+    border-radius: 50%;
+}
+
+.inventory-empty-state h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 8px 0;
+}
+
+.inventory-empty-state p {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin: 0 0 20px 0;
+}
+
+.btn-reset-filters {
+    padding: 8px 20px;
+    background-color: var(--primary-blue);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-reset-filters:hover {
+    background-color: var(--primary-blue-hover);
+}
+
+/* ==========================================================================
+   RESPONSIVE ADJUSTMENTS
+   ========================================================================== */
+@media (max-width: 900px) {
+    .inventory-controls-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .search-input-wrap {
+        max-width: 100%;
+    }
+    .filter-controls-right {
+        justify-content: space-between;
+    }
+    .stock-filter-toggle {
+        border-left: none;
+        padding-left: 0;
+    }
+}
+
+@media (max-width: 640px) {
+    .student-inventory-grid {
+        grid-template-columns: 1fr;
+    }
+    .page-title-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .btn-view-cart {
+        width: 100%;
+        justify-content: center;
+    }
+}

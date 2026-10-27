@@ -155,7 +155,7 @@ function renderCart() {
 
     // If cart is empty, show empty state
     if (itemKeys.length === 0) {
-        emptyState.style.display = 'block';
+        emptyState.style.display = 'flex';
         activeState.style.display = 'none';
         return;
     }
