@@ -668,7 +668,8 @@ body {
     z-index: 1000;
 }
 
-.modal-overlay.open {
+.modal-overlay.open,
+.modal-overlay.active {
     display: flex;
 }
 
@@ -761,7 +762,8 @@ body {
     margin-bottom: 12px;
 }
 
-.modal-item-entry {
+.modal-item-entry,
+.modal-item-row {
     display: flex;
     justify-content: space-between;
     align-items: center;

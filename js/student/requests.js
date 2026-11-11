@@ -154,6 +154,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /**
+     * Closes all active modal dialogs.
+     */
+    function closeAllModals() {
+        if (requestModal) {
+            requestModal.classList.remove('open', 'active');
+        }
+        if (unlistedModal) {
+            unlistedModal.classList.remove('open', 'active');
+        }
+        document.body.style.overflow = '';
+    }
+
+    /**
      * Opens request details modal for a specific request ID.
      */
     function openRequestModal(reqId) {
@@ -167,6 +180,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const modalDue = document.getElementById('modalDue');
         const modalPurpose = document.getElementById('modalPurpose');
         const modalItemsContainer = document.getElementById('modalItemsContainer');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalReqTypeRow = document.getElementById('modalReqTypeRow');
+        const modalCategoryRow = document.getElementById('modalCategoryRow');
+        const modalPriorityRow = document.getElementById('modalPriorityRow');
+        const modalPartRefRow = document.getElementById('modalPartRefRow');
 
         if (modalReqId) modalReqId.textContent = req.id;
         if (modalSubmitted) modalSubmitted.textContent = req.submittedDate ? `${req.submittedDate} ${req.submittedTime || ''}` : 'Recent';
@@ -184,23 +202,60 @@ document.addEventListener('DOMContentLoaded', () => {
             modalStatusBadge.textContent = req.status || 'Pending';
         }
 
+        const isUnlisted = req.isUnlisted || (req.items && req.items.some(i => i.isUnlisted));
+        if (modalTitle) {
+            modalTitle.textContent = isUnlisted ? 'Unlisted Request Details' : 'Request Details';
+        }
+
+        if (modalReqTypeRow) {
+            modalReqTypeRow.style.display = isUnlisted ? 'flex' : 'none';
+            const modalReqType = document.getElementById('modalReqType');
+            if (modalReqType) modalReqType.innerHTML = '<span class="unlisted-tag"><span class="unlisted-tag-pulse"></span> Unlisted Component</span>';
+        }
+
+        if (modalCategoryRow) modalCategoryRow.style.display = 'none';
+        if (modalPriorityRow) modalPriorityRow.style.display = 'none';
+        if (modalPartRefRow) modalPartRefRow.style.display = 'none';
+
         if (modalItemsContainer) {
             modalItemsContainer.innerHTML = '';
             const items = req.items || [];
-            items.forEach((item, index) => {
+            items.forEach((item) => {
                 const itemDiv = document.createElement('div');
-                itemDiv.className = 'modal-item-row';
+                itemDiv.className = 'modal-item-entry modal-item-row';
                 const rackText = item.rack ? ` · ${item.rack}` : '';
                 itemDiv.innerHTML = `
-                    <span class="modal-item-name">${escapeHtml(item.name || 'Component')} &times; ${item.qty || 1}</span>
-                    <span class="modal-item-serial">${escapeHtml(item.status || 'Requested')}${escapeHtml(rackText)}</span>
+                    <span class="modal-item-name" style="font-weight:600; color:var(--text-dark);">${escapeHtml(item.name || 'Component')} &times; ${item.qty || 1}</span>
+                    <span class="modal-item-serial" style="color:var(--text-muted); font-size:12.5px;">${escapeHtml(item.status || 'Requested')}${escapeHtml(rackText)}</span>
                 `;
                 modalItemsContainer.appendChild(itemDiv);
             });
         }
 
-        requestModal.classList.add('active');
+        requestModal.classList.add('open', 'active');
         document.body.style.overflow = 'hidden';
+    }
+
+    /**
+     * Opens the unlisted requisition modal.
+     */
+    function openUnlistedModal() {
+        if (!unlistedModal) return;
+        const dueInput = document.getElementById('unlistedDueDate');
+        if (dueInput && !dueInput.value) {
+            const future = new Date();
+            future.setDate(future.getDate() + 7);
+            const yyyy = future.getFullYear();
+            const mm = String(future.getMonth() + 1).padStart(2, '0');
+            const dd = String(future.getDate()).padStart(2, '0');
+            dueInput.value = `${yyyy}-${mm}-${dd}`;
+        }
+        unlistedModal.classList.add('open', 'active');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => {
+            const firstInput = document.getElementById('unlistedCompName');
+            if (firstInput) firstInput.focus();
+        }, 100);
     }
 
     // Event delegation on table body for View buttons
@@ -217,10 +272,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Modal Close Buttons
     const closeButtons = document.querySelectorAll('.modal-overlay .close-btn, .modal-overlay .btn-secondary');
     closeButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            if (requestModal) requestModal.classList.remove('active');
-            if (unlistedModal) unlistedModal.classList.remove('active');
-            document.body.style.overflow = '';
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeAllModals();
         });
     });
 
@@ -229,32 +283,25 @@ document.addEventListener('DOMContentLoaded', () => {
         if (modal) {
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) {
-                    modal.classList.remove('active');
-                    document.body.style.overflow = '';
+                    closeAllModals();
                 }
             });
         }
     });
 
-    // Open Unlisted Requisition Modal
-    const openUnlistedBtn = document.querySelector('.btn-open-unlisted-modal');
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeAllModals();
+        }
+    });
+
+    // Open Unlisted Requisition Modal (+ Request Component button)
+    const openUnlistedBtn = document.querySelector('.btn-banner-action, .btn-open-unlisted-modal, #btnRequestUnlisted');
     if (openUnlistedBtn) {
         openUnlistedBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            if (unlistedModal) {
-                // Set default due date (7 days ahead)
-                const dueInput = document.getElementById('unlistedDueDate');
-                if (dueInput && !dueInput.value) {
-                    const future = new Date();
-                    future.setDate(future.getDate() + 7);
-                    const yyyy = future.getFullYear();
-                    const mm = String(future.getMonth() + 1).padStart(2, '0');
-                    const dd = String(future.getDate()).padStart(2, '0');
-                    dueInput.value = `${yyyy}-${mm}-${dd}`;
-                }
-                unlistedModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
+            openUnlistedModal();
         });
     }
 
@@ -345,8 +392,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             unlistedForm.reset();
-            if (unlistedModal) unlistedModal.classList.remove('active');
-            document.body.style.overflow = '';
+            closeAllModals();
 
             renderRequestsTable();
 
@@ -363,4 +409,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial render
     renderRequestsTable();
+
+    // Export functions to window
+    window.renderRequestsTable = renderRequestsTable;
+    window.setFilter = setFilter;
+    window.openRequestModal = openRequestModal;
+    window.openDetails = openRequestModal;
+    window.openUnlistedModal = openUnlistedModal;
+    window.closeModal = closeAllModals;
+    window.closeAllModals = closeAllModals;
+    window.closeUnlistedModal = closeAllModals;
 });

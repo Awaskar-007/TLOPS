@@ -155,12 +155,12 @@ function renderCart() {
 
     // If cart is empty, show empty state
     if (itemKeys.length === 0) {
-        emptyState.style.display = 'flex';
+        emptyState.style.setProperty('display', 'flex');
         activeState.style.display = 'none';
         return;
     }
 
-    emptyState.style.display = 'none';
+    emptyState.style.setProperty('display', 'none', 'important');
     activeState.style.display = 'block';
     itemsList.innerHTML = '';
 
