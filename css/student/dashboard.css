@@ -7,7 +7,7 @@
 
 /* --- Reset & Global Variables --- */
 :root {
-    --primary-blue: #1d4ed8;
+    --primary-blue: #2563eb;
     --sidebar-bg: #1a42a7;
     --sidebar-gradient: linear-gradient(180deg, #1b45ab 0%, #163688 100%);
     --active-pill: #2563eb;
@@ -150,11 +150,13 @@ nav a.active:hover {
     background-color: var(--active-pill);
     color: #ffffff;
     font-weight: 600;
-    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.35);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* Navigation Icons */
 nav a[href="student.html"]::before,
+nav a[href="dashboard.html"]::before,
 nav a[href="#dashboard"]::before {
     content: "";
     display: inline-block;

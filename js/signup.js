@@ -104,13 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return { valid: false, message: 'Email must end with @bmu.edu.in' };
         }
 
-        // Check against existing users in localStorage
-        const users = (typeof getData === 'function') ? getData('users', []) : [];
-        const isDuplicate = Array.isArray(users) && users.some(u => u.email && u.email.toLowerCase() === val);
-        if (isDuplicate) {
-            return { valid: false, message: 'Email must not already be registered' };
-        }
-
         return { valid: true, message: '' };
     }
 

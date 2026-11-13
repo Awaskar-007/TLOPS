@@ -128,7 +128,8 @@ body {
     background-color: var(--active-nav-bg);
     color: #ffffff;
     font-weight: 600;
-    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .nav-item.active svg {
@@ -687,19 +688,19 @@ body {
     align-items: center;
     gap: 8px;
     padding: 8px 16px;
-    background: #1b45ab;
+    background: #2563eb;
     color: #ffffff;
     border: none;
     border-radius: 8px;
     font-size: 13.5px;
     font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 1px 3px rgba(27, 69, 171, 0.25);
+    box-shadow: 0 1px 3px rgba(37, 99, 235, 0.25);
     transition: background 0.18s ease, transform 0.12s ease;
 }
 
 .btn-export-data:hover {
-    background: #15368a;
+    background: #1d4ed8;
     transform: translateY(-1px);
 }
 

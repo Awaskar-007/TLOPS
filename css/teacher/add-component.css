@@ -128,7 +128,8 @@ body {
     background-color: var(--active-nav-bg);
     color: #ffffff;
     font-weight: 600;
-    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .nav-item.active svg {

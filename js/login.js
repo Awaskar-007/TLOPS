@@ -114,12 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!pattern.test(val)) {
             return { valid: false, message: 'Email must end with @bmu.edu.in' };
         }
-        // Must exist in stored users with the selected role
-        const users = (typeof getData === 'function') ? getData('users', []) : [];
-        const exists = Array.isArray(users) && users.some(u => u.email && u.email.toLowerCase() === val && u.role === currentRole);
-        if (!exists) {
-            return { valid: false, message: 'No account found for this email/role' };
-        }
         return { valid: true, message: '' };
     }
 

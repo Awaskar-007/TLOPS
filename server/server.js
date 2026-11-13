@@ -14,9 +14,6 @@ const userRoutes = require('./routes/userRoutes');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Connect to MongoDB
-connectDB();
-
 // Core Middleware
 app.use(cors());
 app.use(express.json());
@@ -94,14 +91,18 @@ app.use((err, req, res, next) => {
     });
 });
 
-// Start Server
-app.listen(PORT, () => {
-    console.log(`====================================================`);
-    console.log(`🚀 TLOPS Server running at http://localhost:${PORT}`);
-    console.log(`📁 Static Frontend: http://localhost:${PORT}/index.html`);
-    console.log(`🧪 Interactive API Explorer: http://localhost:${PORT}/api-demo.html`);
-    console.log(`🌐 Health Check: http://localhost:${PORT}/api/health`);
-    console.log(`====================================================`);
-});
+// Start Server after connecting to database
+async function startServer() {
+    await connectDB();
+    app.listen(PORT, () => {
+        console.log(`====================================================`);
+        console.log(`🚀 TLOPS Server running at http://localhost:${PORT}`);
+        console.log(`📁 Sign In: http://localhost:${PORT}/index.html`);
+        console.log(`🌐 Health Check: http://localhost:${PORT}/api/health`);
+        console.log(`====================================================`);
+    });
+}
+
+startServer();
 
 module.exports = app;
