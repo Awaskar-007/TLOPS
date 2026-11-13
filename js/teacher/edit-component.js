@@ -61,10 +61,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Save Changes handler
+    // Save Changes handler (MongoDB Atlas)
     const saveBtn = document.querySelector('.btn-save-comp');
     if (saveBtn) {
-        saveBtn.addEventListener('click', (e) => {
+        saveBtn.addEventListener('click', async (e) => {
             e.preventDefault();
 
             const nameVal = nameInput ? nameInput.value.trim() : '';
@@ -84,60 +84,74 @@ document.addEventListener('DOMContentLoaded', () => {
             if (qtyVal <= 0) status = 'Out of Stock';
             else if (qtyVal <= minVal) status = 'Low Stock';
 
-            if (currentComp) {
-                currentComp.name = nameVal;
-                currentComp.category = catText;
-                currentComp.description = descVal;
-                currentComp.qty = qtyVal;
-                currentComp.minThreshold = minVal;
-                currentComp.location = locVal;
-                if (selectedIconType) currentComp.iconType = selectedIconType;
-                currentComp.status = status;
-            } else {
-                const existingIdx = inventory.findIndex(c => c.name.toLowerCase() === nameVal.toLowerCase());
-                if (existingIdx !== -1) {
-                    inventory[existingIdx].qty = qtyVal;
-                    inventory[existingIdx].minThreshold = minVal;
-                    inventory[existingIdx].location = locVal;
-                    inventory[existingIdx].description = descVal;
-                    inventory[existingIdx].status = status;
-                }
-            }
+            const payload = {
+                name: nameVal,
+                category: catText,
+                description: descVal,
+                qty: qtyVal,
+                minThreshold: minVal,
+                location: locVal,
+                iconType: selectedIconType || 'diamond',
+                status: status
+            };
 
-            if (typeof saveInventory === 'function') {
-                saveInventory(inventory);
+            const targetId = (currentComp && (currentComp._id || currentComp.id)) || compId;
+
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Updating MongoDB Atlas...';
+
+            try {
+                if (targetId) {
+                    await fetch(`/api/components/${encodeURIComponent(targetId)}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                }
+                if (typeof fetchInventoryFromDb === 'function') {
+                    await fetchInventoryFromDb();
+                }
+            } catch (err) {
+                console.error('[edit-component] Error updating MongoDB:', err);
             }
 
             if (typeof saveData === 'function') {
-                saveData('tlops_flash_toast', 'Component "' + nameVal + '" updated successfully!');
+                saveData('tlops_flash_toast', 'Component "' + nameVal + '" updated in MongoDB Atlas!');
             }
 
             window.location.href = 'inventory.html';
         });
     }
 
-    // Delete Component handler with confirmation popup
+    // Delete Component handler (MongoDB Atlas)
     const deleteBtn = document.querySelector('.btn-delete-comp');
     if (deleteBtn) {
-        deleteBtn.addEventListener('click', (e) => {
+        deleteBtn.addEventListener('click', async (e) => {
             e.preventDefault();
             const compName = nameInput ? nameInput.value.trim() : (currentComp ? currentComp.name : 'this component');
-            const confirmed = window.confirm(`Are you sure you want to delete "${compName}" from the laboratory inventory?`);
+            const confirmed = window.confirm(`Are you sure you want to delete "${compName}" from MongoDB Atlas?`);
 
             if (confirmed) {
-                let updated = inventory;
-                if (currentComp) {
-                    updated = inventory.filter(c => c !== currentComp && c.id !== currentComp.id);
-                } else if (compName) {
-                    updated = inventory.filter(c => c.name.toLowerCase() !== compName.toLowerCase());
-                }
+                const targetId = (currentComp && (currentComp._id || currentComp.id)) || compId;
 
-                if (typeof saveInventory === 'function') {
-                    saveInventory(updated);
+                deleteBtn.disabled = true;
+                deleteBtn.textContent = 'Deleting from MongoDB...';
+
+                try {
+                    if (targetId) {
+                        await fetch(`/api/components/${encodeURIComponent(targetId)}`, {
+                            method: 'DELETE'
+                        });
+                    }
+                    if (typeof fetchInventoryFromDb === 'function') {
+                        await fetchInventoryFromDb();
+                    }
+                } catch (err) {
+                    console.error('[edit-component] Error deleting from MongoDB:', err);
                 }
 
                 if (typeof saveData === 'function') {
-                    saveData('tlops_flash_toast', 'Component "' + compName + '" deleted from inventory.');
+                    saveData('tlops_flash_toast', 'Component "' + compName + '" deleted from MongoDB Atlas.');
                 }
 
                 window.location.href = 'inventory.html';

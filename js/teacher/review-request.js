@@ -163,15 +163,27 @@ document.addEventListener('DOMContentLoaded', () => {
         currentReq.status = decision;
         currentReq.comment = comment.trim();
 
-        // Update in shared storage
+        // Update directly in MongoDB Atlas
+        const targetId = currentReq._id || currentReq.id;
+        if (targetId) {
+            fetch(`/api/requests/${encodeURIComponent(targetId)}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    status: decision,
+                    comment: comment.trim()
+                })
+            }).then(() => {
+                if (typeof fetchRequestsFromDb === 'function') fetchRequestsFromDb();
+            }).catch(err => console.error('[review-request] Error updating MongoDB:', err));
+        }
+
+        // Update in shared cache
         const allReqs = (typeof getRequests === 'function') ? getRequests() : [];
-        const idx = allReqs.findIndex(r => r.id && r.id.toLowerCase() === currentReq.id.toLowerCase());
+        const idx = allReqs.findIndex(r => (r._id && r._id === currentReq._id) || (r.id && r.id.toLowerCase() === (currentReq.id || '').toLowerCase()));
         if (idx !== -1) {
             allReqs[idx].status = decision;
             allReqs[idx].comment = comment.trim();
-            if (typeof saveRequests === 'function') {
-                saveRequests(allReqs);
-            }
         }
 
         // Update UI badge and review action area

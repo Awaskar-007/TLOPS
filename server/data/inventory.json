@@ -1,0 +1,79 @@
+[
+  {
+    "id": "comp_arduino",
+    "name": "Arduino Uno R3",
+    "category": "Microcontrollers",
+    "description": "ATmega328P based dev board, 14 digital I/O pins, 6 analog inputs",
+    "qty": 18,
+    "minThreshold": 5,
+    "location": "Rack A-1",
+    "iconType": "diamond",
+    "status": "Available"
+  },
+  {
+    "id": "comp_raspberry",
+    "name": "Raspberry Pi 4 Model B",
+    "category": "Microcontrollers",
+    "description": "4 GB RAM SBC with quad-core Cortex-A72, dual 4K micro-HDMI",
+    "qty": 6,
+    "minThreshold": 3,
+    "location": "Rack A-2",
+    "iconType": "square-red",
+    "status": "Available"
+  },
+  {
+    "id": "comp_esp32",
+    "name": "ESP32 Dev Board",
+    "category": "Microcontrollers",
+    "description": "Dual-core 240 MHz with Wi-Fi + Bluetooth LE, 38-pin, 4 MB flash",
+    "qty": 24,
+    "minThreshold": 8,
+    "location": "Rack A-3",
+    "iconType": "triangle-orange",
+    "status": "Available"
+  },
+  {
+    "id": "comp_sensor",
+    "name": "HC-SR04 Ultrasonic Sensor",
+    "category": "Sensors",
+    "description": "Ultrasonic distance sensor, 2-400 cm range, 5V operating",
+    "qty": 35,
+    "minThreshold": 10,
+    "location": "Rack B-1",
+    "iconType": "sensor-grey",
+    "status": "Available"
+  },
+  {
+    "id": "comp_dht11",
+    "name": "DHT11 Temp & Humidity",
+    "category": "Sensors",
+    "description": "Digital temperature (0-50 °C) and humidity (20-90% RH) sensor",
+    "qty": 3,
+    "minThreshold": 5,
+    "location": "Rack B-2",
+    "iconType": "temp-amber",
+    "status": "Low Stock"
+  },
+  {
+    "id": "comp_mpu6050",
+    "name": "MPU-6050 IMU",
+    "category": "Sensors",
+    "description": "6-axis gyroscope + accelerometer with onboard Digital Motion Processor",
+    "qty": 14,
+    "minThreshold": 5,
+    "location": "Rack C-1",
+    "iconType": "gyro-purple",
+    "status": "Available"
+  },
+  {
+    "id": "comp_sg90",
+    "name": "SG90 Servo Motor",
+    "category": "Actuators",
+    "description": "Mini servo, 180° rotation, 1.2 kg-cm torque, 4.8V-6V",
+    "qty": 0,
+    "minThreshold": 8,
+    "location": "Rack D-1",
+    "iconType": "gear-slate",
+    "status": "Out of Stock"
+  }
+]

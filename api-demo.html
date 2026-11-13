@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TLOPS - Full-Stack APIs & Database Explorer</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #eff6ff;
+            --success: #16a34a;
+            --success-bg: #dcfce7;
+            --warning: #d97706;
+            --warning-bg: #fef3c7;
+            --danger: #dc2626;
+            --danger-bg: #fee2e2;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --text: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --font: 'Plus Jakarta Sans', sans-serif;
+            --mono: 'JetBrains Mono', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font);
+            line-height: 1.5;
+            padding-bottom: 60px;
+        }
+
+        /* Top Header */
+        header.app-header {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .brand-badge {
+            background: var(--primary);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+        }
+        .brand h1 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .header-nav {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: #fff;
+            transition: all 0.2s;
+        }
+        .nav-link:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .nav-link.active {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Hero banner */
+        .hero {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            color: #ffffff;
+            padding: 40px 32px;
+            margin-bottom: 32px;
+        }
+        .hero-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .hero h2 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .hero p {
+            color: #bfdbfe;
+            font-size: 15px;
+            max-width: 800px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Status Bar Card */
+        .status-strip {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px 24px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 32px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+        .status-items {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        .status-item {
+            display: flex;
+            flex-direction: column;
+        }
+        .status-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .status-value {
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 2px;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-muted);
+        }
+        .dot.online { background: var(--success); box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.2); }
+        .dot.offline { background: var(--danger); box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2); }
+
+        /* Grid */
+        .grid-sections {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+
+        /* Section Cards */
+        .api-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+        }
+        .api-card-header {
+            padding: 20px 24px;
+            background: #fafbfc;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .api-card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .step-num {
+            background: var(--primary);
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .api-card-title h3 {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .api-card-body {
+            padding: 24px;
+        }
+
+        /* Controls */
+        .form-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        input, select, textarea {
+            font-family: var(--font);
+            font-size: 13px;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+        }
+        .flex-1 { flex: 1; min-width: 180px; }
+        
+        button.btn {
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        button.btn:hover { background: var(--primary-hover); }
+        button.btn-outline {
+            background: #fff;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+        button.btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+        button.btn-danger {
+            background: var(--danger);
+        }
+        button.btn-danger:hover {
+            background: #b91c1c;
+        }
+        button.btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        /* Tables */
+        .table-responsive {
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+        }
+        th {
+            background: #f8fafc;
+            padding: 12px 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+        td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #fbfcfe; }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .badge-available { background: var(--success-bg); color: var(--success); }
+        .badge-low { background: var(--warning-bg); color: var(--warning); }
+        .badge-out { background: var(--danger-bg); color: var(--danger); }
+        .badge-info { background: var(--primary-light); color: var(--primary); }
+
+        /* External Cards Grid */
+        .ext-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .ext-card {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .ext-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .ext-card h4 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text);
+        }
+        .ext-card p {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        .ext-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 600;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Code/JSON console view */
+        .code-console {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: var(--mono);
+            font-size: 12px;
+            max-height: 250px;
+            overflow-y: auto;
+            margin-top: 12px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        /* Quick modal form */
+        .inline-form-box {
+            background: #f8fafc;
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .inline-form-box h4 {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="app-header">
+        <div class="brand">
+            <span class="brand-badge">API EXPLORER</span>
+            <h1>TLOPS Lab Management Suite</h1>
+        </div>
+        <nav class="header-nav">
+            <a href="index.html" class="nav-link">Sign In</a>
+            <a href="student/dashboard.html" class="nav-link">Student Portal</a>
+            <a href="teacher/dashboard.html" class="nav-link">Teacher Portal</a>
+            <a href="api-demo.html" class="nav-link active">API Dashboard</a>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-inner">
+            <h2>Full-Stack Operations & API Explorer</h2>
+            <p>Test and demonstrate all 4 required milestones: External API fetching, Express server status, local JSON file read/write, and full MongoDB CRUD operations.</p>
+        </div>
+    </section>
+
+    <div class="container">
+
+        <!-- 2. Express Server Status Bar -->
+        <div class="status-strip">
+            <div class="status-items">
+                <div class="status-item">
+                    <span class="status-label">Express Server</span>
+                    <span class="status-value" id="serverStatusVal"><span class="dot offline"></span> Checking...</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Backend URL</span>
+                    <span class="status-value" id="serverUrlVal">http://localhost:5000</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Local JSON Storage</span>
+                    <span class="status-value" style="color: var(--success);">✓ Active (`server/data/`)</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">MongoDB Status</span>
+                    <span class="status-value" id="mongoStatusVal"><span class="dot offline"></span> Disconnected (Fallback active)</span>
+                </div>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="checkServerHealth()">Ping Server</button>
+        </div>
+
+        <div class="grid-sections">
+
+            <!-- 1. EXTERNAL API CALLS -->
+            <div class="api-card">
+                <div class="api-card-header">
+                    <div class="api-card-title">
+                        <span class="step-num">1</span>
+                        <div>
+                            <h3>External API Integration</h3>
+                            <p style="font-size: 12px; color: var(--text-muted);">Fetches real hardware components & accessories dynamically from external public API</p>
+                        </div>
+                    </div>
+                    <span class="badge badge-info">GET /api/external/hardware-catalog</span>
+                </div>
+                <div class="api-card-body">
+                    <div class="form-row">
+                        <input type="text" id="extSearchInput" class="flex-1" placeholder="Search external electronics (e.g., sensor, cable, usb)..." value="sensor">
+                        <button class="btn" onclick="runExternalFetch()">
+                            <span>Fetch External Data</span>
+                        </button>
+                    </div>
+
+                    <div id="extLoading" style="display:none; color: var(--primary); font-size: 13px; font-weight: 600;">
+                        Fetching live data from external public API...
+                    </div>
+
+                    <div id="extContainer" class="ext-grid">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. LOCAL JSON FILE STORAGE CRUD -->
+            <div class="api-card">
+                <div class="api-card-header">
+                    <div class="api-card-title">
+                        <span class="step-num">3</span>
+                        <div>
+                            <h3>Local JSON File CRUD Operations</h3>
+                            <p style="font-size: 12px; color: var(--text-muted);">Reads and writes directly to <code>server/data/inventory.json</code> using Node.js fs/promises</p>
+                        </div>
+                    </div>
+                    <span class="badge badge-info">REST: /api/json/inventory</span>
+                </div>
+                <div class="api-card-body">
+
+                    <!-- Inline Add Form -->
+                    <div class="inline-form-box">
+                        <h4>+ Create New Component in Local JSON File</h4>
+                        <div class="form-row">
+                            <input type="text" id="jsonCompName" placeholder="Component Name (e.g. Neo-6M GPS)" class="flex-1">
+                            <select id="jsonCompCategory">
+                                <option value="Sensors">Sensors</option>
+                                <option value="Microcontrollers">Microcontrollers</option>
+                                <option value="Actuators">Actuators</option>
+                                <option value="Communication">Communication</option>
+                            </select>
+                            <input type="number" id="jsonCompQty" placeholder="Qty" style="width: 80px;" value="12">
+                            <input type="text" id="jsonCompRack" placeholder="Rack (e.g. Rack C-3)" style="width: 120px;" value="Rack C-3">
+                            <button class="btn btn-sm" onclick="createJsonComponent()">Save to JSON File</button>
+                        </div>
+                    </div>
+
+                    <div class="form-row" style="align-items: center; justify-content: space-between;">
+                        <input type="text" id="jsonFilterSearch" placeholder="Filter local JSON inventory..." oninput="renderJsonTable()" class="flex-1">
+                        <button class="btn btn-outline btn-sm" onclick="loadJsonInventory()">Reload JSON File</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Component Name</th>
+                                    <th>Category</th>
+                                    <th>Qty / Stock</th>
+                                    <th>Location</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="jsonTableBody">
+                                <tr><td colspan="7" style="text-align: center; color: var(--text-muted);">Loading JSON data...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. MONGODB DATABASE CRUD -->
+            <div class="api-card">
+                <div class="api-card-header">
+                    <div class="api-card-title">
+                        <span class="step-num">4</span>
+                        <div>
+                            <h3>MongoDB Database CRUD Operations</h3>
+                            <p style="font-size: 12px; color: var(--text-muted);">Full Create, Read, Update, Delete operations using Mongoose schemas</p>
+                        </div>
+                    </div>
+                    <span class="badge badge-info">REST: /api/components</span>
+                </div>
+                <div class="api-card-body">
+
+                    <!-- Inline Add to Mongo Form -->
+                    <div class="inline-form-box">
+                        <h4>+ Create Document in MongoDB Collection</h4>
+                        <div class="form-row">
+                            <input type="text" id="mongoCompName" placeholder="Component Name (e.g. STM32 Nucleo Board)" class="flex-1">
+                            <select id="mongoCompCategory">
+                                <option value="Microcontrollers">Microcontrollers</option>
+                                <option value="Sensors">Sensors</option>
+                                <option value="Actuators">Actuators</option>
+                                <option value="Communication">Communication</option>
+                            </select>
+                            <input type="number" id="mongoCompQty" placeholder="Qty" style="width: 80px;" value="10">
+                            <input type="text" id="mongoCompRack" placeholder="Rack (e.g. Rack D-2)" style="width: 120px;" value="Rack D-2">
+                            <button class="btn btn-sm" onclick="createMongoComponent()">Save to MongoDB</button>
+                        </div>
+                    </div>
+
+                    <div class="form-row" style="align-items: center; justify-content: space-between;">
+                        <input type="text" id="mongoFilterSearch" placeholder="Search MongoDB collection..." oninput="renderMongoTable()" class="flex-1">
+                        <button class="btn btn-outline btn-sm" onclick="loadMongoComponents()">Query MongoDB</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>MongoDB _id</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Stock</th>
+                                    <th>Location</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="mongoTableBody">
+                                <tr><td colspan="7" style="text-align: center; color: var(--text-muted);">Querying MongoDB...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4 style="margin-top: 20px; font-size: 13px; color: var(--text-secondary);">Last API Response Console:</h4>
+                    <div class="code-console" id="apiResponseConsole">// Responses from /api/components and /api/json will appear here...</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/api-client.js"></script>
+    <script>
+        let cachedJsonData = [];
+        let cachedMongoData = [];
+
+        // 0. Check Server Health
+        async function checkServerHealth() {
+            const serverStatusVal = document.getElementById('serverStatusVal');
+            const mongoStatusVal = document.getElementById('mongoStatusVal');
+
+            try {
+                const health = await TlopsApi.checkHealth();
+                if (health.status === 'UP') {
+                    serverStatusVal.innerHTML = `<span class="dot online"></span> ONLINE (Node ${health.nodeVersion})`;
+                    if (health.database && health.database.status === 'CONNECTED') {
+                        mongoStatusVal.innerHTML = `<span class="dot online"></span> CONNECTED (${health.database.details.name})`;
+                    } else {
+                        mongoStatusVal.innerHTML = `<span class="dot offline"></span> Disconnected (JSON storage active)`;
+                    }
+                } else {
+                    serverStatusVal.innerHTML = `<span class="dot offline"></span> Server Not Running on Port 5000`;
+                }
+            } catch (e) {
+                serverStatusVal.innerHTML = `<span class="dot offline"></span> Server Not Running`;
+            }
+        }
+
+        // 1. External API Integration
+        async function runExternalFetch() {
+            const query = document.getElementById('extSearchInput').value || 'electronics';
+            const loading = document.getElementById('extLoading');
+            const container = document.getElementById('extContainer');
+
+            loading.style.display = 'block';
+            container.innerHTML = '';
+
+            try {
+                const res = await TlopsApi.external.fetchHardwareCatalog(query);
+                loading.style.display = 'none';
+
+                if (!res.items || res.items.length === 0) {
+                    container.innerHTML = '<p style="color: var(--text-muted); font-size: 13px;">No external items found for that query.</p>';
+                    return;
+                }
+
+                container.innerHTML = res.items.map(item => `
+                    <div class="ext-card">
+                        <div>
+                            <span class="badge badge-info" style="margin-bottom: 8px;">${item.category}</span>
+                            <h4>${item.title}</h4>
+                            <p>${item.description || 'Maker lab compatible hardware module.'}</p>
+                        </div>
+                        <div class="ext-footer">
+                            <span style="color: var(--primary); font-size: 14px;">\$${item.priceUsd || '5.00'}</span>
+                            <span style="color: var(--text-muted);">Stock: ${item.stock || 20}</span>
+                        </div>
+                    </div>
+                `).join('');
+                logConsole('External API Result', res);
+            } catch (err) {
+                loading.style.display = 'none';
+                container.innerHTML = `<p style="color: var(--danger); font-size: 13px;">Error fetching external API: ${err.message}</p>`;
+            }
+        }
+
+        // 3. Local JSON Storage CRUD
+        async function loadJsonInventory() {
+            try {
+                const res = await TlopsApi.json.getInventory();
+                cachedJsonData = res.data || [];
+                renderJsonTable();
+                logConsole('GET /api/json/inventory', res);
+            } catch (err) {
+                console.error('Failed to load JSON inventory:', err);
+                document.getElementById('jsonTableBody').innerHTML = `<tr><td colspan="7" style="color:var(--danger); text-align:center;">Failed to connect to /api/json/inventory. Make sure Express server is running.</td></tr>`;
+            }
+        }
+
+        function renderJsonTable() {
+            const tbody = document.getElementById('jsonTableBody');
+            const search = (document.getElementById('jsonFilterSearch').value || '').toLowerCase();
+            
+            const filtered = cachedJsonData.filter(i => 
+                !search || (i.name && i.name.toLowerCase().includes(search)) || (i.category && i.category.toLowerCase().includes(search))
+            );
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted);">No inventory found.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(item => {
+                let badgeClass = 'badge-available';
+                if (item.qty <= 0) badgeClass = 'badge-out';
+                else if (item.qty <= (item.minThreshold || 5)) badgeClass = 'badge-low';
+
+                return `
+                    <tr>
+                        <td><code>${item.id}</code></td>
+                        <td><strong>${item.name}</strong></td>
+                        <td>${item.category}</td>
+                        <td><strong>${item.qty}</strong> / min ${item.minThreshold || 5}</td>
+                        <td>${item.location || 'Rack A-1'}</td>
+                        <td><span class="badge ${badgeClass}">${item.status || 'Available'}</span></td>
+                        <td>
+                            <button class="btn btn-outline btn-sm" onclick="editJsonQty('${item.id}', ${item.qty})">Stock +5</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteJsonComponent('${item.id}')">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        async function createJsonComponent() {
+            const name = document.getElementById('jsonCompName').value.trim();
+            const category = document.getElementById('jsonCompCategory').value;
+            const qty = parseInt(document.getElementById('jsonCompQty').value, 10) || 0;
+            const location = document.getElementById('jsonCompRack').value.trim() || 'Rack A-1';
+
+            if (!name) {
+                alert('Please enter a component name.');
+                return;
+            }
+
+            try {
+                const res = await TlopsApi.json.addComponent({ name, category, qty, location });
+                logConsole('POST /api/json/inventory', res);
+                document.getElementById('jsonCompName').value = '';
+                await loadJsonInventory();
+            } catch (err) {
+                alert('Error creating item in JSON file: ' + err.message);
+            }
+        }
+
+        async function editJsonQty(id, currentQty) {
+            try {
+                const res = await TlopsApi.json.updateComponent(id, { qty: currentQty + 5 });
+                logConsole('PUT /api/json/inventory/' + id, res);
+                await loadJsonInventory();
+            } catch (err) {
+                alert('Error updating JSON file: ' + err.message);
+            }
+        }
+
+        async function deleteJsonComponent(id) {
+            if (!confirm(`Are you sure you want to delete component ${id} from JSON file?`)) return;
+            try {
+                const res = await TlopsApi.json.deleteComponent(id);
+                logConsole('DELETE /api/json/inventory/' + id, res);
+                await loadJsonInventory();
+            } catch (err) {
+                alert('Error deleting from JSON file: ' + err.message);
+            }
+        }
+
+        // 4. MongoDB Database CRUD
+        async function loadMongoComponents() {
+            try {
+                const res = await TlopsApi.mongo.getComponents();
+                cachedMongoData = res.data || [];
+                renderMongoTable();
+                logConsole('GET /api/components (MongoDB)', res);
+            } catch (err) {
+                document.getElementById('mongoTableBody').innerHTML = `
+                    <tr>
+                        <td colspan="7" style="color: var(--danger); text-align: center; padding: 20px;">
+                            <strong>MongoDB is currently offline or unreachable.</strong><br>
+                            <span style="font-size: 12px; color: var(--text-muted);">
+                                Provide a valid MONGO_URI in .env (e.g. MongoDB Atlas or local mongod). Local JSON files in Section 3 are fully operational.
+                            </span>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        function renderMongoTable() {
+            const tbody = document.getElementById('mongoTableBody');
+            const search = (document.getElementById('mongoFilterSearch').value || '').toLowerCase();
+
+            const filtered = cachedMongoData.filter(i => 
+                !search || (i.name && i.name.toLowerCase().includes(search)) || (i.category && i.category.toLowerCase().includes(search))
+            );
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted);">No MongoDB documents found.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(item => {
+                let badgeClass = 'badge-available';
+                if (item.qty <= 0) badgeClass = 'badge-out';
+                else if (item.qty <= (item.minThreshold || 5)) badgeClass = 'badge-low';
+
+                const docId = item._id || item.id;
+
+                return `
+                    <tr>
+                        <td><code style="font-size:11px;">${docId}</code></td>
+                        <td><strong>${item.name}</strong></td>
+                        <td>${item.category}</td>
+                        <td><strong>${item.qty}</strong> / min ${item.minThreshold || 5}</td>
+                        <td>${item.location || 'Rack A-1'}</td>
+                        <td><span class="badge ${badgeClass}">${item.status || 'Available'}</span></td>
+                        <td>
+                            <button class="btn btn-outline btn-sm" onclick="editMongoQty('${docId}', ${item.qty})">+10 Stock</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteMongoComponent('${docId}')">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        async function createMongoComponent() {
+            const name = document.getElementById('mongoCompName').value.trim();
+            const category = document.getElementById('mongoCompCategory').value;
+            const qty = parseInt(document.getElementById('mongoCompQty').value, 10) || 0;
+            const location = document.getElementById('mongoCompRack').value.trim() || 'Rack A-1';
+
+            if (!name) {
+                alert('Please enter a component name.');
+                return;
+            }
+
+            try {
+                const res = await TlopsApi.mongo.createComponent({ name, category, qty, location });
+                logConsole('POST /api/components (MongoDB)', res);
+                document.getElementById('mongoCompName').value = '';
+                await loadMongoComponents();
+            } catch (err) {
+                alert('Error creating MongoDB document: ' + err.message);
+            }
+        }
+
+        async function editMongoQty(id, currentQty) {
+            try {
+                const res = await TlopsApi.mongo.updateComponent(id, { qty: currentQty + 10 });
+                logConsole('PUT /api/components/' + id, res);
+                await loadMongoComponents();
+            } catch (err) {
+                alert('Error updating MongoDB: ' + err.message);
+            }
+        }
+
+        async function deleteMongoComponent(id) {
+            if (!confirm(`Are you sure you want to delete MongoDB document ${id}?`)) return;
+            try {
+                const res = await TlopsApi.mongo.deleteComponent(id);
+                logConsole('DELETE /api/components/' + id, res);
+                await loadMongoComponents();
+            } catch (err) {
+                alert('Error deleting from MongoDB: ' + err.message);
+            }
+        }
+
+        function logConsole(title, data) {
+            const el = document.getElementById('apiResponseConsole');
+            const time = new Date().toLocaleTimeString();
+            el.textContent = `[${time}] ${title}\n` + JSON.stringify(data, null, 2);
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            checkServerHealth();
+            runExternalFetch();
+            loadJsonInventory();
+            loadMongoComponents();
+        });
+    </script>
+</body>
+</html>

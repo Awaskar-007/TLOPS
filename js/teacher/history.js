@@ -110,4 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     renderHistoryTable();
+    window.addEventListener('tlops-data-synced', () => {
+        renderHistoryTable();
+    });
 });

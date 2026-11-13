@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
      * 3. Sets success notification message in localStorage
      * 4. Redirects to index.html with a success query parameter
      */
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         // Mark all fields as touched so any errors show up
@@ -335,38 +335,44 @@ document.addEventListener('DOMContentLoaded', () => {
         const roleVal = roleSelect.value;
         const passwordVal = passwordInput.value;
 
-        // Fetch existing users array from storage.js helper
-        const users = (typeof getData === 'function') ? getData('users', []) : [];
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Registering in MongoDB Atlas...';
 
-        // Double check for duplicate email before saving
-        const duplicateCheck = users.some(u => u.email && u.email.toLowerCase() === emailVal);
-        if (duplicateCheck) {
-            displayFieldError(emailInput, emailError, 'Email must not already be registered');
-            return;
+        try {
+            const res = await fetch('/api/users/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: fullNameVal,
+                    email: emailVal,
+                    password: passwordVal,
+                    role: roleVal,
+                    rollNumber: roleVal === 'student' ? (emailVal.split('@')[0].toUpperCase()) : ('FAC-' + Math.floor(100 + Math.random() * 900)),
+                    department: roleVal === 'student' ? 'Computer Science' : 'Engineering'
+                })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                displayFieldError(emailInput, emailError, data.error || 'Registration failed');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Create Account';
+                return;
+            }
+
+            // Store success flash message for sign-in page display
+            saveData('authSuccessMessage', 'Account registered in MongoDB Atlas! Please sign in with your credentials.');
+
+            // Redirect to sign in page
+            window.location.href = 'index.html?signup=success';
+
+        } catch (err) {
+            console.error('Registration error:', err);
+            displayFieldError(emailInput, emailError, 'Failed to connect to MongoDB server.');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Create Account';
         }
-
-        // Construct new user entity
-        const newUser = {
-            fullName: fullNameVal,
-            email: emailVal,
-            role: roleVal,
-            password: passwordVal,
-            id: roleVal === 'student'
-                ? (emailVal.split('@')[0].toUpperCase())
-                : ('FAC-' + Math.floor(100 + Math.random() * 900)),
-            department: roleVal === 'student' ? 'Computer Science' : 'Engineering',
-            registeredAt: new Date().toISOString()
-        };
-
-        // Append to users list and persist to localStorage
-        users.push(newUser);
-        saveData('users', users);
-
-        // Store success flash message for sign-in page display
-        saveData('authSuccessMessage', 'Account created successfully! Please sign in with your credentials.');
-
-        // Redirect to sign in page
-        window.location.href = 'index.html?signup=success';
     });
 });
 

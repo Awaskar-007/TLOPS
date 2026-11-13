@@ -324,11 +324,17 @@ function submitCartRequest() {
         comment: ''
     };
 
-    // Save into shared storage
+    // Save directly to MongoDB Atlas
+    fetch('/api/requests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newRequest)
+    }).then(() => {
+        if (typeof fetchRequestsFromDb === 'function') fetchRequestsFromDb();
+    }).catch(err => console.error('[cart.js] Error submitting to MongoDB:', err));
+
+    // Update in-memory requests
     existingRequests.unshift(newRequest);
-    if (typeof saveRequests === 'function') {
-        saveRequests(existingRequests);
-    }
 
     // Clear cart & input
     if (typeof removeData === 'function') {

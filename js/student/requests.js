@@ -386,10 +386,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 comment: ''
             };
 
+            // Save directly to MongoDB Atlas
+            fetch('/api/requests', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newReq)
+            }).then(() => {
+                if (typeof fetchRequestsFromDb === 'function') fetchRequestsFromDb();
+            }).catch(err => console.error('[requests.js] Error creating request in MongoDB:', err));
+
             requests.unshift(newReq);
-            if (typeof saveRequests === 'function') {
-                saveRequests(requests);
-            }
 
             unlistedForm.reset();
             closeAllModals();
@@ -407,8 +413,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Initial render
+    // Initial render & sync listener
     renderRequestsTable();
+    window.addEventListener('tlops-data-synced', () => {
+        renderRequestsTable();
+    });
 
     // Export functions to window
     window.renderRequestsTable = renderRequestsTable;

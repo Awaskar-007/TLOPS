@@ -354,4 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial render and cart badge sync
     renderInventory();
     updateCartPill();
+    window.addEventListener('tlops-data-synced', () => {
+        renderInventory();
+    });
 });

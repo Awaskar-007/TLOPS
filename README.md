@@ -83,7 +83,48 @@ Follow these steps to experience the complete shared-state workflow:
 
 ---
 
-## 🛠️ Technology Stack
+## 🛠️ Technology Stack & Full-Stack Architecture
+
+- **Frontend**: HTML5 & Vanilla JavaScript, CSS3 with responsive flex/grid layouts.
+- **Backend Runtime**: Node.js & Express 5.
+- **Data Layers**:
+  - **Browser Storage**: Web APIs (`localStorage`, `Blob`, `URL.createObjectURL`).
+  - **Local File Storage**: Node.js `fs/promises` reading and writing to `server/data/*.json`.
+  - **Database Storage**: MongoDB & Mongoose schemas (`Component`, `Request`, `User`) with full CRUD support.
+  - **External APIs**: External public electronics catalog integration with live query, transformation, and error fallback.
+
+---
+
+## 🚀 Running the Full-Stack Backend
+
+1. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+2. **Start the Express server**:
+   ```bash
+   npm start
+   ```
+3. **Open the applications**:
+   - Web App: `http://localhost:5000/index.html`
+   - Interactive API & DB Explorer: `http://localhost:5000/api-demo.html`
+   - Server Health Check: `http://localhost:5000/api/health`
+
+### 📡 Available REST API Endpoints
+
+| Category | Endpoint | Method | Description |
+| :--- | :--- | :--- | :--- |
+| **System** | `/api/health` | `GET` | Health check and MongoDB status |
+| **External API** | `/api/external/hardware-catalog` | `GET` | Fetch live electronics and hardware from external public API |
+| **JSON Files CRUD** | `/api/json/inventory` | `GET`, `POST` | Read all or create new component in local JSON file |
+| | `/api/json/inventory/:id` | `GET`, `PUT`, `DELETE` | Read one, update stock, or delete component from JSON file |
+| | `/api/json/requests` | `GET`, `POST` | Read all or submit requisition request to JSON file |
+| | `/api/json/requests/:id` | `PUT`, `DELETE` | Update decision status or delete request from JSON file |
+| **MongoDB CRUD** | `/api/components` | `GET`, `POST` | Read or create component document in MongoDB |
+| | `/api/components/:id` | `GET`, `PUT`, `DELETE` | Read, update stock/specs, or delete document from MongoDB |
+| | `/api/requests` | `GET`, `POST` | Read or submit request document in MongoDB |
+| | `/api/requests/:id` | `PUT`, `DELETE` | Review/approve request document in MongoDB |
+| | `/api/users` | `GET`, `POST` | User registration and authentication in MongoDB |
 
 - **HTML5 & Vanilla JavaScript**: No frameworks, no external dependencies, no build tools required.
 - **CSS3**: Pure custom stylesheets with CSS variables and responsive flex/grid layouts.

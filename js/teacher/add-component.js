@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const saveBtn = document.querySelector('.btn-save-comp');
     if (saveBtn) {
-        saveBtn.addEventListener('click', (e) => {
+        saveBtn.addEventListener('click', async (e) => {
             e.preventDefault();
 
             const nameInput = document.getElementById('compName');
@@ -80,16 +80,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 status: status
             };
 
-            // Retrieve current inventory, append, and save
-            const inventory = (typeof getInventory === 'function') ? getInventory() : [];
-            inventory.push(newComponent);
-            if (typeof saveInventory === 'function') {
-                saveInventory(inventory);
+            // Save directly to MongoDB Atlas
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Saving to MongoDB...';
+
+            try {
+                await fetch('/api/components', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newComponent)
+                });
+                if (typeof fetchInventoryFromDb === 'function') {
+                    await fetchInventoryFromDb();
+                }
+            } catch (err) {
+                console.error('[add-component] Error posting to MongoDB:', err);
             }
 
             // Save flash toast for inventory page
             if (typeof saveData === 'function') {
-                saveData('tlops_flash_toast', 'Component "' + nameVal + '" added successfully to inventory!');
+                saveData('tlops_flash_toast', 'Component "' + nameVal + '" added successfully to MongoDB Atlas!');
             }
 
             // Redirect back to inventory page

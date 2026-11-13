@@ -166,39 +166,60 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialise form state (button disabled)
     updateFormValidity();
 
-    // ----- Form submission -----
+    // ----- Form submission (MongoDB Atlas Authentication) -----
     if (signInForm) {
-        signInForm.addEventListener('submit', (e) => {
+        signInForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            // Ensure fields are marked touched so errors appear
             touched.email = true;
             touched.password = true;
             const emailVal = emailInput.value.trim().toLowerCase();
             const pwdVal = passwordInput.value;
-            const users = (typeof getData === 'function') ? getData('users', []) : [];
-            const matched = users.find(u => u.email && u.email.toLowerCase() === emailVal && u.role === currentRole);
-            if (!matched) {
-                displayFieldError(emailInput, emailError, 'No account found for this email/role');
-                showAlert('Invalid credentials', 'error');
-                return;
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Authenticating with MongoDB...';
+
+            try {
+                const res = await fetch('/api/users/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: emailVal,
+                        password: pwdVal,
+                        role: currentRole
+                    })
+                });
+
+                const data = await res.json();
+
+                if (!res.ok) {
+                    displayFieldError(emailInput, emailError, data.error || 'Authentication failed');
+                    showAlert(data.error || 'Invalid credentials in MongoDB', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Sign In';
+                    return;
+                }
+
+                const user = data.user;
+                saveData('currentUser', {
+                    role: user.role.toLowerCase(),
+                    fullName: user.name,
+                    id: user.rollNumber || user.id,
+                    email: user.email
+                });
+                saveData('tinkerlab_role', user.role.toLowerCase());
+                saveData('tlops_flash_toast', 'Welcome back, ' + user.name + '! (Authenticated via MongoDB Atlas)');
+
+                const root = './';
+                window.location.href = user.role.toLowerCase() === 'teacher'
+                    ? `${root}teacher/dashboard.html`
+                    : `${root}student/dashboard.html`;
+
+            } catch (err) {
+                console.error('Login error:', err);
+                showAlert('Connection error connecting to MongoDB Atlas', 'error');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Sign In';
             }
-            if (matched.password !== pwdVal) {
-                displayFieldError(passwordInput, passwordError, 'Incorrect password');
-                showAlert('Invalid credentials', 'error');
-                return;
-            }
-            // Successful login – store session
-            saveData('currentUser', {
-                role: matched.role,
-                fullName: matched.fullName,
-                id: matched.id || (matched.role === 'student' ? matched.email.split('@')[0] : matched.employeeId),
-                email: matched.email
-            });
-            saveData('tinkerlab_role', matched.role);
-            saveData('tlops_flash_toast', 'Welcome back, ' + (matched.fullName || 'User') + '! You have successfully signed in.');
-            // Redirect to appropriate dashboard
-            const root = './';
-            window.location.href = matched.role === 'teacher' ? `${root}teacher/dashboard.html` : `${root}student/dashboard.html`;
         });
     }
 });

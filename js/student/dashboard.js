@@ -115,6 +115,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     renderRecentRequestsAndMetrics();
+    window.addEventListener('tlops-data-synced', () => {
+        renderRecentRequestsAndMetrics();
+    });
 
     // Check for flash toast messages
     if (typeof getData === 'function') {

@@ -1,0 +1,29 @@
+{
+  "name": "tlops",
+  "version": "1.0.0",
+  "description": "A multi-page, serverless laboratory inventory tracking and equipment requisition system designed for university tinkering labs and maker spaces.",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "seed": "node server/seed.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Awaskar-007/TLOPS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Awaskar-007/TLOPS/issues"
+  },
+  "homepage": "https://github.com/Awaskar-007/TLOPS#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.10",
+    "express": "^5.3.0",
+    "mongoose": "^9.12.1"
+  }
+}

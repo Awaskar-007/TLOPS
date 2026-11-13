@@ -135,8 +135,11 @@ document.addEventListener('DOMContentLoaded', () => {
         categorySelect.addEventListener('change', filterTable);
     }
 
-    // Initial render
+    // Initial render & cloud sync listener
     renderInventoryTable();
+    window.addEventListener('tlops-data-synced', () => {
+        renderInventoryTable();
+    });
 
     // Check for flash toast messages
     if (typeof getData === 'function') {

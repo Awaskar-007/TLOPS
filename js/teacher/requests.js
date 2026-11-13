@@ -104,4 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     renderTeacherRequests();
+    window.addEventListener('tlops-data-synced', () => {
+        renderTeacherRequests();
+    });
 });

@@ -21,7 +21,31 @@ document.addEventListener('DOMContentLoaded', () => {
         dashboardDateLabel.textContent = `${formattedDate} · BML MUNJAL TINKERING LAB`;
     }
 
-    // 2. Dynamic KPI Counts & Pending Queue from localStorage
+    // 2. Dynamic KPI Counts & Pending Queue from MongoDB Atlas
+    window.addEventListener('tlops-data-synced', () => {
+        // Reload dashboard stats on sync
+        const reqs = (typeof getRequests === 'function') ? getRequests() : [];
+        const inv = (typeof getInventory === 'function') ? getInventory() : [];
+        const pCount = reqs.filter(r => (r.status || 'Pending').toLowerCase() === 'pending').length;
+        const aCount = reqs.filter(r => (r.status || '').toLowerCase() === 'approved').length;
+        const rCount = reqs.filter(r => (r.status || '').toLowerCase() === 'rejected').length;
+        const tComp = inv.length;
+        const lCount = inv.filter(c => (c.qty > 0 && c.qty <= (c.minThreshold || 5))).length;
+        const oCount = inv.filter(c => (c.qty <= 0)).length;
+
+        document.querySelectorAll('.stat-card').forEach(card => {
+            const labelEl = card.querySelector('.stat-label');
+            const valEl = card.querySelector('.stat-value');
+            if (!labelEl || !valEl) return;
+            const l = labelEl.textContent.trim().toLowerCase();
+            if (l === 'pending requests') valEl.textContent = pCount;
+            else if (l === 'approved') valEl.textContent = aCount;
+            else if (l === 'rejected') valEl.textContent = rCount;
+            else if (l === 'total components') valEl.textContent = tComp;
+            else if (l === 'low stock') valEl.textContent = lCount;
+            else if (l === 'out of stock') valEl.textContent = oCount;
+        });
+    });
     const requests = (typeof getRequests === 'function') ? getRequests() : [];
     const inventory = (typeof getInventory === 'function') ? getInventory() : [];
 

@@ -1,0 +1,52 @@
+[
+  {
+    "id": "req001",
+    "studentName": "Arjun Sharma",
+    "studentRoll": "CS21B001",
+    "studentEmail": "cse001@bmu.edu.in",
+    "department": "Computer Science",
+    "items": [
+      { "name": "Arduino Uno R3", "qty": 2, "available": 18, "rack": "Rack A-1", "status": "Available" },
+      { "name": "HC-SR04 Ultrasonic Sensor", "qty": 3, "available": 35, "rack": "Rack B-1", "status": "Available" }
+    ],
+    "status": "Pending",
+    "submittedDate": "14 Aug 2026",
+    "submittedTime": "09:15 am",
+    "dueDate": "20 Aug 2026",
+    "purpose": "Final year project: Obstacle avoidance robot",
+    "comment": ""
+  },
+  {
+    "id": "req002",
+    "studentName": "Priya Nair",
+    "studentRoll": "EC21B014",
+    "studentEmail": "priya.nair@bmu.edu.in",
+    "department": "Electronics & Communication",
+    "items": [
+      { "name": "ESP32 Dev Board", "qty": 1, "available": 24, "rack": "Rack A-3", "status": "Available" },
+      { "name": "NRF24L01 RF Module", "qty": 2, "available": 12, "rack": "Rack C-2", "status": "Available" }
+    ],
+    "status": "Pending",
+    "submittedDate": "14 Aug 2026",
+    "submittedTime": "10:45 am",
+    "dueDate": "22 Aug 2026",
+    "purpose": "IoT Smart Home project for mini project exhibition",
+    "comment": ""
+  },
+  {
+    "id": "req004",
+    "studentName": "Sneha Kulkarni",
+    "studentRoll": "CS21B023",
+    "studentEmail": "sneha.k@bmu.edu.in",
+    "department": "Computer Science",
+    "items": [
+      { "name": "Raspberry Pi 4 Model B", "qty": 1, "available": 6, "rack": "Rack A-2", "status": "Available" }
+    ],
+    "status": "Approved",
+    "submittedDate": "12 Aug 2026",
+    "submittedTime": "11:10 am",
+    "dueDate": "25 Aug 2026",
+    "purpose": "Edge AI inference testing for smart attendance system",
+    "comment": "Approved. Collect from Lab Room 102."
+  }
+]
