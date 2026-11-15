@@ -101,7 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     p1.textContent = `${itemCount} items · ${req.submittedDate || 'Recent'}`;
 
                     const p2 = document.createElement('p');
-                    p2.textContent = req.status || 'Pending';
+                    const statusText = req.status || 'Pending';
+                    p2.className = `badge-${statusText.toLowerCase()}`;
+                    p2.textContent = statusText;
                     p2.style.fontWeight = '600';
 
                     frag.appendChild(h3);

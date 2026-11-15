@@ -566,17 +566,20 @@ body {
     line-height: 1.2;
 }
 
-.badge-available {
+.badge-available,
+.badge-available-stock {
     background-color: var(--badge-available-bg);
     color: var(--badge-available-text);
 }
 
-.badge-low {
+.badge-low,
+.badge-low-stock {
     background-color: var(--badge-low-bg);
     color: var(--badge-low-text);
 }
 
-.badge-out {
+.badge-out,
+.badge-out-stock {
     background-color: var(--badge-out-bg);
     color: var(--badge-out-text);
 }

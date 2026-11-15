@@ -153,10 +153,8 @@ document.addEventListener('DOMContentLoaded', () => {
             comment = window.prompt(`Please enter the rejection reason for ${currentReq.studentName}:`, 'Component not available for this project duration');
             if (comment === null) return; // user cancelled prompt
         } else {
-            const addComment = window.prompt(`Optional approval note for ${currentReq.studentName} (e.g. collection instructions):`, 'Approved for collection from Tinkering Lab counter');
-            if (addComment !== null) {
-                comment = addComment;
-            }
+            // Auto-set approval note without blocking prompt popup
+            comment = 'Approved for collection from Tinkering Lab counter';
         }
 
         // Update currentReq object

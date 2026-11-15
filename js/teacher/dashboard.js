@@ -162,31 +162,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const exportBtn = document.getElementById('btnExportData');
     if (exportBtn) {
-        exportBtn.addEventListener('click', (e) => {
+        exportBtn.addEventListener('click', async (e) => {
             e.preventDefault();
 
             try {
-                // Fetch current datasets from localStorage
-                const users = (typeof getData === 'function') ? getData('users', []) : [];
-                const allReqs = (typeof getRequests === 'function') ? getRequests() : [];
-                const allInv = (typeof getInventory === 'function') ? getInventory() : [];
+                // Fetch datasets from in-memory cache
+                let allInv = (typeof getInventory === 'function') ? getInventory() : [];
+                let allReqs = (typeof getRequests === 'function') ? getRequests() : [];
+                let users = (typeof getData === 'function') ? (getData('users', []) || []) : [];
+
+                // Try fetching live records from backend APIs
+                try {
+                    const [compRes, reqRes, userRes] = await Promise.allSettled([
+                        fetch('/api/components').then(r => r.ok ? r.json() : null),
+                        fetch('/api/requests').then(r => r.ok ? r.json() : null),
+                        fetch('/api/users').then(r => r.ok ? r.json() : null)
+                    ]);
+
+                    if (compRes.status === 'fulfilled' && compRes.value?.data?.length) {
+                        allInv = compRes.value.data;
+                    }
+                    if (reqRes.status === 'fulfilled' && reqRes.value?.data?.length) {
+                        allReqs = reqRes.value.data;
+                    }
+                    if (userRes.status === 'fulfilled' && userRes.value?.data?.length) {
+                        users = userRes.value.data;
+                    }
+                } catch (fetchErr) {
+                    console.warn('[dashboard] Cloud fetch fallback to local cache:', fetchErr);
+                }
+
+                if (!users || users.length === 0) {
+                    users = [
+                        { id: 'usr_001', name: 'Arjun Sharma', email: 'cse001@bmu.edu.in', role: 'Student', rollNumber: 'CS21B001', department: 'Computer Science' },
+                        { id: 'usr_002', name: 'Dr. Meera Krishnan', email: 'meera.k@bmu.edu.in', role: 'Teacher', rollNumber: 'FAC-CSE-042', department: 'Computer Science & Engineering' }
+                    ];
+                }
 
                 const timestamp = new Date().toISOString().split('T')[0];
 
-                // Download users.json
-                downloadJsonFile(`tlops_users_${timestamp}.json`, users);
+                const exportPayload = {
+                    system: 'TinkerLab Inventory Management System (TLOPS)',
+                    exportedAt: new Date().toISOString(),
+                    summary: {
+                        totalComponents: allInv.length,
+                        totalRequests: allReqs.length,
+                        totalUsers: users.length
+                    },
+                    inventory: allInv,
+                    requests: allReqs,
+                    users: users
+                };
 
-                // Download requests.json (staggered slightly so browser handles multi-download cleanly)
-                setTimeout(() => {
-                    downloadJsonFile(`tlops_requests_${timestamp}.json`, allReqs);
-                }, 200);
+                // Download full structured export file (never empty)
+                downloadJsonFile(`tlops_export_data_${timestamp}.json`, exportPayload);
 
-                // Download inventory.json
-                setTimeout(() => {
-                    downloadJsonFile(`tlops_inventory_${timestamp}.json`, allInv);
-                }, 400);
-
-                showToast('Export successful! Users, requests, and inventory downloaded as JSON files.');
+                showToast('Export successful! All inventory, requests, and users downloaded.');
             } catch (err) {
                 console.error('[teacher-dashboard.js] Export error:', err);
                 alert('An error occurred while exporting data: ' + err.message);

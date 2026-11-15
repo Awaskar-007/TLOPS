@@ -19,8 +19,12 @@
     --text-subtle: #94a3b8;
     --badge-pending-bg: #e0f2fe;
     --badge-pending-text: #0284c7;
-    --badge-completed-bg: #dcfce7;
-    --badge-completed-text: #16a34a;
+    --badge-approved-bg: #dcfce7;
+    --badge-approved-text: #16a34a;
+    --badge-rejected-bg: #fee2e2;
+    --badge-rejected-text: #dc2626;
+    --badge-completed-bg: #f1f5f9;
+    --badge-completed-text: #475569;
 }
 
 * {
@@ -577,6 +581,31 @@ p:nth-of-type(6) {
     z-index: 10;
 }
 
+/* Request Status Badges (Consistent Color Coding) */
+.badge-pending,
+p.badge-pending {
+    background-color: var(--badge-pending-bg) !important;
+    color: var(--badge-pending-text) !important;
+}
+
+.badge-approved,
+p.badge-approved {
+    background-color: var(--badge-approved-bg) !important;
+    color: var(--badge-approved-text) !important;
+}
+
+.badge-rejected,
+p.badge-rejected {
+    background-color: var(--badge-rejected-bg) !important;
+    color: var(--badge-rejected-text) !important;
+}
+
+.badge-completed,
+p.badge-completed {
+    background-color: var(--badge-completed-bg) !important;
+    color: var(--badge-completed-text) !important;
+}
+
 p:nth-of-type(7) {
     grid-column: 1 / -1;
     grid-row: 6;
@@ -634,8 +663,58 @@ p:nth-of-type(9) {
     align-self: center;
     margin: 0 24px 0 0;
     padding: 6px 14px;
-    background-color: var(--badge-completed-bg);
-    color: var(--badge-completed-text);
+    background-color: var(--badge-pending-bg);
+    color: var(--badge-pending-text);
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 20px;
+    line-height: 1;
+    z-index: 10;
+}
+
+/* Request 3 Card */
+h3:nth-of-type(7) {
+    grid-column: 1 / -1;
+    grid-row: 8;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px 120px 44px 24px;
+    margin: 0 0 12px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-dark);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+h3:nth-of-type(7):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+p:nth-of-type(10) {
+    grid-column: 1 / -1;
+    grid-row: 8;
+    align-self: end;
+    padding: 0 24px 20px 24px;
+    margin: 0;
+    font-size: 13px;
+    color: var(--text-muted);
+    pointer-events: none;
+    z-index: 10;
+}
+
+p:nth-of-type(11) {
+    grid-column: 1 / -1;
+    grid-row: 8;
+    justify-self: end;
+    align-self: center;
+    margin: 0 24px 0 0;
+    padding: 6px 14px;
+    background-color: var(--badge-pending-bg);
+    color: var(--badge-pending-text);
     font-size: 12px;
     font-weight: 600;
     border-radius: 20px;

@@ -20,11 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Helper: returns status badge markup based on stock qty and minThreshold
     function getStatusBadge(qty, minThreshold) {
         if (qty <= 0) {
-            return `<span class="badge badge-out-stock">Out of Stock</span>`;
+            return `<span class="badge badge-out badge-out-stock">Out of Stock</span>`;
         } else if (qty <= minThreshold) {
-            return `<span class="badge badge-low-stock">Low Stock</span>`;
+            return `<span class="badge badge-low badge-low-stock">Low Stock</span>`;
         } else {
-            return `<span class="badge badge-available">Available</span>`;
+            return `<span class="badge badge-available badge-available-stock">Available</span>`;
         }
     }
 

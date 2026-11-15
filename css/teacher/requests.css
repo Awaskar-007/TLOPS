@@ -22,6 +22,12 @@
     /* Badges */
     --badge-pending-bg: #e0f2fe;
     --badge-pending-text: #0284c7;
+    --badge-approved-bg: #dcfce7;
+    --badge-approved-text: #16a34a;
+    --badge-rejected-bg: #fee2e2;
+    --badge-rejected-text: #dc2626;
+    --badge-completed-bg: #f1f5f9;
+    --badge-completed-text: #475569;
     --due-amber: #d97706;
 
     --font-main: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -452,14 +458,35 @@ body {
     flex-shrink: 0;
 }
 
-.badge-pending {
-    background-color: var(--badge-pending-bg);
-    color: var(--badge-pending-text);
+.badge-pending,
+.badge-approved,
+.badge-rejected,
+.badge-completed {
     padding: 4px 12px;
     border-radius: 20px;
     font-size: 12px;
     font-weight: 600;
     line-height: 1.2;
+}
+
+.badge-pending {
+    background-color: var(--badge-pending-bg);
+    color: var(--badge-pending-text);
+}
+
+.badge-approved {
+    background-color: var(--badge-approved-bg);
+    color: var(--badge-approved-text);
+}
+
+.badge-rejected {
+    background-color: var(--badge-rejected-bg);
+    color: var(--badge-rejected-text);
+}
+
+.badge-completed {
+    background-color: var(--badge-completed-bg);
+    color: var(--badge-completed-text);
 }
 
 .request-date {

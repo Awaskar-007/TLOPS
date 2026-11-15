@@ -400,9 +400,8 @@
             <h1>TLOPS Lab Management Suite</h1>
         </div>
         <nav class="header-nav">
-            <a href="index.html" class="nav-link">Sign In</a>
-            <a href="student/dashboard.html" class="nav-link">Student Portal</a>
             <a href="teacher/dashboard.html" class="nav-link">Teacher Portal</a>
+            <a href="index.html" class="nav-link">Sign In</a>
             <a href="api-demo.html" class="nav-link active">API Dashboard</a>
         </nav>
     </header>
@@ -411,7 +410,7 @@
     <section class="hero">
         <div class="hero-inner">
             <h2>Full-Stack Operations & API Explorer</h2>
-            <p>Test and demonstrate all 4 required milestones: External API fetching, Express server status, local JSON file read/write, and full MongoDB CRUD operations.</p>
+            <p>Test and demonstrate live full-stack operations: External Hardware API integration, Express server health, and full MongoDB Atlas cloud CRUD operations.</p>
         </div>
     </section>
 
@@ -427,10 +426,6 @@
                 <div class="status-item">
                     <span class="status-label">Backend URL</span>
                     <span class="status-value" id="serverUrlVal">http://localhost:5000</span>
-                </div>
-                <div class="status-item">
-                    <span class="status-label">Local JSON Storage</span>
-                    <span class="status-value" style="color: var(--success);">✓ Active (`server/data/`)</span>
                 </div>
                 <div class="status-item">
                     <span class="status-label">MongoDB Status</span>
@@ -456,7 +451,7 @@
                 </div>
                 <div class="api-card-body">
                     <div class="form-row">
-                        <input type="text" id="extSearchInput" class="flex-1" placeholder="Search external electronics (e.g., sensor, cable, usb)..." value="sensor">
+                        <input type="text" id="extSearchInput" class="flex-1" placeholder="Search external hardware & components (e.g., sensor, display, motor)..." value="sensor">
                         <button class="btn" onclick="runExternalFetch()">
                             <span>Fetch External Data</span>
                         </button>
@@ -472,68 +467,11 @@
                 </div>
             </div>
 
-            <!-- 3. LOCAL JSON FILE STORAGE CRUD -->
+            <!-- 2. MONGODB DATABASE CRUD -->
             <div class="api-card">
                 <div class="api-card-header">
                     <div class="api-card-title">
-                        <span class="step-num">3</span>
-                        <div>
-                            <h3>Local JSON File CRUD Operations</h3>
-                            <p style="font-size: 12px; color: var(--text-muted);">Reads and writes directly to <code>server/data/inventory.json</code> using Node.js fs/promises</p>
-                        </div>
-                    </div>
-                    <span class="badge badge-info">REST: /api/json/inventory</span>
-                </div>
-                <div class="api-card-body">
-
-                    <!-- Inline Add Form -->
-                    <div class="inline-form-box">
-                        <h4>+ Create New Component in Local JSON File</h4>
-                        <div class="form-row">
-                            <input type="text" id="jsonCompName" placeholder="Component Name (e.g. Neo-6M GPS)" class="flex-1">
-                            <select id="jsonCompCategory">
-                                <option value="Sensors">Sensors</option>
-                                <option value="Microcontrollers">Microcontrollers</option>
-                                <option value="Actuators">Actuators</option>
-                                <option value="Communication">Communication</option>
-                            </select>
-                            <input type="number" id="jsonCompQty" placeholder="Qty" style="width: 80px;" value="12">
-                            <input type="text" id="jsonCompRack" placeholder="Rack (e.g. Rack C-3)" style="width: 120px;" value="Rack C-3">
-                            <button class="btn btn-sm" onclick="createJsonComponent()">Save to JSON File</button>
-                        </div>
-                    </div>
-
-                    <div class="form-row" style="align-items: center; justify-content: space-between;">
-                        <input type="text" id="jsonFilterSearch" placeholder="Filter local JSON inventory..." oninput="renderJsonTable()" class="flex-1">
-                        <button class="btn btn-outline btn-sm" onclick="loadJsonInventory()">Reload JSON File</button>
-                    </div>
-
-                    <div class="table-responsive">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Component Name</th>
-                                    <th>Category</th>
-                                    <th>Qty / Stock</th>
-                                    <th>Location</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="jsonTableBody">
-                                <tr><td colspan="7" style="text-align: center; color: var(--text-muted);">Loading JSON data...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 4. MONGODB DATABASE CRUD -->
-            <div class="api-card">
-                <div class="api-card-header">
-                    <div class="api-card-title">
-                        <span class="step-num">4</span>
+                        <span class="step-num">2</span>
                         <div>
                             <h3>MongoDB Database CRUD Operations</h3>
                             <p style="font-size: 12px; color: var(--text-muted);">Full Create, Read, Update, Delete operations using Mongoose schemas</p>
@@ -595,7 +533,6 @@
     <!-- Scripts -->
     <script src="js/api-client.js"></script>
     <script>
-        let cachedJsonData = [];
         let cachedMongoData = [];
 
         // 0. Check Server Health
@@ -610,7 +547,7 @@
                     if (health.database && health.database.status === 'CONNECTED') {
                         mongoStatusVal.innerHTML = `<span class="dot online"></span> CONNECTED (${health.database.details.name})`;
                     } else {
-                        mongoStatusVal.innerHTML = `<span class="dot offline"></span> Disconnected (JSON storage active)`;
+                        mongoStatusVal.innerHTML = `<span class="dot offline"></span> Disconnected`;
                     }
                 } else {
                     serverStatusVal.innerHTML = `<span class="dot offline"></span> Server Not Running on Port 5000`;
@@ -658,97 +595,7 @@
             }
         }
 
-        // 3. Local JSON Storage CRUD
-        async function loadJsonInventory() {
-            try {
-                const res = await TlopsApi.json.getInventory();
-                cachedJsonData = res.data || [];
-                renderJsonTable();
-                logConsole('GET /api/json/inventory', res);
-            } catch (err) {
-                console.error('Failed to load JSON inventory:', err);
-                document.getElementById('jsonTableBody').innerHTML = `<tr><td colspan="7" style="color:var(--danger); text-align:center;">Failed to connect to /api/json/inventory. Make sure Express server is running.</td></tr>`;
-            }
-        }
-
-        function renderJsonTable() {
-            const tbody = document.getElementById('jsonTableBody');
-            const search = (document.getElementById('jsonFilterSearch').value || '').toLowerCase();
-            
-            const filtered = cachedJsonData.filter(i => 
-                !search || (i.name && i.name.toLowerCase().includes(search)) || (i.category && i.category.toLowerCase().includes(search))
-            );
-
-            if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted);">No inventory found.</td></tr>`;
-                return;
-            }
-
-            tbody.innerHTML = filtered.map(item => {
-                let badgeClass = 'badge-available';
-                if (item.qty <= 0) badgeClass = 'badge-out';
-                else if (item.qty <= (item.minThreshold || 5)) badgeClass = 'badge-low';
-
-                return `
-                    <tr>
-                        <td><code>${item.id}</code></td>
-                        <td><strong>${item.name}</strong></td>
-                        <td>${item.category}</td>
-                        <td><strong>${item.qty}</strong> / min ${item.minThreshold || 5}</td>
-                        <td>${item.location || 'Rack A-1'}</td>
-                        <td><span class="badge ${badgeClass}">${item.status || 'Available'}</span></td>
-                        <td>
-                            <button class="btn btn-outline btn-sm" onclick="editJsonQty('${item.id}', ${item.qty})">Stock +5</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteJsonComponent('${item.id}')">Delete</button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        async function createJsonComponent() {
-            const name = document.getElementById('jsonCompName').value.trim();
-            const category = document.getElementById('jsonCompCategory').value;
-            const qty = parseInt(document.getElementById('jsonCompQty').value, 10) || 0;
-            const location = document.getElementById('jsonCompRack').value.trim() || 'Rack A-1';
-
-            if (!name) {
-                alert('Please enter a component name.');
-                return;
-            }
-
-            try {
-                const res = await TlopsApi.json.addComponent({ name, category, qty, location });
-                logConsole('POST /api/json/inventory', res);
-                document.getElementById('jsonCompName').value = '';
-                await loadJsonInventory();
-            } catch (err) {
-                alert('Error creating item in JSON file: ' + err.message);
-            }
-        }
-
-        async function editJsonQty(id, currentQty) {
-            try {
-                const res = await TlopsApi.json.updateComponent(id, { qty: currentQty + 5 });
-                logConsole('PUT /api/json/inventory/' + id, res);
-                await loadJsonInventory();
-            } catch (err) {
-                alert('Error updating JSON file: ' + err.message);
-            }
-        }
-
-        async function deleteJsonComponent(id) {
-            if (!confirm(`Are you sure you want to delete component ${id} from JSON file?`)) return;
-            try {
-                const res = await TlopsApi.json.deleteComponent(id);
-                logConsole('DELETE /api/json/inventory/' + id, res);
-                await loadJsonInventory();
-            } catch (err) {
-                alert('Error deleting from JSON file: ' + err.message);
-            }
-        }
-
-        // 4. MongoDB Database CRUD
+        // 2. MongoDB Database CRUD
         async function loadMongoComponents() {
             try {
                 const res = await TlopsApi.mongo.getComponents();
@@ -761,7 +608,7 @@
                         <td colspan="7" style="color: var(--danger); text-align: center; padding: 20px;">
                             <strong>MongoDB is currently offline or unreachable.</strong><br>
                             <span style="font-size: 12px; color: var(--text-muted);">
-                                Provide a valid MONGO_URI in .env (e.g. MongoDB Atlas or local mongod). Local JSON files in Section 3 are fully operational.
+                                Ensure MongoDB Atlas connection string is active in .env and the Express server is running.
                             </span>
                         </td>
                     </tr>
@@ -798,8 +645,14 @@
                         <td>${item.location || 'Rack A-1'}</td>
                         <td><span class="badge ${badgeClass}">${item.status || 'Available'}</span></td>
                         <td>
-                            <button class="btn btn-outline btn-sm" onclick="editMongoQty('${docId}', ${item.qty})">+10 Stock</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteMongoComponent('${docId}')">Delete</button>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <div style="display: inline-flex; align-items: center; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: #fff;">
+                                    <button type="button" onclick="adjustMongoQty('${docId}', ${item.qty}, -1)" title="Decrease by 1" style="border: none; background: #f1f5f9; padding: 4px 10px; cursor: pointer; font-weight: 700; color: #334155;">−</button>
+                                    <input type="number" value="${item.qty}" min="0" style="width: 52px; border: none; text-align: center; font-weight: 700; font-size: 13px; padding: 4px 2px; outline: none;" onchange="saveDirectQty('${docId}', this.value)" title="Type any number and press Enter to update">
+                                    <button type="button" onclick="adjustMongoQty('${docId}', ${item.qty}, 1)" title="Increase by 1" style="border: none; background: #f1f5f9; padding: 4px 10px; cursor: pointer; font-weight: 700; color: #334155;">+</button>
+                                </div>
+                                <button class="btn btn-danger btn-sm" onclick="deleteMongoComponent('${docId}')">Delete</button>
+                            </div>
                         </td>
                     </tr>
                 `;
@@ -827,14 +680,30 @@
             }
         }
 
-        async function editMongoQty(id, currentQty) {
+        async function updateMongoStock(id, newQty) {
+            const qty = Math.max(0, parseInt(newQty, 10) || 0);
             try {
-                const res = await TlopsApi.mongo.updateComponent(id, { qty: currentQty + 10 });
+                const res = await TlopsApi.mongo.updateComponent(id, { qty });
                 logConsole('PUT /api/components/' + id, res);
                 await loadMongoComponents();
             } catch (err) {
-                alert('Error updating MongoDB: ' + err.message);
+                alert('Error updating MongoDB stock: ' + err.message);
             }
+        }
+
+        async function adjustMongoQty(id, currentQty, delta) {
+            const newQty = Math.max(0, currentQty + delta);
+            await updateMongoStock(id, newQty);
+        }
+
+        async function saveDirectQty(id, value) {
+            const num = parseInt(value, 10);
+            if (isNaN(num) || num < 0) {
+                alert('Please enter a valid number (0 or higher).');
+                await loadMongoComponents();
+                return;
+            }
+            await updateMongoStock(id, num);
         }
 
         async function deleteMongoComponent(id) {
@@ -858,7 +727,6 @@
         window.addEventListener('DOMContentLoaded', () => {
             checkServerHealth();
             runExternalFetch();
-            loadJsonInventory();
             loadMongoComponents();
         });
     </script>
