@@ -5,16 +5,9 @@
  * specifications and quantities, and handles deleting components with confirmation.
  */
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const compId = urlParams.get('id');
-
-    const inventory = (typeof getInventory === 'function') ? getInventory() : [];
-    let currentComp = null;
-
-    if (compId) {
-        currentComp = inventory.find(c => (c.id === compId || c.name === compId));
-    }
 
     const nameInput = document.getElementById('compName');
     const categorySelect = document.getElementById('compCategory');
@@ -23,7 +16,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const minThresholdInput = document.getElementById('minThreshold');
     const rackLocInput = document.getElementById('rackLoc');
 
-    // Populate existing values if found
+    // Always fetch fresh data from MongoDB before populating the form
+    let currentComp = null;
+    if (compId) {
+        try {
+            // First try fetching the specific component directly from MongoDB
+            const res = await fetch(`/api/components/${encodeURIComponent(compId)}`);
+            if (res.ok) {
+                const result = await res.json();
+                currentComp = result.data || null;
+            }
+        } catch (err) {
+            console.warn('[edit-component] Direct fetch failed, falling back to cache:', err.message);
+        }
+
+        // Fallback: refresh full cache and search it
+        if (!currentComp) {
+            if (typeof fetchInventoryFromDb === 'function') {
+                await fetchInventoryFromDb();
+            }
+            const inventory = (typeof getInventory === 'function') ? getInventory() : [];
+            currentComp = inventory.find(c => (c._id === compId || c.id === compId || c.name === compId)) || null;
+        }
+    }
+
+    // Populate form fields with fresh DB data
     if (currentComp) {
         if (nameInput) nameInput.value = currentComp.name || '';
         if (descInput) descInput.value = currentComp.description || '';

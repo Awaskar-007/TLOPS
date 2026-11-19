@@ -493,6 +493,7 @@
                                 <option value="Communication">Communication</option>
                             </select>
                             <input type="number" id="mongoCompQty" placeholder="Qty" style="width: 80px;" value="10">
+                            <input type="number" id="mongoCompMinThreshold" placeholder="Min" style="width: 70px;" value="5" title="Minimum threshold for Low Stock warning">
                             <input type="text" id="mongoCompRack" placeholder="Rack (e.g. Rack D-2)" style="width: 120px;" value="Rack D-2">
                             <button class="btn btn-sm" onclick="createMongoComponent()">Save to MongoDB</button>
                         </div>
@@ -647,9 +648,9 @@
                         <td>
                             <div style="display: flex; align-items: center; gap: 8px;">
                                 <div style="display: inline-flex; align-items: center; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: #fff;">
-                                    <button type="button" onclick="adjustMongoQty('${docId}', ${item.qty}, -1)" title="Decrease by 1" style="border: none; background: #f1f5f9; padding: 4px 10px; cursor: pointer; font-weight: 700; color: #334155;">−</button>
-                                    <input type="number" value="${item.qty}" min="0" style="width: 52px; border: none; text-align: center; font-weight: 700; font-size: 13px; padding: 4px 2px; outline: none;" onchange="saveDirectQty('${docId}', this.value)" title="Type any number and press Enter to update">
-                                    <button type="button" onclick="adjustMongoQty('${docId}', ${item.qty}, 1)" title="Increase by 1" style="border: none; background: #f1f5f9; padding: 4px 10px; cursor: pointer; font-weight: 700; color: #334155;">+</button>
+                                    <button type="button" onclick="adjustMongoQty('${docId}', ${Number(item.qty)}, -1)" title="Decrease by 1" style="border: none; background: #f1f5f9; padding: 4px 10px; cursor: pointer; font-weight: 700; color: #334155;">−</button>
+                                    <input type="number" value="${Number(item.qty)}" min="0" style="width: 52px; border: none; text-align: center; font-weight: 700; font-size: 13px; padding: 4px 2px; outline: none;" onchange="saveDirectQty('${docId}', this.value)" title="Type any number and press Enter to update">
+                                    <button type="button" onclick="adjustMongoQty('${docId}', ${Number(item.qty)}, 1)" title="Increase by 1" style="border: none; background: #f1f5f9; padding: 4px 10px; cursor: pointer; font-weight: 700; color: #334155;">+</button>
                                 </div>
                                 <button class="btn btn-danger btn-sm" onclick="deleteMongoComponent('${docId}')">Delete</button>
                             </div>
@@ -663,6 +664,7 @@
             const name = document.getElementById('mongoCompName').value.trim();
             const category = document.getElementById('mongoCompCategory').value;
             const qty = parseInt(document.getElementById('mongoCompQty').value, 10) || 0;
+            const minThreshold = parseInt(document.getElementById('mongoCompMinThreshold').value, 10) || 5;
             const location = document.getElementById('mongoCompRack').value.trim() || 'Rack A-1';
 
             if (!name) {
@@ -671,7 +673,7 @@
             }
 
             try {
-                const res = await TlopsApi.mongo.createComponent({ name, category, qty, location });
+                const res = await TlopsApi.mongo.createComponent({ name, category, qty, minThreshold, location });
                 logConsole('POST /api/components (MongoDB)', res);
                 document.getElementById('mongoCompName').value = '';
                 await loadMongoComponents();
@@ -692,7 +694,7 @@
         }
 
         async function adjustMongoQty(id, currentQty, delta) {
-            const newQty = Math.max(0, currentQty + delta);
+            const newQty = Math.max(0, parseInt(currentQty, 10) + delta);
             await updateMongoStock(id, newQty);
         }
 

@@ -351,8 +351,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Initial render and cart badge sync
-    renderInventory();
+    // Initial render: await fresh MongoDB data, then render; keep cart pill in sync
+    if (typeof fetchInventoryFromDb === 'function') {
+        fetchInventoryFromDb().then(() => renderInventory());
+    } else {
+        renderInventory();
+    }
     updateCartPill();
     window.addEventListener('tlops-data-synced', () => {
         renderInventory();

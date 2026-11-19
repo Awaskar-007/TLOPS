@@ -135,8 +135,14 @@ document.addEventListener('DOMContentLoaded', () => {
         categorySelect.addEventListener('change', filterTable);
     }
 
-    // Initial render & cloud sync listener
-    renderInventoryTable();
+    // Initial render: await fresh MongoDB data, then render
+    if (typeof fetchInventoryFromDb === 'function') {
+        fetchInventoryFromDb().then(() => renderInventoryTable());
+    } else {
+        renderInventoryTable();
+    }
+
+    // Re-render whenever data syncs (e.g. after add/edit from another page)
     window.addEventListener('tlops-data-synced', () => {
         renderInventoryTable();
     });

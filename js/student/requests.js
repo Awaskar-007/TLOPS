@@ -413,8 +413,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Initial render & sync listener
-    renderRequestsTable();
+    // Initial render: await fresh MongoDB data, then render
+    if (typeof fetchRequestsFromDb === 'function') {
+        fetchRequestsFromDb().then(() => renderRequestsTable());
+    } else {
+        renderRequestsTable();
+    }
     window.addEventListener('tlops-data-synced', () => {
         renderRequestsTable();
     });

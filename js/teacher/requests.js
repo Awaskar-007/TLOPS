@@ -103,7 +103,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    renderTeacherRequests();
+    // Initial render: await fresh MongoDB data, then render
+    if (typeof fetchRequestsFromDb === 'function') {
+        fetchRequestsFromDb().then(() => renderTeacherRequests());
+    } else {
+        renderTeacherRequests();
+    }
+
+    // Re-render on sync events
     window.addEventListener('tlops-data-synced', () => {
         renderTeacherRequests();
     });

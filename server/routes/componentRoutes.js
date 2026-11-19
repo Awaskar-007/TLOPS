@@ -105,9 +105,16 @@ router.put('/:id', ensureMongo, async (req, res) => {
         if (updateData.qty !== undefined) updateData.qty = Number(updateData.qty);
         if (updateData.minThreshold !== undefined) updateData.minThreshold = Number(updateData.minThreshold);
 
-        // Recalculate status if qty is updated
+        // Recalculate status if qty is updated — read minThreshold from DB if not provided in payload
         if (updateData.qty !== undefined) {
-            const min = updateData.minThreshold !== undefined ? updateData.minThreshold : 5;
+            let min;
+            if (updateData.minThreshold !== undefined) {
+                min = updateData.minThreshold;
+            } else {
+                // Fetch the existing document to get the real minThreshold
+                const existing = await Component.findOne(query).select('minThreshold');
+                min = (existing && existing.minThreshold !== undefined) ? existing.minThreshold : 5;
+            }
             if (updateData.qty <= 0) updateData.status = 'Out of Stock';
             else if (updateData.qty <= min) updateData.status = 'Low Stock';
             else updateData.status = 'Available';
