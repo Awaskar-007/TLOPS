@@ -45,11 +45,12 @@ const ComponentSchema = new mongoose.Schema({
         default: 'Available'
     }
 }, {
-    timestamps: true
+    timestamps: true,
+    id: false   // disable Mongoose's built-in id virtual so our custom id field works
 });
 
 // Auto-compute status before saving based on qty & minThreshold
-ComponentSchema.pre('save', function (next) {
+ComponentSchema.pre('save', function () {
     if (this.qty <= 0) {
         this.status = 'Out of Stock';
     } else if (this.qty <= this.minThreshold) {
@@ -57,7 +58,6 @@ ComponentSchema.pre('save', function (next) {
     } else {
         this.status = 'Available';
     }
-    next();
 });
 
 module.exports = mongoose.model('Component', ComponentSchema);

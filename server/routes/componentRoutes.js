@@ -71,18 +71,20 @@ router.get('/:id', ensureMongo, async (req, res) => {
 router.post('/', ensureMongo, async (req, res) => {
     try {
         const { id, name, category, description, qty, minThreshold, location, iconType } = req.body;
-        
-        const newComponent = new Component({
-            id: id || undefined,
+
+        // Build the document — only include id if explicitly provided so the default kicks in
+        const docData = {
             name,
             category,
-            description,
+            description: description || '',
             qty: Number(qty) || 0,
             minThreshold: Number(minThreshold) || 5,
             location: location || 'Rack A-1',
             iconType: iconType || 'diamond'
-        });
+        };
+        if (id) docData.id = id; // only set if caller provided one
 
+        const newComponent = new Component(docData);
         const saved = await newComponent.save();
         res.status(201).json({
             message: 'Component created successfully in MongoDB!',
@@ -90,6 +92,7 @@ router.post('/', ensureMongo, async (req, res) => {
             data: saved
         });
     } catch (err) {
+        console.error('[POST /api/components] Error:', err.message);
         res.status(400).json({ error: 'Validation error creating component in MongoDB', details: err.message });
     }
 });

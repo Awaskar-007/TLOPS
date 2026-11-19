@@ -493,7 +493,6 @@
                                 <option value="Communication">Communication</option>
                             </select>
                             <input type="number" id="mongoCompQty" placeholder="Qty" style="width: 80px;" value="10">
-                            <input type="number" id="mongoCompMinThreshold" placeholder="Min" style="width: 70px;" value="5" title="Minimum threshold for Low Stock warning">
                             <input type="text" id="mongoCompRack" placeholder="Rack (e.g. Rack D-2)" style="width: 120px;" value="Rack D-2">
                             <button class="btn btn-sm" onclick="createMongoComponent()">Save to MongoDB</button>
                         </div>
@@ -664,7 +663,7 @@
             const name = document.getElementById('mongoCompName').value.trim();
             const category = document.getElementById('mongoCompCategory').value;
             const qty = parseInt(document.getElementById('mongoCompQty').value, 10) || 0;
-            const minThreshold = parseInt(document.getElementById('mongoCompMinThreshold').value, 10) || 5;
+            const minThreshold = 5; // default — no extra input field needed
             const location = document.getElementById('mongoCompRack').value.trim() || 'Rack A-1';
 
             if (!name) {
@@ -675,6 +674,10 @@
             try {
                 const res = await TlopsApi.mongo.createComponent({ name, category, qty, minThreshold, location });
                 logConsole('POST /api/components (MongoDB)', res);
+                if (res.error) {
+                    alert('Error creating MongoDB document: ' + (res.details || res.error));
+                    return;
+                }
                 document.getElementById('mongoCompName').value = '';
                 await loadMongoComponents();
             } catch (err) {
@@ -687,6 +690,10 @@
             try {
                 const res = await TlopsApi.mongo.updateComponent(id, { qty });
                 logConsole('PUT /api/components/' + id, res);
+                if (res.error) {
+                    alert('Error updating MongoDB stock: ' + (res.details || res.error));
+                    return;
+                }
                 await loadMongoComponents();
             } catch (err) {
                 alert('Error updating MongoDB stock: ' + err.message);

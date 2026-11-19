@@ -39,7 +39,8 @@ const RequestSchema = new mongoose.Schema({
     purpose: { type: String, required: true },
     comment: { type: String, default: '' }
 }, {
-    timestamps: true
+    timestamps: true,
+    id: false   // disable Mongoose's built-in id virtual so our custom id field works
 });
 
 module.exports = mongoose.model('Request', RequestSchema);

@@ -13,7 +13,8 @@ const UserSchema = new mongoose.Schema({
     rollNumber: { type: String, default: '' },
     department: { type: String, default: 'Computer Science' }
 }, {
-    timestamps: true
+    timestamps: true,
+    id: false   // disable Mongoose's built-in id virtual so our custom id field works
 });
 
 module.exports = mongoose.model('User', UserSchema);

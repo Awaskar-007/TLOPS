@@ -66,8 +66,7 @@ router.post('/', ensureMongo, async (req, res) => {
     try {
         const { id, studentName, studentRoll, studentEmail, department, items, dueDate, purpose, submittedDate, submittedTime, comment } = req.body;
 
-        const newRequest = new Request({
-            id: id || undefined,
+        const docData = {
             studentName,
             studentRoll,
             studentEmail,
@@ -75,11 +74,13 @@ router.post('/', ensureMongo, async (req, res) => {
             items,
             dueDate,
             purpose,
-            submittedDate: submittedDate || undefined,
-            submittedTime: submittedTime || undefined,
             comment: comment || ''
-        });
+        };
+        if (id) docData.id = id;
+        if (submittedDate) docData.submittedDate = submittedDate;
+        if (submittedTime) docData.submittedTime = submittedTime;
 
+        const newRequest = new Request(docData);
         const saved = await newRequest.save();
         res.status(201).json({
             message: 'Requisition request created successfully in MongoDB!',
@@ -87,6 +88,7 @@ router.post('/', ensureMongo, async (req, res) => {
             data: saved
         });
     } catch (err) {
+        console.error('[POST /api/requests] Error:', err.message);
         res.status(400).json({ error: 'Validation error creating request in MongoDB', details: err.message });
     }
 });
